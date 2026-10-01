@@ -28,23 +28,37 @@ body {
   max-width: 1400px;
   height: 100%;
   margin: 0 auto;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+/* =========================
+   LOGO
+========================= */
+
 .navbar-logo {
-  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 210px;
+  height: 68px;
   text-decoration: none;
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: 1px;
+  flex-shrink: 0;
+  overflow: hidden;
 }
 
-.navbar-logo:hover {
-  color: #8f82ff;
+.navbar-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: left center;
+  display: block;
 }
+
+/* =========================
+   NAVIGATION LINKS
+========================= */
 
 .navbar-links {
   display: flex;
@@ -63,6 +77,10 @@ body {
 .navbar-links a:hover {
   color: #ffffff;
 }
+
+/* =========================
+   NAVBAR ACTIONS
+========================= */
 
 .navbar-actions {
   display: flex;

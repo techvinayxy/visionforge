@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/common/Navbar";
+import Footer from "./components/common/Footer";
 
 import Home from "./pages/Home";
 import Products from "./pages/Products";
@@ -16,6 +17,8 @@ function App() {
         <Route path="/products" element={<Products />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+
+      <Footer />
     </>
   );
 }

@@ -1,9 +1,18 @@
+import Hero from "../components/home/Hero";
+import Categories from "../components/home/Categories";
+import FeaturedProducts from "../components/home/FeaturedProducts";
+import WhyVisionForge from "../components/home/WhyVisionForge";
+import HomeCTA from "../components/home/HomeCTA";
+
 function Home() {
   return (
-    <div>
-      <h1>Welcome to VISIONFORGE</h1>
-      <p>Build. Power. Create.</p>
-    </div>
+    <>
+      <Hero />
+      <Categories />
+      <FeaturedProducts />
+      <WhyVisionForge />
+      <HomeCTA />
+    </>
   );
 }
 

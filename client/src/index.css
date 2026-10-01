@@ -597,3 +597,12 @@ body {
   font-size: 13px;
   margin: 0;
 }
+
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  padding: 15px;
+}

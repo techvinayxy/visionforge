@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function FeaturedProducts() {
   const products = [
     {
@@ -5,46 +7,55 @@ function FeaturedProducts() {
       category: "Gaming PC",
       price: "₹89,999",
       rating: "4.8",
+      image: "/products/gaming-pc.jpg",
     },
     {
       name: "RTX Gaming Graphics Card",
       category: "PC Component",
       price: "₹54,999",
       rating: "4.7",
+      image: "/products/graphics-card.jpg",
     },
     {
-      name: "Performance Laptop Pro",
+      name: "Performance Gaming Laptop",
       category: "Laptop",
       price: "₹74,999",
       rating: "4.6",
+      image: "/products/gaming-laptop.jpg",
     },
     {
       name: "NextGen Smartphone",
       category: "Mobile",
       price: "₹39,999",
       rating: "4.5",
+      image: "/products/smartphone.jpg",
     },
   ];
 
   return (
     <section className="featured-section">
       <div className="section-container">
+
         <div className="section-heading featured-heading">
           <div>
             <p>HANDPICKED FOR YOU</p>
             <h2>Featured Products</h2>
           </div>
 
-          <button className="view-all-btn">
+          <Link to="/products" className="view-all-btn">
             View All Products →
-          </button>
+          </Link>
         </div>
 
         <div className="products-grid">
           {products.map((product) => (
             <div className="product-card" key={product.name}>
+
               <div className="product-image">
-                <span>PRODUCT IMAGE</span>
+                <img
+                  src={product.image}
+                  alt={product.name}
+                />
               </div>
 
               <div className="product-info">
@@ -64,9 +75,11 @@ function FeaturedProducts() {
                   <button>Add to Cart</button>
                 </div>
               </div>
+
             </div>
           ))}
         </div>
+
       </div>
     </section>
   );

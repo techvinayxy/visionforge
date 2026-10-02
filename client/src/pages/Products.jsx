@@ -1,4 +1,189 @@
+import { useMemo, useState } from "react";
+
+const products = [
+  {
+  id: 1,
+  name: "VISIONFORGE Titan Gaming PC",
+  category: "Gaming PCs",
+  price: 89999,
+  image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1790958993/Titan_Gaming_PC.png",
+},
+  {
+    id: 2,
+    name: "VISIONFORGE Phantom Gaming PC",
+    category: "Gaming PCs",
+    price: 74999,
+    image: "/products/gaming-pc-2.jpg",
+  },
+  {
+    id: 3,
+    name: "VISIONFORGE Pro Gaming PC",
+    category: "Gaming PCs",
+    price: 109999,
+    image: "/products/gaming-pc-3.jpg",
+  },
+  {
+    id: 4,
+    name: "VISIONFORGE Entry Gaming PC",
+    category: "Gaming PCs",
+    price: 54999,
+    image: "/products/gaming-pc-4.jpg",
+  },
+  {
+    id: 5,
+    name: "RTX Gaming Graphics Card",
+    category: "Graphics Cards",
+    price: 54999,
+    image: "/products/gpu-1.jpg",
+  },
+  {
+    id: 6,
+    name: "RTX Performance Graphics Card",
+    category: "Graphics Cards",
+    price: 69999,
+    image: "/products/gpu-2.jpg",
+  },
+  {
+    id: 7,
+    name: "RTX High Performance GPU",
+    category: "Graphics Cards",
+    price: 84999,
+    image: "/products/gpu-3.jpg",
+  },
+  {
+    id: 8,
+    name: "Gaming Graphics Card 8GB",
+    category: "Graphics Cards",
+    price: 32999,
+    image: "/products/gpu-4.jpg",
+  },
+  {
+    id: 9,
+    name: "Performance Gaming Processor",
+    category: "Processors",
+    price: 32999,
+    image: "/products/cpu-1.jpg",
+  },
+  {
+    id: 10,
+    name: "VISIONFORGE Power Processor",
+    category: "Processors",
+    price: 42999,
+    image: "/products/cpu-2.jpg",
+  },
+  {
+    id: 11,
+    name: "High Performance CPU",
+    category: "Processors",
+    price: 51999,
+    image: "/products/cpu-3.jpg",
+  },
+  {
+    id: 12,
+    name: "Gaming Performance Motherboard",
+    category: "Motherboards",
+    price: 18999,
+    image: "/products/motherboard-1.jpg",
+  },
+  {
+    id: 13,
+    name: "VISIONFORGE Pro Motherboard",
+    category: "Motherboards",
+    price: 24999,
+    image: "/products/motherboard-2.jpg",
+  },
+  {
+    id: 14,
+    name: "16GB DDR5 Gaming RAM",
+    category: "RAM",
+    price: 5999,
+    image: "/products/ram-1.jpg",
+  },
+  {
+    id: 15,
+    name: "32GB DDR5 Performance RAM",
+    category: "RAM",
+    price: 10999,
+    image: "/products/ram-2.jpg",
+  },
+  {
+    id: 16,
+    name: "1TB NVMe SSD",
+    category: "Storage",
+    price: 7999,
+    image: "/products/ssd-1.jpg",
+  },
+  {
+    id: 17,
+    name: "2TB NVMe Performance SSD",
+    category: "Storage",
+    price: 13999,
+    image: "/products/ssd-2.jpg",
+  },
+  {
+    id: 18,
+    name: "VISIONFORGE Gaming Laptop",
+    category: "Laptops",
+    price: 74999,
+    image: "/products/laptop-1.jpg",
+  },
+  {
+    id: 19,
+    name: "VISIONFORGE Pro Gaming Laptop",
+    category: "Laptops",
+    price: 99999,
+    image: "/products/laptop-2.jpg",
+  },
+  {
+    id: 20,
+    name: "VISIONFORGE Performance Smartphone",
+    category: "Mobiles",
+    price: 39999,
+    image: "/products/mobile-1.jpg",
+  },
+];
+
+const categories = [
+  "All",
+  "Gaming PCs",
+  "Graphics Cards",
+  "Processors",
+  "Motherboards",
+  "RAM",
+  "Storage",
+  "Laptops",
+  "Mobiles",
+];
+
 function Products() {
+  const [search, setSearch] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [sortBy, setSortBy] = useState("popular");
+
+  const filteredProducts = useMemo(() => {
+    let result = products.filter((product) => {
+      const matchesCategory =
+        selectedCategory === "All" ||
+        product.category === selectedCategory;
+
+      const matchesSearch = product.name
+        .toLowerCase()
+        .includes(search.toLowerCase());
+
+      return matchesCategory && matchesSearch;
+    });
+
+    if (sortBy === "low") {
+      result = [...result].sort((a, b) => a.price - b.price);
+    }
+
+    if (sortBy === "high") {
+      result = [...result].sort((a, b) => b.price - a.price);
+    }
+
+    return result;
+  }, [search, selectedCategory, sortBy]);
+
   return (
     <div className="products-page">
       <div className="products-container">
@@ -14,21 +199,25 @@ function Products() {
             <input
               type="text"
               placeholder="Search products..."
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
             />
           </div>
         </div>
 
         {/* Categories */}
         <div className="products-categories">
-          <button className="active">All</button>
-          <button>Gaming PCs</button>
-          <button>Graphics Cards</button>
-          <button>Processors</button>
-          <button>Motherboards</button>
-          <button>RAM</button>
-          <button>Storage</button>
-          <button>Laptops</button>
-          <button>Mobiles</button>
+          {categories.map((category) => (
+            <button
+              key={category}
+              className={
+                selectedCategory === category ? "active" : ""
+              }
+              onClick={() => setSelectedCategory(category)}
+            >
+              {category}
+            </button>
+          ))}
         </div>
 
         {/* Content */}
@@ -41,30 +230,22 @@ function Products() {
             <div className="filter-section">
               <h4>Category</h4>
 
-              <label>
-                <input type="checkbox" />
-                Gaming PCs
-              </label>
-
-              <label>
-                <input type="checkbox" />
-                Graphics Cards
-              </label>
-
-              <label>
-                <input type="checkbox" />
-                Processors
-              </label>
-
-              <label>
-                <input type="checkbox" />
-                RAM
-              </label>
-
-              <label>
-                <input type="checkbox" />
-                Storage
-              </label>
+              {categories.slice(1).map((category) => (
+                <label key={category}>
+                  <input
+                    type="checkbox"
+                    checked={selectedCategory === category}
+                    onChange={() =>
+                      setSelectedCategory(
+                        selectedCategory === category
+                          ? "All"
+                          : category
+                      )
+                    }
+                  />
+                  {category}
+                </label>
+              ))}
             </div>
 
             <div className="filter-section">
@@ -96,9 +277,14 @@ function Products() {
           <main className="products-main">
 
             <div className="products-toolbar">
-              <span>Featured Products</span>
+              <span>
+                {filteredProducts.length} Products
+              </span>
 
-              <select defaultValue="popular">
+              <select
+                value={sortBy}
+                onChange={(event) => setSortBy(event.target.value)}
+              >
                 <option value="popular">Sort: Popular</option>
                 <option value="low">Price: Low to High</option>
                 <option value="high">Price: High to Low</option>
@@ -108,97 +294,43 @@ function Products() {
 
             <div className="product-grid">
 
-              {/* Product 1 */}
-              <div className="product-card">
-                <div className="product-image">
-                  <span>GPU</span>
+              {filteredProducts.map((product) => (
+                <div className="product-card" key={product.id}>
+
+                  <div className="product-image">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                    />
+                  </div>
+
+                  <div className="product-info">
+                    <span className="product-category">
+                      {product.category}
+                    </span>
+
+                    <h3>{product.name}</h3>
+
+                    <p className="product-price">
+                      ₹{product.price.toLocaleString("en-IN")}
+                    </p>
+
+                    <button className="add-cart-btn">
+                      Add to Cart
+                    </button>
+                  </div>
+
                 </div>
+              ))}
 
-                <div className="product-info">
-                  <span className="product-category">
-                    Graphics Card
-                  </span>
-
-                  <h3>Gaming Graphics Card</h3>
-
-                  <p className="product-price">
-                    ₹49,999
+              {filteredProducts.length === 0 && (
+                <div className="no-products">
+                  <h3>No products found</h3>
+                  <p>
+                    Try another search or category.
                   </p>
-
-                  <button className="add-cart-btn">
-                    Add to Cart
-                  </button>
                 </div>
-              </div>
-
-              {/* Product 2 */}
-              <div className="product-card">
-                <div className="product-image">
-                  <span>CPU</span>
-                </div>
-
-                <div className="product-info">
-                  <span className="product-category">
-                    Processor
-                  </span>
-
-                  <h3>Performance CPU</h3>
-
-                  <p className="product-price">
-                    ₹32,999
-                  </p>
-
-                  <button className="add-cart-btn">
-                    Add to Cart
-                  </button>
-                </div>
-              </div>
-
-              {/* Product 3 */}
-              <div className="product-card">
-                <div className="product-image">
-                  <span>PC</span>
-                </div>
-
-                <div className="product-info">
-                  <span className="product-category">
-                    Gaming PC
-                  </span>
-
-                  <h3>VISIONFORGE Gaming PC</h3>
-
-                  <p className="product-price">
-                    ₹89,999
-                  </p>
-
-                  <button className="add-cart-btn">
-                    Add to Cart
-                  </button>
-                </div>
-              </div>
-
-              {/* Product 4 */}
-              <div className="product-card">
-                <div className="product-image">
-                  <span>LAPTOP</span>
-                </div>
-
-                <div className="product-info">
-                  <span className="product-category">
-                    Laptop
-                  </span>
-
-                  <h3>Gaming Laptop</h3>
-
-                  <p className="product-price">
-                    ₹74,999
-                  </p>
-
-                  <button className="add-cart-btn">
-                    Add to Cart
-                  </button>
-                </div>
-              </div>
+              )}
 
             </div>
 

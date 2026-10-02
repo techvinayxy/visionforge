@@ -7,7 +7,7 @@ function Navbar() {
 
         {/* Logo */}
         <Link to="/" className="navbar-logo">
-          <img src="/LOGO.png" alt="VISIONFORGE" />
+          <img src="/Logo.png" alt="VISIONFORGE" />
         </Link>
 
         {/* Navigation Links */}

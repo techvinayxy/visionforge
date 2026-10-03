@@ -2,12 +2,13 @@ import { useMemo, useState } from "react";
 
 const products = [
   {
-  id: 1,
-  name: "VISIONFORGE Titan Gaming PC",
-  category: "Gaming PCs",
-  price: 89999,
-  image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1790958993/Titan_Gaming_PC.png",
-},
+    id: 1,
+    name: "VISIONFORGE Titan Gaming PC",
+    category: "Gaming PCs",
+    price: 89999,
+    image:
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1790958993/Titan_Gaming_PC.png",
+  },
   {
     id: 2,
     name: "VISIONFORGE Phantom Gaming PC",
@@ -158,6 +159,7 @@ const categories = [
 function Products() {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [priceRange, setPriceRange] = useState("all");
   const [sortBy, setSortBy] = useState("popular");
 
   const filteredProducts = useMemo(() => {
@@ -170,7 +172,18 @@ function Products() {
         .toLowerCase()
         .includes(search.toLowerCase());
 
-      return matchesCategory && matchesSearch;
+      const matchesPrice =
+        priceRange === "all" ||
+        (priceRange === "under25" && product.price < 25000) ||
+        (priceRange === "25to50" &&
+          product.price >= 25000 &&
+          product.price <= 50000) ||
+        (priceRange === "50to100" &&
+          product.price > 50000 &&
+          product.price <= 100000) ||
+        (priceRange === "above100" && product.price > 100000);
+
+      return matchesCategory && matchesSearch && matchesPrice;
     });
 
     if (sortBy === "low") {
@@ -182,7 +195,7 @@ function Products() {
     }
 
     return result;
-  }, [search, selectedCategory, sortBy]);
+  }, [search, selectedCategory, priceRange, sortBy]);
 
   return (
     <div className="products-page">
@@ -227,6 +240,7 @@ function Products() {
           <aside className="products-sidebar">
             <h3>Filters</h3>
 
+            {/* Category Filter */}
             <div className="filter-section">
               <h4>Category</h4>
 
@@ -248,26 +262,67 @@ function Products() {
               ))}
             </div>
 
+            {/* Price Filter */}
             <div className="filter-section">
               <h4>Price Range</h4>
 
               <label>
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  checked={priceRange === "under25"}
+                  onChange={() =>
+                    setPriceRange(
+                      priceRange === "under25"
+                        ? "all"
+                        : "under25"
+                    )
+                  }
+                />
                 Under ₹25,000
               </label>
 
               <label>
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  checked={priceRange === "25to50"}
+                  onChange={() =>
+                    setPriceRange(
+                      priceRange === "25to50"
+                        ? "all"
+                        : "25to50"
+                    )
+                  }
+                />
                 ₹25,000 - ₹50,000
               </label>
 
               <label>
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  checked={priceRange === "50to100"}
+                  onChange={() =>
+                    setPriceRange(
+                      priceRange === "50to100"
+                        ? "all"
+                        : "50to100"
+                    )
+                  }
+                />
                 ₹50,000 - ₹1,00,000
               </label>
 
               <label>
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  checked={priceRange === "above100"}
+                  onChange={() =>
+                    setPriceRange(
+                      priceRange === "above100"
+                        ? "all"
+                        : "above100"
+                    )
+                  }
+                />
                 Above ₹1,00,000
               </label>
             </div>
@@ -283,20 +338,35 @@ function Products() {
 
               <select
                 value={sortBy}
-                onChange={(event) => setSortBy(event.target.value)}
+                onChange={(event) =>
+                  setSortBy(event.target.value)
+                }
               >
-                <option value="popular">Sort: Popular</option>
-                <option value="low">Price: Low to High</option>
-                <option value="high">Price: High to Low</option>
-                <option value="newest">Newest</option>
+                <option value="popular">
+                  Sort: Popular
+                </option>
+
+                <option value="low">
+                  Price: Low to High
+                </option>
+
+                <option value="high">
+                  Price: High to Low
+                </option>
+
+                <option value="newest">
+                  Newest
+                </option>
               </select>
             </div>
 
             <div className="product-grid">
 
               {filteredProducts.map((product) => (
-                <div className="product-card" key={product.id}>
-
+                <div
+                  className="product-card"
+                  key={product.id}
+                >
                   <div className="product-image">
                     <img
                       src={product.image}
@@ -319,13 +389,13 @@ function Products() {
                       Add to Cart
                     </button>
                   </div>
-
                 </div>
               ))}
 
               {filteredProducts.length === 0 && (
                 <div className="no-products">
                   <h3>No products found</h3>
+
                   <p>
                     Try another search or category.
                   </p>
@@ -333,14 +403,12 @@ function Products() {
               )}
 
             </div>
-
           </main>
-
         </div>
-
       </div>
     </div>
   );
 }
 
 export default Products;
+

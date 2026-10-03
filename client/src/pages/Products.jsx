@@ -1,4 +1,6 @@
+
 import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 
 const products = [
   {
@@ -14,63 +16,72 @@ const products = [
     name: "VISIONFORGE Phantom Gaming PC",
     category: "Gaming PCs",
     price: 74999,
-    image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791010393/Phantom_Gaming_PC.jpg",
+    image:
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791010393/Phantom_Gaming_PC.jpg",
   },
   {
     id: 3,
     name: "VISIONFORGE Pro Gaming PC",
     category: "Gaming PCs",
     price: 109999,
-    image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791010644/Pro_Gaming_PC.jpg",
+    image:
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791010644/Pro_Gaming_PC.jpg",
   },
   {
     id: 4,
     name: "VISIONFORGE Entry Gaming PC",
     category: "Gaming PCs",
     price: 54999,
-    image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791010952/Entry_Gaming_PC.jpg",
+    image:
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791010952/Entry_Gaming_PC.jpg",
   },
   {
     id: 5,
     name: "RTX Gaming Graphics Card",
     category: "Graphics Cards",
     price: 54999,
-    image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011087/RTX_Gaming_Graphics_Card.jpg",
+    image:
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011087/RTX_Gaming_Graphics_Card.jpg",
   },
   {
     id: 6,
     name: "RTX Performance Graphics Card",
     category: "Graphics Cards",
     price: 69999,
-    image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011211/RTX_Performance_Graphics_Card.jpg",
+    image:
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011211/RTX_Performance_Graphics_Card.jpg",
   },
   {
     id: 7,
     name: "RTX High Performance GPU",
     category: "Graphics Cards",
     price: 84999,
-    image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011393/RTX_High_Performance_GPU.jpg",
+    image:
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011393/RTX_High_Performance_GPU.jpg",
   },
   {
     id: 8,
     name: "Gaming Graphics Card 8GB",
     category: "Graphics Cards",
     price: 32999,
-    image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011561/Gaming_Graphics_Card_8GB.jpg",
+    image:
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011561/Gaming_Graphics_Card_8GB.jpg",
   },
   {
     id: 9,
     name: "Performance Gaming Processor",
     category: "Processors",
     price: 32999,
-    image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011857/Performance_Gaming_Processor.jpg",
+    image:
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011857/Performance_Gaming_Processor.jpg",
   },
   {
     id: 10,
     name: "VISIONFORGE Power Processor",
     category: "Processors",
     price: 42999,
-    image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791012001/Power_Processor.jpg",
+    image:
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791012001/Power_Processor.jpg",
   },
   {
     id: 11,
@@ -200,8 +211,6 @@ function Products() {
   return (
     <div className="products-page">
       <div className="products-container">
-
-        {/* Header */}
         <div className="products-header">
           <div>
             <h1>Products</h1>
@@ -218,7 +227,6 @@ function Products() {
           </div>
         </div>
 
-        {/* Categories */}
         <div className="products-categories">
           {categories.map((category) => (
             <button
@@ -233,14 +241,10 @@ function Products() {
           ))}
         </div>
 
-        {/* Content */}
         <div className="products-content">
-
-          {/* Sidebar */}
           <aside className="products-sidebar">
             <h3>Filters</h3>
 
-            {/* Category Filter */}
             <div className="filter-section">
               <h4>Category</h4>
 
@@ -262,7 +266,6 @@ function Products() {
               ))}
             </div>
 
-            {/* Price Filter */}
             <div className="filter-section">
               <h4>Price Range</h4>
 
@@ -328,13 +331,9 @@ function Products() {
             </div>
           </aside>
 
-          {/* Products */}
           <main className="products-main">
-
             <div className="products-toolbar">
-              <span>
-                {filteredProducts.length} Products
-              </span>
+              <span>{filteredProducts.length} Products</span>
 
               <select
                 value={sortBy}
@@ -342,66 +341,55 @@ function Products() {
                   setSortBy(event.target.value)
                 }
               >
-                <option value="popular">
-                  Sort: Popular
-                </option>
-
-                <option value="low">
-                  Price: Low to High
-                </option>
-
-                <option value="high">
-                  Price: High to Low
-                </option>
-
-                <option value="newest">
-                  Newest
-                </option>
+                <option value="popular">Sort: Popular</option>
+                <option value="low">Price: Low to High</option>
+                <option value="high">Price: High to Low</option>
+                <option value="newest">Newest</option>
               </select>
             </div>
 
             <div className="product-grid">
-
               {filteredProducts.map((product) => (
                 <div
                   className="product-card"
                   key={product.id}
                 >
-                  <div className="product-image">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                    />
-                  </div>
+                  <Link
+                    to={`/products/${product.id}`}
+                    className="product-card-link"
+                  >
+                    <div className="product-image">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                      />
+                    </div>
 
-                  <div className="product-info">
-                    <span className="product-category">
-                      {product.category}
-                    </span>
+                    <div className="product-info">
+                      <span className="product-category">
+                        {product.category}
+                      </span>
 
-                    <h3>{product.name}</h3>
+                      <h3>{product.name}</h3>
 
-                    <p className="product-price">
-                      ₹{product.price.toLocaleString("en-IN")}
-                    </p>
+                      <p className="product-price">
+                        ₹{product.price.toLocaleString("en-IN")}
+                      </p>
+                    </div>
+                  </Link>
 
-                    <button className="add-cart-btn">
-                      Add to Cart
-                    </button>
-                  </div>
+                  <button className="add-cart-btn">
+                    Add to Cart
+                  </button>
                 </div>
               ))}
 
               {filteredProducts.length === 0 && (
                 <div className="no-products">
                   <h3>No products found</h3>
-
-                  <p>
-                    Try another search or category.
-                  </p>
+                  <p>Try another search or category.</p>
                 </div>
               )}
-
             </div>
           </main>
         </div>
@@ -411,4 +399,3 @@ function Products() {
 }
 
 export default Products;
-

@@ -1,35 +1,84 @@
-
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 const CartContext = createContext(null);
 
+const CART_STORAGE_KEY = "visionforge-cart";
+
 function getSavedCart() {
   try {
-    return JSON.parse(localStorage.getItem("visionforge-cart")) || [];
+    const savedCart = JSON.parse(
+      localStorage.getItem(CART_STORAGE_KEY)
+    );
+
+    return Array.isArray(savedCart) ? savedCart : [];
   } catch {
     return [];
   }
+}
+
+function getStockLimit(product) {
+  if (
+    product.stock === undefined ||
+    product.stock === null ||
+    product.stock === ""
+  ) {
+    return Infinity;
+  }
+
+  return Math.max(0, Number(product.stock) || 0);
 }
 
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState(getSavedCart);
 
   useEffect(() => {
-    localStorage.setItem("visionforge-cart", JSON.stringify(cartItems));
+    localStorage.setItem(
+      CART_STORAGE_KEY,
+      JSON.stringify(cartItems)
+    );
   }, [cartItems]);
 
+  // Add a product or increase its existing quantity.
   const addToCart = (product, quantity = 1) => {
-    setCartItems((current) => {
-      const existing = current.find((item) => item.id === product.id);
+    if (!product || product.id === undefined || product.id === null) {
+      return;
+    }
 
-      if (existing) {
-        return current.map((item) =>
-          item.id === product.id
+    const requestedQuantity = Math.max(
+      1,
+      Math.floor(Number(quantity) || 1)
+    );
+
+    const stockLimit = getStockLimit(product);
+
+    if (stockLimit < 1) {
+      return;
+    }
+
+    setCartItems((currentItems) => {
+      const existingItem = currentItems.find(
+        (item) => String(item.id) === String(product.id)
+      );
+
+      if (existingItem) {
+        const currentQuantity = Math.max(
+          1,
+          Number(existingItem.quantity) || 1
+        );
+
+        return currentItems.map((item) =>
+          String(item.id) === String(product.id)
             ? {
                 ...item,
+                ...product,
                 quantity: Math.min(
-                  item.quantity + quantity,
-                  product.stock || 1
+                  currentQuantity + requestedQuantity,
+                  stockLimit
                 ),
               }
             : item
@@ -37,46 +86,61 @@ export function CartProvider({ children }) {
       }
 
       return [
-        ...current,
+        ...currentItems,
         {
           ...product,
-          quantity: Math.min(quantity, product.stock || 1),
+          quantity: Math.min(requestedQuantity, stockLimit),
         },
       ];
     });
   };
 
+  // Change the quantity of an existing cart product.
   const updateQuantity = (id, quantity) => {
-    setCartItems((current) =>
-      current
-        .map((item) =>
-          item.id === id
-            ? {
-                ...item,
-                quantity: Math.min(
-                  Math.max(1, quantity),
-                  item.stock || 1
-                ),
-              }
-            : item
-        )
-        .filter((item) => item.quantity > 0)
+    const requestedQuantity = Math.floor(Number(quantity) || 1);
+
+    setCartItems((currentItems) =>
+      currentItems.map((item) => {
+        if (String(item.id) !== String(id)) {
+          return item;
+        }
+
+        const stockLimit = getStockLimit(item);
+
+        return {
+          ...item,
+          quantity: Math.min(
+            Math.max(1, requestedQuantity),
+            stockLimit
+          ),
+        };
+      }).filter((item) => getStockLimit(item) > 0)
     );
   };
 
+  // Remove a product completely.
   const removeFromCart = (id) => {
-    setCartItems((current) => current.filter((item) => item.id !== id));
+    setCartItems((currentItems) =>
+      currentItems.filter(
+        (item) => String(item.id) !== String(id)
+      )
+    );
   };
 
-  const clearCart = () => setCartItems([]);
+  // Empty the cart.
+  const clearCart = () => {
+    setCartItems([]);
+  };
 
-  const cartCount = cartItems.reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
+  // Count unique products, not total units.
+  const cartCount = cartItems.length;
 
+  // Calculate the total price of all units.
   const cartTotal = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
+    (total, item) =>
+      total +
+      (Number(item.price) || 0) *
+        (Number(item.quantity) || 1),
     0
   );
 
@@ -101,7 +165,9 @@ export function useCart() {
   const context = useContext(CartContext);
 
   if (!context) {
-    throw new Error("useCart must be used inside CartProvider");
+    throw new Error(
+      "useCart must be used inside CartProvider"
+    );
   }
 
   return context;

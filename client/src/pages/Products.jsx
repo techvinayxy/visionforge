@@ -130,28 +130,28 @@ const products = [
     name: "2TB NVMe Performance SSD",
     category: "Storage",
     price: 13999,
-    image: "/products/ssd-2.jpg",
+    image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791527396/2TB_NVMe_Performance_SSD.jpg",
   },
   {
     id: 18,
     name: "VISIONFORGE Gaming Laptop",
     category: "Laptops",
     price: 74999,
-    image: "/products/laptop-1.jpg",
+    image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791527535/Gaming_Laptop.jpg",
   },
   {
     id: 19,
     name: "VISIONFORGE Pro Gaming Laptop",
     category: "Laptops",
     price: 99999,
-    image: "/products/laptop-2.jpg",
+    image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791527640/Pro_Gaming_Laptop.jpg",
   },
   {
     id: 20,
     name: "VISIONFORGE Performance Smartphone",
     category: "Mobiles",
     price: 39999,
-    image: "/products/mobile-1.jpg",
+    image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791528474/Performance_Smartphone.png",
   },
 ];
 

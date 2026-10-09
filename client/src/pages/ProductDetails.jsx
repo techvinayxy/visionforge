@@ -1,14 +1,11 @@
+
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import products from "../data/products";
 
 function ProductDetails() {
   const { id } = useParams();
-
-  const product = products.find(
-    (item) => item.id === Number(id)
-  );
-
+  const product = products.find((item) => item.id === Number(id));
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
 
@@ -22,66 +19,93 @@ function ProductDetails() {
     );
   }
 
-  const images = product.images || [product.image];
+  const images = product.images?.length
+    ? product.images
+    : [product.image];
+
+  const changeImage = (direction) => {
+    setSelectedImage(
+      (current) => (current + direction + images.length) % images.length
+    );
+  };
 
   const increaseQuantity = () => {
     if (quantity < (product.stock || 1)) {
-      setQuantity(quantity + 1);
+      setQuantity((current) => current + 1);
     }
   };
 
   const decreaseQuantity = () => {
     if (quantity > 1) {
-      setQuantity(quantity - 1);
+      setQuantity((current) => current - 1);
     }
   };
 
   return (
     <div className="product-details-page">
       <div className="product-details-container">
-
-        {/* Back */}
         <Link to="/products" className="back-products">
           ← Back to Products
         </Link>
 
-        {/* Main Product Section */}
         <div className="product-details-main">
-
-          {/* Images */}
           <div className="product-gallery">
-
             <div className="product-thumbnails">
               {images.map((image, index) => (
                 <button
                   key={index}
+                  type="button"
                   className={
                     selectedImage === index
                       ? "thumbnail active"
                       : "thumbnail"
                   }
                   onClick={() => setSelectedImage(index)}
+                  aria-label={`View image ${index + 1}`}
+                  aria-pressed={selectedImage === index}
                 >
-                  <img
-                    src={image}
-                    alt={`${product.name} ${index + 1}`}
-                  />
+                  <img src={image} alt={`${product.name} ${index + 1}`} />
                 </button>
               ))}
             </div>
 
             <div className="product-main-image">
+              {images.length > 1 && (
+                <button
+                  type="button"
+                  className="gallery-arrow gallery-prev"
+                  onClick={() => changeImage(-1)}
+                  aria-label="Previous image"
+                >
+                  &#10094;
+                </button>
+              )}
+
               <img
                 src={images[selectedImage]}
-                alt={product.name}
+                alt={`${product.name} - Image ${selectedImage + 1}`}
               />
-            </div>
 
+              {images.length > 1 && (
+                <button
+                  type="button"
+                  className="gallery-arrow gallery-next"
+                  onClick={() => changeImage(1)}
+                  aria-label="Next image"
+                >
+                  &#10095;
+                </button>
+              )}
+
+              {images.length > 1 && (
+                <span className="gallery-counter">
+                  {selectedImage + 1} / {images.length}
+                </span>
+              )}
+            </div>
           </div>
 
-          {/* Product Information */}
           <div className="product-details-info">
-
             <span className="product-details-category">
               {product.category}
             </span>
@@ -89,17 +113,11 @@ function ProductDetails() {
             <h1>{product.name}</h1>
 
             <div className="product-rating">
-              <span className="rating-badge">
-                ★ {product.rating}
-              </span>
-
-              <span>
-                {product.reviews} Reviews
-              </span>
+              <span className="rating-badge">★ {product.rating}</span>
+              <span>{product.reviews} Reviews</span>
             </div>
 
             <div className="product-price-section">
-
               <span className="product-details-price">
                 ₹{product.price.toLocaleString("en-IN")}
               </span>
@@ -109,25 +127,20 @@ function ProductDetails() {
                   <span className="product-original-price">
                     ₹{product.originalPrice.toLocaleString("en-IN")}
                   </span>
-
                   <span className="product-discount">
                     {product.discount}% OFF
                   </span>
                 </>
               )}
-
             </div>
 
             {product.originalPrice && (
               <p className="product-savings">
                 You save ₹
-                {(product.originalPrice - product.price).toLocaleString(
-                  "en-IN"
-                )}
+                {(product.originalPrice - product.price).toLocaleString("en-IN")}
               </p>
             )}
 
-            {/* Stock */}
             <div className="product-stock">
               {product.stock > 0 ? (
                 <>
@@ -139,223 +152,154 @@ function ProductDetails() {
               )}
             </div>
 
-            {/* Quantity */}
             {product.stock > 0 && (
               <div className="quantity-section">
                 <span>Quantity:</span>
-
                 <div className="quantity-control">
-                  <button onClick={decreaseQuantity}>
+                  <button
+                    type="button"
+                    onClick={decreaseQuantity}
+                    disabled={quantity <= 1}
+                  >
                     −
                   </button>
-
                   <span>{quantity}</span>
-
-                  <button onClick={increaseQuantity}>
+                  <button
+                    type="button"
+                    onClick={increaseQuantity}
+                    disabled={quantity >= (product.stock || 1)}
+                  >
                     +
                   </button>
                 </div>
               </div>
             )}
 
-            {/* Actions */}
             <div className="product-actions">
-
               <button
+                type="button"
                 className="add-cart-large"
-                disabled={product.stock === 0}
+                disabled={!product.stock}
               >
                 🛒 Add to Cart
               </button>
 
               <button
+                type="button"
                 className="buy-now-btn"
-                disabled={product.stock === 0}
+                disabled={!product.stock}
               >
                 Buy Now
               </button>
 
-              <button className="wishlist-btn">
+              <button type="button" className="wishlist-btn">
                 ♡
               </button>
-
             </div>
 
-            {/* Delivery */}
             {product.delivery && (
               <div className="delivery-box">
-
                 <h3>Delivery & Payment</h3>
-
-                {product.delivery.freeDelivery && (
-                  <p>✓ Free Delivery</p>
-                )}
-
+                {product.delivery.freeDelivery && <p>✓ Free Delivery</p>}
                 {product.delivery.codAvailable && (
                   <p>✓ Cash on Delivery Available</p>
                 )}
-
-                <p>
-                  ✓ Estimated delivery:{" "}
-                  {product.delivery.estimatedDays}
-                </p>
-
+                <p>✓ Estimated delivery: {product.delivery.estimatedDays}</p>
               </div>
             )}
 
-            {/* Warranty */}
             <div className="product-policy">
-
               <div>
                 <strong>Warranty</strong>
-                <span>{product.warranty}</span>
+                <span>{product.warranty || "Not specified"}</span>
               </div>
-
               <div>
                 <strong>Returns</strong>
-                <span>{product.returnPolicy}</span>
+                <span>{product.returnPolicy || "Not specified"}</span>
               </div>
-
               <div>
                 <strong>SKU</strong>
-                <span>{product.sku}</span>
+                <span>{product.sku || "Not available"}</span>
               </div>
-
             </div>
-
           </div>
         </div>
 
-        {/* Description */}
         <section className="product-section">
-
           <h2>Product Description</h2>
-
-          <p>{product.description}</p>
-
+          <p>{product.description || "Product description coming soon."}</p>
         </section>
 
-        {/* Specifications */}
         <section className="product-section">
-
           <h2>Key Specifications</h2>
-
           <div className="specifications-grid">
-
-            {Object.entries(product.specifications || {}).map(
-              ([key, value]) => (
-                <div className="specification-item" key={key}>
-                  <span>
-                    {key
-                      .replace(/([A-Z])/g, " $1")
-                      .replace(/^./, (str) =>
-                        str.toUpperCase()
-                      )}
-                  </span>
-
-                  <strong>{value}</strong>
-                </div>
-              )
-            )}
-
+            {Object.entries(product.specifications || {}).map(([key, value]) => (
+              <div className="specification-item" key={key}>
+                <span>
+                  {key.replace(/([A-Z])/g, " $1").replace(/^./, (str) =>
+                    str.toUpperCase()
+                  )}
+                </span>
+                <strong>{value}</strong>
+              </div>
+            ))}
           </div>
-
         </section>
 
-        {/* Features */}
         <section className="product-section">
-
           <h2>Key Features</h2>
-
           <div className="features-grid">
-
-            {(product.features || []).map(
-              (feature, index) => (
-                <div className="feature-item" key={index}>
-                  ✓ {feature}
-                </div>
-              )
-            )}
-
+            {(product.features || []).map((feature, index) => (
+              <div className="feature-item" key={index}>
+                ✓ {feature}
+              </div>
+            ))}
           </div>
-
         </section>
 
-        {/* What's in the Box */}
         <section className="product-section">
-
           <h2>What's in the Box</h2>
-
           <ul className="box-contents">
-
-            {(product.whatsInTheBox || []).map(
-              (item, index) => (
-                <li key={index}>✓ {item}</li>
-              )
-            )}
-
+            {(product.whatsInTheBox || []).map((item, index) => (
+              <li key={index}>✓ {item}</li>
+            ))}
           </ul>
-
         </section>
 
-        {/* Seller */}
         {product.seller && (
           <section className="product-section seller-section">
-
             <h2>Seller Information</h2>
-
             <div className="seller-card">
-
               <div>
                 <h3>{product.seller.name}</h3>
-
                 {product.seller.verified && (
-                  <span className="verified-seller">
-                    ✓ Verified Seller
-                  </span>
+                  <span className="verified-seller">✓ Verified Seller</span>
                 )}
               </div>
-
               <div className="seller-details">
-                <span>
-                  ⭐ {product.seller.rating}
-                </span>
-
-                <span>
-                  📍 {product.seller.location}
-                </span>
+                <span>⭐ {product.seller.rating}</span>
+                <span>📍 {product.seller.location}</span>
               </div>
-
             </div>
-
           </section>
         )}
 
-        {/* Reviews */}
         <section className="product-section">
-
           <h2>Customer Reviews</h2>
-
           <div className="reviews-summary">
-
             <div className="review-score">
               <strong>{product.rating}</strong>
               <span>★</span>
               <p>{product.reviews} reviews</p>
             </div>
-
             <div className="review-message">
               Customer reviews and ratings will appear here.
             </div>
-
           </div>
-
         </section>
-
       </div>
     </div>
   );
 }
 
 export default ProductDetails;
-

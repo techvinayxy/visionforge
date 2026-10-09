@@ -1,20 +1,20 @@
+
 const products = [
   {
     id: 1,
     name: "VISIONFORGE Titan Gaming PC",
     category: "Gaming PCs",
-
     price: 89999,
     originalPrice: 104999,
     discount: 14,
-
     images: [
-      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1790958993/Titan_Gaming_PC.png",
-    ],
-
+  "https://res.cloudinary.com/cm0zg2bc/image/upload/v1790958993/Titan_Gaming_PC.png",
+  "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791532342/Titan_Gaming_PC-2.jpg",
+  "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791532390/Titan_Gaming_PC-3.jpg",
+  "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791532540/Titan_Gaming_PC-4.jpg",
+],
     description:
       "The VISIONFORGE Titan Gaming PC is built for high-performance gaming, streaming, content creation and demanding applications.",
-
     specifications: {
       processor: "AMD Ryzen 7",
       graphics: "NVIDIA GeForce RTX",
@@ -25,7 +25,6 @@ const products = [
       cooling: "Air Cooling",
       operatingSystem: "Windows 11",
     },
-
     features: [
       "High-performance gaming",
       "Fast NVMe storage",
@@ -33,30 +32,23 @@ const products = [
       "Upgradeable components",
       "Gaming-focused design",
     ],
-
     whatsInTheBox: [
       "VISIONFORGE Titan Gaming PC",
       "Power Cable",
       "User Manual",
       "Warranty Card",
     ],
-
     rating: 4.5,
     reviews: 24,
     stock: 12,
-
     sku: "VF-TITAN-001",
-
     warranty: "1 Year",
-
     returnPolicy: "7 Days Replacement",
-
     delivery: {
       freeDelivery: true,
       codAvailable: true,
       estimatedDays: "3-5 Business Days",
     },
-
     seller: {
       name: "VISIONFORGE Official",
       verified: true,
@@ -70,7 +62,44 @@ const products = [
     name: "VISIONFORGE Phantom Gaming PC",
     category: "Gaming PCs",
     price: 74999,
-    image: "/products/gaming-pc-2.jpg",
+    images: [
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791010393/Phantom_Gaming_PC.jpg",
+    ],
+    description:
+      "A gaming desktop designed for smooth gameplay, multitasking and everyday content creation.",
+    specifications: {
+      processor: "AMD Ryzen 5",
+      graphics: "NVIDIA GeForce RTX",
+      ram: "16GB DDR5",
+      storage: "1TB NVMe SSD",
+      motherboard: "Gaming Motherboard",
+      cooling: "Air Cooling",
+      operatingSystem: "Windows 11",
+    },
+    features: [
+      "Smooth gaming performance",
+      "Fast SSD storage",
+      "Multitasking support",
+      "Upgradeable hardware",
+    ],
+    whatsInTheBox: ["Gaming PC", "Power Cable", "User Manual"],
+    rating: 4.4,
+    reviews: 18,
+    stock: 10,
+    sku: "VF-PHANTOM-002",
+    warranty: "1 Year",
+    returnPolicy: "7 Days Replacement",
+    delivery: {
+      freeDelivery: true,
+      codAvailable: true,
+      estimatedDays: "3-5 Business Days",
+    },
+    seller: {
+      name: "VISIONFORGE Official",
+      verified: true,
+      rating: 4.8,
+      location: "Mumbai, Maharashtra",
+    },
   },
 
   {
@@ -78,7 +107,44 @@ const products = [
     name: "VISIONFORGE Pro Gaming PC",
     category: "Gaming PCs",
     price: 109999,
-    image: "/products/gaming-pc-3.jpg",
+    images: [
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791010644/Pro_Gaming_PC.jpg",
+    ],
+    description:
+      "A high-performance gaming desktop for demanding games, streaming, creative applications and intensive multitasking.",
+    specifications: {
+      processor: "AMD Ryzen 7",
+      graphics: "NVIDIA GeForce RTX",
+      ram: "32GB DDR5",
+      storage: "1TB NVMe SSD",
+      motherboard: "B650 Gaming Motherboard",
+      cooling: "Advanced Air Cooling",
+      operatingSystem: "Windows 11",
+    },
+    features: [
+      "High-performance gaming",
+      "32GB DDR5 memory",
+      "Fast NVMe storage",
+      "Streaming and content creation",
+    ],
+    whatsInTheBox: ["Gaming PC", "Power Cable", "User Manual"],
+    rating: 4.6,
+    reviews: 21,
+    stock: 8,
+    sku: "VF-PROPC-003",
+    warranty: "1 Year",
+    returnPolicy: "7 Days Replacement",
+    delivery: {
+      freeDelivery: true,
+      codAvailable: true,
+      estimatedDays: "3-5 Business Days",
+    },
+    seller: {
+      name: "VISIONFORGE Official",
+      verified: true,
+      rating: 4.8,
+      location: "Mumbai, Maharashtra",
+    },
   },
 
   {
@@ -86,7 +152,44 @@ const products = [
     name: "VISIONFORGE Entry Gaming PC",
     category: "Gaming PCs",
     price: 54999,
-    image: "/products/gaming-pc-4.jpg",
+    images: [
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791010952/Entry_Gaming_PC.jpg",
+    ],
+    description:
+      "An entry-level gaming desktop for casual gaming, everyday computing and getting started with PC gaming.",
+    specifications: {
+      processor: "AMD Ryzen 5",
+      graphics: "Dedicated or Integrated Graphics",
+      ram: "16GB DDR4",
+      storage: "512GB SSD",
+      motherboard: "Compatible Gaming Motherboard",
+      cooling: "Air Cooling",
+      operatingSystem: "Windows 11",
+    },
+    features: [
+      "Entry-level gaming",
+      "Responsive SSD storage",
+      "Everyday multitasking",
+      "Upgradeable components",
+    ],
+    whatsInTheBox: ["Gaming PC", "Power Cable", "User Manual"],
+    rating: 4.2,
+    reviews: 15,
+    stock: 14,
+    sku: "VF-ENTRY-004",
+    warranty: "1 Year",
+    returnPolicy: "7 Days Replacement",
+    delivery: {
+      freeDelivery: true,
+      codAvailable: true,
+      estimatedDays: "3-5 Business Days",
+    },
+    seller: {
+      name: "VISIONFORGE Official",
+      verified: true,
+      rating: 4.8,
+      location: "Mumbai, Maharashtra",
+    },
   },
 
   {
@@ -94,7 +197,42 @@ const products = [
     name: "RTX Gaming Graphics Card",
     category: "Graphics Cards",
     price: 54999,
-    image: "/products/gpu-1.jpg",
+    images: [
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011087/RTX_Gaming_Graphics_Card.jpg",
+    ],
+    description:
+      "A gaming graphics card designed for detailed visuals, accelerated graphics workloads and immersive PC gaming.",
+    specifications: {
+      graphicsArchitecture: "NVIDIA GeForce RTX",
+      memory: "8GB GDDR6",
+      interface: "PCI Express",
+      cooling: "Dual-Fan Cooling",
+      usage: "Gaming and Content Creation",
+    },
+    features: [
+      "Realistic gaming visuals",
+      "GPU-accelerated applications",
+      "Dedicated graphics memory",
+      "Active cooling",
+    ],
+    whatsInTheBox: ["Graphics Card", "Quick Start Guide"],
+    rating: 4.5,
+    reviews: 32,
+    stock: 9,
+    sku: "VF-GPU-005",
+    warranty: "1 Year",
+    returnPolicy: "7 Days Replacement",
+    delivery: {
+      freeDelivery: true,
+      codAvailable: true,
+      estimatedDays: "3-5 Business Days",
+    },
+    seller: {
+      name: "VISIONFORGE Official",
+      verified: true,
+      rating: 4.8,
+      location: "Mumbai, Maharashtra",
+    },
   },
 
   {
@@ -102,7 +240,42 @@ const products = [
     name: "RTX Performance Graphics Card",
     category: "Graphics Cards",
     price: 69999,
-    image: "/products/gpu-2.jpg",
+    images: [
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011211/RTX_Performance_Graphics_Card.jpg",
+    ],
+    description:
+      "A performance-focused graphics card for demanding games, high-quality rendering and GPU-intensive creative work.",
+    specifications: {
+      graphicsArchitecture: "NVIDIA GeForce RTX",
+      memory: "12GB GDDR6",
+      interface: "PCI Express",
+      cooling: "Triple-Fan Cooling",
+      usage: "Gaming and Rendering",
+    },
+    features: [
+      "High-resolution gaming",
+      "GPU rendering support",
+      "Dedicated graphics memory",
+      "Advanced cooling design",
+    ],
+    whatsInTheBox: ["Graphics Card", "Quick Start Guide"],
+    rating: 4.6,
+    reviews: 27,
+    stock: 7,
+    sku: "VF-GPU-006",
+    warranty: "1 Year",
+    returnPolicy: "7 Days Replacement",
+    delivery: {
+      freeDelivery: true,
+      codAvailable: true,
+      estimatedDays: "3-5 Business Days",
+    },
+    seller: {
+      name: "VISIONFORGE Official",
+      verified: true,
+      rating: 4.8,
+      location: "Mumbai, Maharashtra",
+    },
   },
 
   {
@@ -110,7 +283,42 @@ const products = [
     name: "RTX High Performance GPU",
     category: "Graphics Cards",
     price: 84999,
-    image: "/products/gpu-3.jpg",
+    images: [
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011393/RTX_High_Performance_GPU.jpg",
+    ],
+    description:
+      "A high-performance GPU intended for demanding gaming, visual effects, rendering and advanced graphics workloads.",
+    specifications: {
+      graphicsArchitecture: "NVIDIA GeForce RTX",
+      memory: "16GB GDDR6",
+      interface: "PCI Express",
+      cooling: "Triple-Fan Cooling",
+      usage: "Gaming and Professional Graphics",
+    },
+    features: [
+      "High-performance graphics",
+      "Rendering acceleration",
+      "Advanced cooling",
+      "High-resolution gaming",
+    ],
+    whatsInTheBox: ["Graphics Card", "Quick Start Guide"],
+    rating: 4.7,
+    reviews: 19,
+    stock: 5,
+    sku: "VF-GPU-007",
+    warranty: "1 Year",
+    returnPolicy: "7 Days Replacement",
+    delivery: {
+      freeDelivery: true,
+      codAvailable: true,
+      estimatedDays: "3-5 Business Days",
+    },
+    seller: {
+      name: "VISIONFORGE Official",
+      verified: true,
+      rating: 4.8,
+      location: "Mumbai, Maharashtra",
+    },
   },
 
   {
@@ -118,7 +326,42 @@ const products = [
     name: "Gaming Graphics Card 8GB",
     category: "Graphics Cards",
     price: 32999,
-    image: "/products/gpu-4.jpg",
+    images: [
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011561/Gaming_Graphics_Card_8GB.jpg",
+    ],
+    description:
+      "An 8GB graphics card for PC gaming, multimedia workloads and graphics-intensive everyday tasks.",
+    specifications: {
+      graphicsMemory: "8GB",
+      memoryType: "GDDR6",
+      interface: "PCI Express",
+      cooling: "Dual-Fan Cooling",
+      usage: "Gaming and Multimedia",
+    },
+    features: [
+      "8GB dedicated graphics memory",
+      "Gaming-ready performance",
+      "Dual-fan cooling",
+      "Multimedia acceleration",
+    ],
+    whatsInTheBox: ["Graphics Card", "Quick Start Guide"],
+    rating: 4.3,
+    reviews: 22,
+    stock: 11,
+    sku: "VF-GPU-008",
+    warranty: "1 Year",
+    returnPolicy: "7 Days Replacement",
+    delivery: {
+      freeDelivery: true,
+      codAvailable: true,
+      estimatedDays: "3-5 Business Days",
+    },
+    seller: {
+      name: "VISIONFORGE Official",
+      verified: true,
+      rating: 4.8,
+      location: "Mumbai, Maharashtra",
+    },
   },
 
   {
@@ -126,7 +369,42 @@ const products = [
     name: "Performance Gaming Processor",
     category: "Processors",
     price: 32999,
-    image: "/products/cpu-1.jpg",
+    images: [
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011857/Performance_Gaming_Processor.jpg",
+    ],
+    description:
+      "A performance-oriented processor for responsive gaming, multitasking and demanding desktop applications.",
+    specifications: {
+      processorFamily: "AMD Ryzen",
+      cores: "6 Cores",
+      threads: "12 Threads",
+      socket: "AM5",
+      usage: "Gaming and Productivity",
+    },
+    features: [
+      "Multitasking performance",
+      "Gaming-focused processing",
+      "Modern platform support",
+      "Desktop productivity",
+    ],
+    whatsInTheBox: ["Processor", "Installation Guide"],
+    rating: 4.5,
+    reviews: 28,
+    stock: 15,
+    sku: "VF-CPU-009",
+    warranty: "1 Year",
+    returnPolicy: "7 Days Replacement",
+    delivery: {
+      freeDelivery: true,
+      codAvailable: true,
+      estimatedDays: "3-5 Business Days",
+    },
+    seller: {
+      name: "VISIONFORGE Official",
+      verified: true,
+      rating: 4.8,
+      location: "Mumbai, Maharashtra",
+    },
   },
 
   {
@@ -134,7 +412,42 @@ const products = [
     name: "VISIONFORGE Power Processor",
     category: "Processors",
     price: 42999,
-    image: "/products/cpu-2.jpg",
+    images: [
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791012001/Power_Processor.jpg",
+    ],
+    description:
+      "A powerful desktop processor designed for intensive multitasking, demanding applications and performance-focused PC builds.",
+    specifications: {
+      processorFamily: "AMD Ryzen",
+      cores: "8 Cores",
+      threads: "16 Threads",
+      socket: "AM5",
+      usage: "Gaming and Productivity",
+    },
+    features: [
+      "High multitasking capability",
+      "Fast application processing",
+      "Modern desktop platform",
+      "Suitable for performance builds",
+    ],
+    whatsInTheBox: ["Processor", "Installation Guide"],
+    rating: 4.6,
+    reviews: 20,
+    stock: 10,
+    sku: "VF-CPU-010",
+    warranty: "1 Year",
+    returnPolicy: "7 Days Replacement",
+    delivery: {
+      freeDelivery: true,
+      codAvailable: true,
+      estimatedDays: "3-5 Business Days",
+    },
+    seller: {
+      name: "VISIONFORGE Official",
+      verified: true,
+      rating: 4.8,
+      location: "Mumbai, Maharashtra",
+    },
   },
 
   {
@@ -142,7 +455,40 @@ const products = [
     name: "High Performance CPU",
     category: "Processors",
     price: 51999,
-    image: "/products/cpu-3.jpg",
+    images: ["/products/cpu-3.jpg"],
+    description:
+      "A desktop processor for high-performance gaming, demanding workloads and advanced multitasking.",
+    specifications: {
+      processorFamily: "AMD Ryzen",
+      cores: "8 Cores",
+      threads: "16 Threads",
+      socket: "AM5",
+      usage: "Gaming and Productivity",
+    },
+    features: [
+      "Performance-focused processing",
+      "Advanced multitasking",
+      "Desktop gaming support",
+      "Compatible motherboard platform required",
+    ],
+    whatsInTheBox: ["Processor", "Installation Guide"],
+    rating: 4.5,
+    reviews: 17,
+    stock: 8,
+    sku: "VF-CPU-011",
+    warranty: "1 Year",
+    returnPolicy: "7 Days Replacement",
+    delivery: {
+      freeDelivery: true,
+      codAvailable: true,
+      estimatedDays: "3-5 Business Days",
+    },
+    seller: {
+      name: "VISIONFORGE Official",
+      verified: true,
+      rating: 4.8,
+      location: "Mumbai, Maharashtra",
+    },
   },
 
   {
@@ -150,7 +496,40 @@ const products = [
     name: "Gaming Performance Motherboard",
     category: "Motherboards",
     price: 18999,
-    image: "/products/motherboard-1.jpg",
+    images: ["/products/motherboard-1.jpg"],
+    description:
+      "A gaming motherboard designed to connect compatible processors, memory, graphics cards and storage devices.",
+    specifications: {
+      platform: "AMD Compatible",
+      memorySupport: "DDR5",
+      storage: "M.2 NVMe and SATA",
+      expansion: "PCI Express",
+      usage: "Gaming PC Builds",
+    },
+    features: [
+      "Multiple component connections",
+      "High-speed storage support",
+      "Memory expansion",
+      "Gaming PC compatibility",
+    ],
+    whatsInTheBox: ["Motherboard", "SATA Cable", "User Manual"],
+    rating: 4.4,
+    reviews: 16,
+    stock: 10,
+    sku: "VF-MB-012",
+    warranty: "1 Year",
+    returnPolicy: "7 Days Replacement",
+    delivery: {
+      freeDelivery: true,
+      codAvailable: true,
+      estimatedDays: "3-5 Business Days",
+    },
+    seller: {
+      name: "VISIONFORGE Official",
+      verified: true,
+      rating: 4.8,
+      location: "Mumbai, Maharashtra",
+    },
   },
 
   {
@@ -158,7 +537,40 @@ const products = [
     name: "VISIONFORGE Pro Motherboard",
     category: "Motherboards",
     price: 24999,
-    image: "/products/motherboard-2.jpg",
+    images: ["/products/motherboard-2.jpg"],
+    description:
+      "A feature-focused motherboard for compatible performance desktops with expansion and high-speed connectivity options.",
+    specifications: {
+      platform: "AMD Compatible",
+      memorySupport: "DDR5",
+      storage: "M.2 NVMe and SATA",
+      expansion: "PCI Express",
+      usage: "Performance PC Builds",
+    },
+    features: [
+      "High-speed storage support",
+      "Component expansion",
+      "Modern memory compatibility",
+      "Performance desktop platform",
+    ],
+    whatsInTheBox: ["Motherboard", "SATA Cable", "User Manual"],
+    rating: 4.5,
+    reviews: 14,
+    stock: 7,
+    sku: "VF-MB-013",
+    warranty: "1 Year",
+    returnPolicy: "7 Days Replacement",
+    delivery: {
+      freeDelivery: true,
+      codAvailable: true,
+      estimatedDays: "3-5 Business Days",
+    },
+    seller: {
+      name: "VISIONFORGE Official",
+      verified: true,
+      rating: 4.8,
+      location: "Mumbai, Maharashtra",
+    },
   },
 
   {
@@ -166,7 +578,40 @@ const products = [
     name: "16GB DDR5 Gaming RAM",
     category: "RAM",
     price: 5999,
-    image: "/products/ram-1.jpg",
+    images: ["/products/ram-1.jpg"],
+    description:
+      "A 16GB DDR5 memory kit for compatible desktops, helping support responsive gaming and everyday multitasking.",
+    specifications: {
+      capacity: "16GB",
+      memoryType: "DDR5",
+      configuration: "Memory Kit",
+      compatibility: "DDR5-Compatible Motherboard",
+      usage: "Gaming and Multitasking",
+    },
+    features: [
+      "16GB memory capacity",
+      "DDR5 technology",
+      "Responsive multitasking",
+      "Desktop memory upgrade",
+    ],
+    whatsInTheBox: ["16GB DDR5 RAM Kit", "Installation Guide"],
+    rating: 4.4,
+    reviews: 31,
+    stock: 20,
+    sku: "VF-RAM-014",
+    warranty: "1 Year",
+    returnPolicy: "7 Days Replacement",
+    delivery: {
+      freeDelivery: true,
+      codAvailable: true,
+      estimatedDays: "3-5 Business Days",
+    },
+    seller: {
+      name: "VISIONFORGE Official",
+      verified: true,
+      rating: 4.8,
+      location: "Mumbai, Maharashtra",
+    },
   },
 
   {
@@ -174,7 +619,40 @@ const products = [
     name: "32GB DDR5 Performance RAM",
     category: "RAM",
     price: 10999,
-    image: "/products/ram-2.jpg",
+    images: ["/products/ram-2.jpg"],
+    description:
+      "A 32GB DDR5 memory kit for demanding multitasking, gaming and compatible content-creation systems.",
+    specifications: {
+      capacity: "32GB",
+      memoryType: "DDR5",
+      configuration: "Memory Kit",
+      compatibility: "DDR5-Compatible Motherboard",
+      usage: "Gaming and Content Creation",
+    },
+    features: [
+      "32GB memory capacity",
+      "DDR5 technology",
+      "Supports demanding workloads",
+      "Desktop memory upgrade",
+    ],
+    whatsInTheBox: ["32GB DDR5 RAM Kit", "Installation Guide"],
+    rating: 4.6,
+    reviews: 25,
+    stock: 13,
+    sku: "VF-RAM-015",
+    warranty: "1 Year",
+    returnPolicy: "7 Days Replacement",
+    delivery: {
+      freeDelivery: true,
+      codAvailable: true,
+      estimatedDays: "3-5 Business Days",
+    },
+    seller: {
+      name: "VISIONFORGE Official",
+      verified: true,
+      rating: 4.8,
+      location: "Mumbai, Maharashtra",
+    },
   },
 
   {
@@ -182,7 +660,40 @@ const products = [
     name: "1TB NVMe SSD",
     category: "Storage",
     price: 7999,
-    image: "/products/ssd-1.jpg",
+    images: ["/products/ssd-1.jpg"],
+    description:
+      "A 1TB NVMe solid-state drive for faster storage access, application loading and everyday file transfers on compatible systems.",
+    specifications: {
+      capacity: "1TB",
+      interface: "NVMe",
+      formFactor: "M.2",
+      storageType: "Solid-State Drive",
+      usage: "OS, Applications and Games",
+    },
+    features: [
+      "1TB storage capacity",
+      "NVMe interface",
+      "Fast application loading",
+      "No moving mechanical parts",
+    ],
+    whatsInTheBox: ["1TB NVMe SSD", "Installation Guide"],
+    rating: 4.5,
+    reviews: 29,
+    stock: 18,
+    sku: "VF-SSD-016",
+    warranty: "1 Year",
+    returnPolicy: "7 Days Replacement",
+    delivery: {
+      freeDelivery: true,
+      codAvailable: true,
+      estimatedDays: "3-5 Business Days",
+    },
+    seller: {
+      name: "VISIONFORGE Official",
+      verified: true,
+      rating: 4.8,
+      location: "Mumbai, Maharashtra",
+    },
   },
 
   {
@@ -190,7 +701,40 @@ const products = [
     name: "2TB NVMe Performance SSD",
     category: "Storage",
     price: 13999,
-    image: "/products/ssd-2.jpg",
+    images: ["/products/ssd-2.jpg"],
+    description:
+      "A 2TB NVMe solid-state drive offering expanded storage for large game libraries, media files and demanding workflows.",
+    specifications: {
+      capacity: "2TB",
+      interface: "NVMe",
+      formFactor: "M.2",
+      storageType: "Solid-State Drive",
+      usage: "Gaming and Large Files",
+    },
+    features: [
+      "2TB storage capacity",
+      "NVMe interface",
+      "Large game library storage",
+      "Fast file access",
+    ],
+    whatsInTheBox: ["2TB NVMe SSD", "Installation Guide"],
+    rating: 4.6,
+    reviews: 21,
+    stock: 12,
+    sku: "VF-SSD-017",
+    warranty: "1 Year",
+    returnPolicy: "7 Days Replacement",
+    delivery: {
+      freeDelivery: true,
+      codAvailable: true,
+      estimatedDays: "3-5 Business Days",
+    },
+    seller: {
+      name: "VISIONFORGE Official",
+      verified: true,
+      rating: 4.8,
+      location: "Mumbai, Maharashtra",
+    },
   },
 
   {
@@ -198,7 +742,41 @@ const products = [
     name: "VISIONFORGE Gaming Laptop",
     category: "Laptops",
     price: 74999,
-    image: "/products/laptop-1.jpg",
+    images: ["/products/laptop-1.jpg"],
+    description:
+      "A gaming laptop designed for portable gaming, everyday productivity and entertainment.",
+    specifications: {
+      processor: "Performance Laptop Processor",
+      graphics: "Dedicated or Integrated Graphics",
+      ram: "16GB",
+      storage: "512GB SSD",
+      display: "High-Refresh-Rate Display",
+      operatingSystem: "Windows",
+    },
+    features: [
+      "Portable gaming setup",
+      "SSD storage",
+      "Multitasking support",
+      "Built-in display and keyboard",
+    ],
+    whatsInTheBox: ["Gaming Laptop", "Power Adapter", "User Manual"],
+    rating: 4.4,
+    reviews: 23,
+    stock: 8,
+    sku: "VF-LAP-018",
+    warranty: "1 Year",
+    returnPolicy: "7 Days Replacement",
+    delivery: {
+      freeDelivery: true,
+      codAvailable: true,
+      estimatedDays: "3-5 Business Days",
+    },
+    seller: {
+      name: "VISIONFORGE Official",
+      verified: true,
+      rating: 4.8,
+      location: "Mumbai, Maharashtra",
+    },
   },
 
   {
@@ -206,7 +784,41 @@ const products = [
     name: "VISIONFORGE Pro Gaming Laptop",
     category: "Laptops",
     price: 99999,
-    image: "/products/laptop-2.jpg",
+    images: ["/products/laptop-2.jpg"],
+    description:
+      "A performance-oriented laptop for demanding gaming, multitasking and creative workloads on the go.",
+    specifications: {
+      processor: "High-Performance Laptop Processor",
+      graphics: "Dedicated Graphics",
+      ram: "16GB",
+      storage: "1TB SSD",
+      display: "High-Refresh-Rate Display",
+      operatingSystem: "Windows",
+    },
+    features: [
+      "Performance-focused gaming",
+      "Dedicated graphics",
+      "Fast SSD storage",
+      "Portable productivity",
+    ],
+    whatsInTheBox: ["Gaming Laptop", "Power Adapter", "User Manual"],
+    rating: 4.6,
+    reviews: 18,
+    stock: 6,
+    sku: "VF-LAP-019",
+    warranty: "1 Year",
+    returnPolicy: "7 Days Replacement",
+    delivery: {
+      freeDelivery: true,
+      codAvailable: true,
+      estimatedDays: "3-5 Business Days",
+    },
+    seller: {
+      name: "VISIONFORGE Official",
+      verified: true,
+      rating: 4.8,
+      location: "Mumbai, Maharashtra",
+    },
   },
 
   {
@@ -214,9 +826,42 @@ const products = [
     name: "VISIONFORGE Performance Smartphone",
     category: "Mobiles",
     price: 39999,
-    image: "/products/mobile-1.jpg",
+    images: ["/products/mobile-1.jpg"],
+    description:
+      "A performance-focused smartphone concept for everyday communication, entertainment, photography and mobile multitasking.",
+    specifications: {
+      display: "High-Resolution Touchscreen",
+      processor: "Performance Mobile Processor",
+      ram: "8GB",
+      storage: "256GB",
+      connectivity: "4G/5G Depending on Model",
+      operatingSystem: "Android",
+    },
+    features: [
+      "Responsive everyday performance",
+      "Large storage capacity",
+      "Mobile photography",
+      "Entertainment and multitasking",
+    ],
+    whatsInTheBox: ["Smartphone", "Charging Cable", "User Manual"],
+    rating: 4.3,
+    reviews: 26,
+    stock: 10,
+    sku: "VF-MOB-020",
+    warranty: "1 Year",
+    returnPolicy: "7 Days Replacement",
+    delivery: {
+      freeDelivery: true,
+      codAvailable: true,
+      estimatedDays: "3-5 Business Days",
+    },
+    seller: {
+      name: "VISIONFORGE Official",
+      verified: true,
+      rating: 4.8,
+      location: "Mumbai, Maharashtra",
+    },
   },
 ];
 
 export default products;
-

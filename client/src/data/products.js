@@ -64,6 +64,9 @@ const products = [
     price: 74999,
     images: [
       "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791010393/Phantom_Gaming_PC.jpg",
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791533603/Phantom_Gaming_PC-2.jpg",
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791533469/Phantom_Gaming_PC-3.webp",
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791533417/Phantom_Gaming_PC-4.webp",
     ],
     description:
       "A gaming desktop designed for smooth gameplay, multitasking and everyday content creation.",

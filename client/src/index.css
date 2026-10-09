@@ -206,83 +206,80 @@ body {
 }
 
 /* =========================
-   CATEGORIES
-========================= */
+/* =========================================
+   VISIONFORGE — SHOP BY CATEGORY
+========================================= */
 
 .categories-section {
-  padding: 90px 0;
-  background: #13161d;
-}
-
-.section-container {
-  width: 90%;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.section-heading {
-  margin-bottom: 40px;
-}
-
-.section-heading p {
-  color: #8f82ff;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  margin-bottom: 10px;
-}
-
-.section-heading h2 {
-  font-size: 38px;
-  margin: 0;
+  padding: 80px 0;
+  background: #0a0c10;
 }
 
 .categories-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 22px;
 }
 
 .category-card {
-  min-height: 220px;
-  padding: 28px;
-  background: #191d26;
-  border: 1px solid #282e3a;
-  border-radius: 10px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  display: block;
+  padding: 28px 24px;
+  background: linear-gradient(145deg, #151720, #101218);
+  border: 1px solid #292b38;
+  border-radius: 14px;
+  color: #ffffff;
+  text-decoration: none;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
 }
 
 .category-card:hover {
   transform: translateY(-5px);
+  background: linear-gradient(145deg, #1b1930, #12141c);
   border-color: #6c5ce7;
+  box-shadow: 0 10px 30px rgba(108, 92, 231, 0.16);
 }
 
 .category-icon {
-  font-size: 30px;
-  margin-bottom: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(108, 92, 231, 0.35);
+  border-radius: 12px;
+  background: rgba(108, 92, 231, 0.12);
+  color: #a49aff;
+  font-size: 24px;
 }
 
 .category-card h3 {
-  font-size: 20px;
-  margin-bottom: 10px;
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: 19px;
+  font-weight: 700;
 }
 
 .category-card p {
-  color: #969daa;
+  margin: 0 0 20px;
+  color: #a7a7b4;
   font-size: 14px;
-  line-height: 1.5;
-  margin-bottom: 15px;
+  line-height: 1.7;
 }
 
 .category-card span {
-  color: #8f82ff;
+  color: #a49aff;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 650;
+  transition: color 0.2s ease;
+}
+
+.category-card:hover span {
+  color: #c2baff;
 }
 
 /* =========================

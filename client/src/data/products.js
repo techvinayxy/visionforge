@@ -111,8 +111,11 @@ const products = [
     category: "Gaming PCs",
     price: 109999,
     images: [
-      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791010644/Pro_Gaming_PC.jpg",
-    ],
+  "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791010644/Pro_Gaming_PC.jpg",
+  "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791535027/Pro_Gaming_PC-2.jpg",
+  "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791535028/Pro_Gaming_PC-3.webp",
+  "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791540556/Pro_Gaming_PC-4.jpg",
+],
     description:
       "A high-performance gaming desktop for demanding games, streaming, creative applications and intensive multitasking.",
     specifications: {

@@ -1,6 +1,7 @@
 
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { useCart } from "../context/CartContext.jsx";
 
 const products = [
   {
@@ -88,70 +89,80 @@ const products = [
     name: "High Performance CPU",
     category: "Processors",
     price: 51999,
-    image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791267083/High_Performance_CPU.webp",
+    image:
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791267083/High_Performance_CPU.webp",
   },
   {
     id: 12,
     name: "Gaming Performance Motherboard",
     category: "Motherboards",
     price: 18999,
-    image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791267271/Gaming_Performance_Motherboard.jpg",
+    image:
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791267271/Gaming_Performance_Motherboard.jpg",
   },
   {
     id: 13,
     name: "VISIONFORGE Pro Motherboard",
     category: "Motherboards",
     price: 24999,
-    image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791267441/VISIONFORGE_Pro_Motherboard.webp",
+    image:
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791267441/VISIONFORGE_Pro_Motherboard.webp",
   },
   {
     id: 14,
     name: "16GB DDR5 Gaming RAM",
     category: "RAM",
     price: 5999,
-    image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791267702/16GB_DDR5_Gaming_RAM.webp",
+    image:
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791267702/16GB_DDR5_Gaming_RAM.webp",
   },
   {
     id: 15,
     name: "32GB DDR5 Performance RAM",
     category: "RAM",
     price: 10999,
-    image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791268097/32GB_DDR5_Performance_RAM.jpg",
+    image:
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791268097/32GB_DDR5_Performance_RAM.jpg",
   },
   {
     id: 16,
     name: "1TB NVMe SSD",
     category: "Storage",
     price: 7999,
-    image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791268365/1TB_NVMe_SSD.webp",
+    image:
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791268365/1TB_NVMe_SSD.webp",
   },
   {
     id: 17,
     name: "2TB NVMe Performance SSD",
     category: "Storage",
     price: 13999,
-    image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791527396/2TB_NVMe_Performance_SSD.jpg",
+    image:
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791527396/2TB_NVMe_Performance_SSD.jpg",
   },
   {
     id: 18,
     name: "VISIONFORGE Gaming Laptop",
     category: "Laptops",
     price: 74999,
-    image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791527535/Gaming_Laptop.jpg",
+    image:
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791527535/Gaming_Laptop.jpg",
   },
   {
     id: 19,
     name: "VISIONFORGE Pro Gaming Laptop",
     category: "Laptops",
     price: 99999,
-    image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791527640/Pro_Gaming_Laptop.jpg",
+    image:
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791527640/Pro_Gaming_Laptop.jpg",
   },
   {
     id: 20,
     name: "VISIONFORGE Performance Smartphone",
     category: "Mobiles",
     price: 39999,
-    image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791528474/Performance_Smartphone.png",
+    image:
+      "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791528474/Performance_Smartphone.png",
   },
 ];
 
@@ -168,6 +179,8 @@ const categories = [
 ];
 
 function Products() {
+  const { addToCart } = useCart();
+
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [priceRange, setPriceRange] = useState("all");
@@ -231,6 +244,7 @@ function Products() {
           {categories.map((category) => (
             <button
               key={category}
+              type="button"
               className={
                 selectedCategory === category ? "active" : ""
               }
@@ -255,9 +269,7 @@ function Products() {
                     checked={selectedCategory === category}
                     onChange={() =>
                       setSelectedCategory(
-                        selectedCategory === category
-                          ? "All"
-                          : category
+                        selectedCategory === category ? "All" : category
                       )
                     }
                   />
@@ -275,9 +287,7 @@ function Products() {
                   checked={priceRange === "under25"}
                   onChange={() =>
                     setPriceRange(
-                      priceRange === "under25"
-                        ? "all"
-                        : "under25"
+                      priceRange === "under25" ? "all" : "under25"
                     )
                   }
                 />
@@ -290,9 +300,7 @@ function Products() {
                   checked={priceRange === "25to50"}
                   onChange={() =>
                     setPriceRange(
-                      priceRange === "25to50"
-                        ? "all"
-                        : "25to50"
+                      priceRange === "25to50" ? "all" : "25to50"
                     )
                   }
                 />
@@ -305,9 +313,7 @@ function Products() {
                   checked={priceRange === "50to100"}
                   onChange={() =>
                     setPriceRange(
-                      priceRange === "50to100"
-                        ? "all"
-                        : "50to100"
+                      priceRange === "50to100" ? "all" : "50to100"
                     )
                   }
                 />
@@ -320,9 +326,7 @@ function Products() {
                   checked={priceRange === "above100"}
                   onChange={() =>
                     setPriceRange(
-                      priceRange === "above100"
-                        ? "all"
-                        : "above100"
+                      priceRange === "above100" ? "all" : "above100"
                     )
                   }
                 />
@@ -337,9 +341,7 @@ function Products() {
 
               <select
                 value={sortBy}
-                onChange={(event) =>
-                  setSortBy(event.target.value)
-                }
+                onChange={(event) => setSortBy(event.target.value)}
               >
                 <option value="popular">Sort: Popular</option>
                 <option value="low">Price: Low to High</option>
@@ -350,19 +352,13 @@ function Products() {
 
             <div className="product-grid">
               {filteredProducts.map((product) => (
-                <div
-                  className="product-card"
-                  key={product.id}
-                >
+                <div className="product-card" key={product.id}>
                   <Link
                     to={`/products/${product.id}`}
                     className="product-card-link"
                   >
                     <div className="product-image">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                      />
+                      <img src={product.image} alt={product.name} />
                     </div>
 
                     <div className="product-info">
@@ -378,8 +374,12 @@ function Products() {
                     </div>
                   </Link>
 
-                  <button className="add-cart-btn">
-                    Add to Cart
+                  <button
+                    type="button"
+                    className="add-cart-btn"
+                    onClick={() => addToCart({ ...product, images: [product.image] }, 1)}
+                  >
+                    🛒 Add to Cart
                   </button>
                 </div>
               ))}

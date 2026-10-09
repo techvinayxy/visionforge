@@ -8,6 +8,7 @@ import Products from "./pages/Products";
 import ProductDetails from "./pages/ProductDetails";
 import NotFound from "./pages/NotFound";
 import CloudinaryUpload from "./components/CloudinaryUpload";
+import Cart from "./pages/Cart.jsx";
 
 function App() {
   return (
@@ -23,6 +24,8 @@ function App() {
           path="/products/:id"
           element={<ProductDetails />}
         />
+
+        <Route path="/cart" element={<Cart />} />
 
         {/* Cloudinary Upload Test */}
         <Route

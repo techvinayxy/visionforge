@@ -9,6 +9,7 @@ import ProductDetails from "./pages/ProductDetails";
 import NotFound from "./pages/NotFound";
 import CloudinaryUpload from "./components/CloudinaryUpload";
 import Cart from "./pages/Cart.jsx";
+import PCBuilder from "./pages/PCBuilder";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         />
 
         <Route path="*" element={<NotFound />} />
+        <Route path="/builder" element={<PCBuilder />} />
       </Routes>
 
       <Footer />

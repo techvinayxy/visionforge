@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -37,52 +36,33 @@ function PCVisual({ active }) {
       <div className="vf-scroll-ring vf-scroll-ring-two" />
 
       <div className="vf-scroll-visual-layout">
-        {/* Gaming PC image: enlarged by 20% */}
-        <div className="vf-pc-image-area">
+        <div
+          className="vf-premium-setup"
+          aria-label="VISIONFORGE premium gaming setup"
+        >
+          <div className="vf-setup-image-glow" />
+
           <img
-            src="/gaming-pc.png"
-            alt="VISIONFORGE RGB gaming PC"
-            className="vf-gaming-pc-model"
-          />
-        </div>
+  src="/Images/gaming-setup.png.png"
+  alt="VISIONFORGE premium RGB gaming setup"
+  className="vf-premium-setup-image"
+  loading="eager"
+/>
 
-        {/* Animated CPU on the right */}
-        <div className="vf-cpu-animation" aria-label="Animated RGB processor">
-          <div className="vf-cpu-orbit vf-cpu-orbit-one" />
-          <div className="vf-cpu-orbit vf-cpu-orbit-two" />
-
-          <div className="vf-cpu-chip">
-            <div className="vf-cpu-pins vf-cpu-pins-top" />
-            <div className="vf-cpu-pins vf-cpu-pins-bottom" />
-            <div className="vf-cpu-pins vf-cpu-pins-left" />
-            <div className="vf-cpu-pins vf-cpu-pins-right" />
-
-            <div className="vf-cpu-chip-inner">
-              <span className="vf-cpu-brand">VF</span>
-              <strong>CPU</strong>
-              {/* <span className="vf-cpu-chip-caption">
-                HIGH PERFORMANCE
-              </span> */}
-            </div>
+          <div className="vf-setup-overlay">
+            <span className="vf-setup-brand">VISIONFORGE</span>
+            <span className="vf-setup-tagline">
+              BUILD. POWER. CREATE.
+            </span>
           </div>
-
-          {/* <span className="vf-cpu-label">PROCESSING POWER</span> */}
-          {/* <span className="vf-cpu-status">
-            <i />
-            SYSTEM ACTIVE
-          </span> */}
         </div>
       </div>
 
       <div className="vf-scroll-spec vf-scroll-spec-top">
-        {/* <span className="vf-scroll-spec-dot" /> */}
-        {/* PERFORMANCE / {String(active + 1).padStart(2, "0")} */}
+        <span className="vf-scroll-spec-dot" />
       </div>
 
-      <div className="vf-scroll-spec vf-scroll-spec-bottom">
-        {/* <span>BUILD. POWER. CREATE.</span> */}
-        {/* <strong>VF.</strong> */}
-      </div>
+      <div className="vf-scroll-spec vf-scroll-spec-bottom" />
     </div>
   );
 }
@@ -161,6 +141,7 @@ export default function PCScrollExperience() {
               </span>
 
               <h3>{feature.title}</h3>
+
               <p>{feature.description}</p>
 
               <span className="vf-scroll-tag">

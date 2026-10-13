@@ -5071,35 +5071,6 @@ font-size: 24px;
   gap: 4px;
 }
 
-.vf-pc-image-area {
-  position: relative;
-  min-width: 0;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: visible;
-}
-
-.vf-gaming-pc-model {
-  display: block;
-
-  /* 20% larger than the previous 75% / 420px sizing */
-  width: min(90%, 504px);
-  max-width: none;
-  height: auto;
-
-  object-fit: contain;
-  object-position: center;
-  transform: scale(1.2);
-  transform-origin: center;
-
-  filter:
-    drop-shadow(0 0 22px rgba(108, 92, 231, 0.45))
-    drop-shadow(0 0 38px rgba(0, 229, 255, 0.18));
-
-  pointer-events: none;
-}
 
 /* Animated CPU area */
 .vf-cpu-animation {
@@ -5129,37 +5100,7 @@ font-size: 24px;
   animation: vf-cpu-glow 4s ease-in-out infinite alternate;
 }
 
-.vf-cpu-chip-inner {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  border: 1px solid rgba(0, 229, 255, 0.55);
-  border-radius: 7px;
-  background:
-    radial-gradient(circle at center, rgba(108, 92, 231, 0.28), transparent 72%),
-    #0c0e16;
-  text-align: center;
-}
 
-.vf-cpu-brand {
-  color: #00e5ff;
-  font-size: clamp(14px, 2vw, 22px);
-  font-weight: 900;
-  letter-spacing: 2px;
-  text-shadow: 0 0 12px rgba(0, 229, 255, 0.7);
-}
-
-.vf-cpu-chip-inner strong {
-  color: #fff;
-  font-size: clamp(11px, 1.5vw, 17px);
-  letter-spacing: 2px;
-}
 
 .vf-cpu-chip-caption {
   color: #a99dff;
@@ -5168,51 +5109,7 @@ font-size: 24px;
   letter-spacing: 1px;
 }
 
-.vf-cpu-pins {
-  position: absolute;
-  z-index: 1;
-  opacity: 0.9;
-}
 
-.vf-cpu-pins-top,
-.vf-cpu-pins-bottom {
-  left: 10%;
-  width: 80%;
-  height: 7px;
-  background: repeating-linear-gradient(
-    90deg,
-    #8f82ff 0 3px,
-    transparent 3px 10px
-  );
-}
-
-.vf-cpu-pins-top {
-  top: -7px;
-}
-
-.vf-cpu-pins-bottom {
-  bottom: -7px;
-}
-
-.vf-cpu-pins-left,
-.vf-cpu-pins-right {
-  top: 10%;
-  width: 7px;
-  height: 80%;
-  background: repeating-linear-gradient(
-    180deg,
-    #00e5ff 0 3px,
-    transparent 3px 10px
-  );
-}
-
-.vf-cpu-pins-left {
-  left: -7px;
-}
-
-.vf-cpu-pins-right {
-  right: -7px;
-}
 
 .vf-cpu-orbit {
   position: absolute;
@@ -5237,13 +5134,7 @@ font-size: 24px;
   animation: vf-cpu-orbit-spin 14s linear infinite reverse;
 }
 
-.vf-cpu-label {
-  color: #b8b0ff;
-  font-size: clamp(8px, 1vw, 10px);
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-align: center;
-}
+
 
 .vf-cpu-status {
   display: inline-flex;
@@ -5276,13 +5167,7 @@ font-size: 24px;
   --cpu-accent: #ff4fd8;
 }
 
-.vf-scroll-art-2 .vf-cpu-brand {
-  color: #00e5ff;
-}
 
-.vf-scroll-art-3 .vf-cpu-brand {
-  color: #ff4fd8;
-}
 
 .vf-scroll-art-2 .vf-cpu-pins-top,
 .vf-scroll-art-2 .vf-cpu-pins-bottom,
@@ -5409,43 +5294,18 @@ font-size: 24px;
     gap: 2px;
   }
 
-  .vf-gaming-pc-model {
-    width: min(90%, 390px);
-    transform: scale(1.2);
-  }
+ 
 
-  .vf-cpu-animation {
-    gap: 12px;
-  }
+
 
   .vf-cpu-chip {
     width: clamp(70px, 18vw, 100px);
   }
 
-  .vf-cpu-orbit-two {
-    width: 155%;
-  }
-
-  .vf-cpu-label {
-    font-size: 7px;
-    letter-spacing: 0.8px;
-  }
-
-  .vf-cpu-status {
-    font-size: 7px;
-  }
+      
 }
 
-/* Respect reduced-motion settings */
-@media (prefers-reduced-motion: reduce) {
-  .vf-cpu-animation,
-  .vf-cpu-chip,
-  .vf-cpu-orbit,
-  .vf-cpu-status i,
-  .vf-scroll-glow {
-    animation: none;
-  }
-}
+
 
 
 
@@ -6026,16 +5886,6 @@ font-size: 24px;
 }
 
 
-/* VISIONFORGE — PC Visual Layout Fix */
-
-.vf-pc-image-area {
-  display: none !important;
-}
-
-.vf-gaming-pc-model {
-  display: none !important;
-}
-
 @media (min-width: 1000px) {
   .vf-scroll-visual-layout {
     grid-template-columns: 1fr;
@@ -6051,3 +5901,585 @@ font-size: 24px;
   }
 }
 
+/* Shift Build Your PC button slightly right */
+.build-your-pc-button {
+  margin-left: 12px;
+}
+
+/* VISIONFORGE — Shift Build Your PC button right */
+.vf-scroll-builder-link {
+  position: relative;
+  left: 20px;
+}
+
+
+
+
+/* =========================================
+   VISIONFORGE — CSS GAMING SETUP
+   Monitor + RGB Tower + Keyboard + Mouse
+========================================= */
+
+.vf-scroll-visual-layout {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  place-items: center;
+  width: 100%;
+  min-height: 430px;
+  padding: 30px 12px;
+  overflow: hidden;
+}
+
+.vf-css-gaming-setup {
+  --vf-purple: #8b5cf6;
+  --vf-cyan: #22d3ee;
+  --vf-pink: #ec4899;
+
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 145px;
+  grid-template-rows: 250px 65px 20px;
+  align-items: end;
+  column-gap: 18px;
+  width: min(100%, 530px);
+  min-height: 350px;
+  padding: 15px 12px 22px;
+  isolation: isolate;
+}
+
+/* Background glow */
+
+.vf-css-gaming-setup::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 12% 5% 8%;
+  background:
+    radial-gradient(
+      ellipse at 35% 40%,
+      rgb(108 92 231 / 20%),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at 78% 65%,
+      rgb(34 211 238 / 13%),
+      transparent 45%
+    );
+  filter: blur(22px);
+  pointer-events: none;
+}
+
+/* Monitor */
+
+.vf-setup-monitor {
+  position: relative;
+  z-index: 2;
+  align-self: end;
+  width: 100%;
+  min-width: 0;
+  margin-bottom: 10px;
+  animation: vf-monitor-float 5s ease-in-out infinite;
+}
+
+.vf-monitor-frame {
+  position: relative;
+  padding: 7px;
+  border: 1px solid #51556a;
+  border-radius: 10px;
+  background: linear-gradient(145deg, #292d3b, #10121b 70%);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 3%),
+    0 15px 35px rgb(0 0 0 / 40%),
+    0 0 25px rgb(139 92 246 / 13%);
+}
+
+.vf-monitor-screen {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1px solid rgb(139 92 246 / 65%);
+  border-radius: 4px;
+  background:
+    linear-gradient(135deg, #17112e, #080d1a 58%, #11182c);
+}
+
+.vf-screen-glow {
+  position: absolute;
+  inset: -35%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgb(139 92 246 / 0%) 65deg,
+    rgb(139 92 246 / 65%) 120deg,
+    rgb(34 211 238 / 70%) 180deg,
+    transparent 245deg,
+    transparent 360deg
+  );
+  filter: blur(25px);
+  opacity: 0.75;
+  animation: vf-screen-glow-rotate 12s linear infinite;
+}
+
+.vf-screen-orbit {
+  position: absolute;
+  width: 55%;
+  aspect-ratio: 1;
+  border: 1px solid rgb(139 92 246 / 65%);
+  border-radius: 50%;
+  box-shadow:
+    0 0 18px rgb(139 92 246 / 30%),
+    inset 0 0 18px rgb(34 211 238 / 12%);
+  transform: rotateX(65deg) rotate(-25deg);
+  animation: vf-screen-orbit 7s linear infinite;
+}
+
+.vf-screen-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+}
+
+.vf-screen-logo {
+  color: #fff;
+  font-size: clamp(30px, 5vw, 48px);
+  font-weight: 900;
+  letter-spacing: -4px;
+  line-height: 1;
+  text-shadow:
+    0 0 12px rgb(139 92 246 / 95%),
+    0 0 30px rgb(34 211 238 / 65%);
+}
+
+.vf-screen-caption {
+  color: #d9d4ff;
+  font-size: clamp(6px, 1.2vw, 9px);
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.vf-monitor-neck {
+  width: 18%;
+  height: 22px;
+  margin: 0 auto;
+  background: linear-gradient(90deg, #171923, #4a4e5e, #171923);
+  clip-path: polygon(25% 0, 75% 0, 100% 100%, 0 100%);
+}
+
+.vf-monitor-base {
+  width: 38%;
+  height: 8px;
+  margin: 0 auto;
+  border: 1px solid #555a6b;
+  border-radius: 50%;
+  background: linear-gradient(#424656, #171923);
+  box-shadow: 0 4px 10px rgb(0 0 0 / 40%);
+}
+
+/* Gaming tower */
+
+.vf-setup-tower {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-self: end;
+  width: 100%;
+  max-width: 145px;
+  height: 260px;
+  margin-bottom: 8px;
+  padding: 7px;
+  border: 1px solid #51566a;
+  border-radius: 9px;
+  background: linear-gradient(145deg, #303342, #0a0c12 35%, #202331);
+  box-shadow:
+    0 14px 30px rgb(0 0 0 / 45%),
+    0 0 18px rgb(139 92 246 / 15%);
+  animation: vf-tower-float 5s ease-in-out infinite;
+  animation-delay: -1s;
+}
+
+.vf-tower-top {
+  display: flex;
+  gap: 5px;
+  height: 9px;
+  padding: 0 4px 5px;
+}
+
+.vf-tower-top span {
+  flex: 1;
+  height: 3px;
+  border-radius: 3px;
+  background: #656a7b;
+}
+
+.vf-tower-glass {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid rgb(139 92 246 / 45%);
+  border-radius: 4px;
+  background:
+    linear-gradient(115deg, rgb(139 92 246 / 8%), transparent 50%),
+    #0c101a;
+  box-shadow: inset 0 0 15px rgb(139 92 246 / 10%);
+}
+
+/* RGB fans */
+
+.vf-tower-fan {
+  position: absolute;
+  left: 8%;
+  display: grid;
+  place-items: center;
+  width: 43%;
+  aspect-ratio: 1;
+  border: 3px solid transparent;
+  border-radius: 50%;
+  background:
+    linear-gradient(#111522, #111522) padding-box,
+    conic-gradient(
+      from 0deg,
+      var(--vf-purple),
+      var(--vf-cyan),
+      var(--vf-pink),
+      var(--vf-purple)
+    ) border-box;
+  box-shadow: 0 0 12px rgb(139 92 246 / 20%);
+  animation: vf-fan-spin 4s linear infinite;
+}
+
+.vf-fan-one {
+  top: 5%;
+}
+
+.vf-fan-two {
+  top: 35%;
+  animation-duration: 5s;
+  animation-direction: reverse;
+}
+
+.vf-fan-three {
+  top: 65%;
+  animation-duration: 6s;
+}
+
+.vf-tower-fan span {
+  width: 70%;
+  aspect-ratio: 1;
+  border: 2px solid rgb(34 211 238 / 75%);
+  border-radius: 50%;
+  background: radial-gradient(circle, #8b5cf6 0%, #17152c 65%);
+  box-shadow: 0 0 10px rgb(34 211 238 / 45%);
+}
+
+.vf-tower-gpu {
+  position: absolute;
+  top: 43%;
+  right: 4%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  width: 42%;
+  min-height: 27px;
+  padding: 3px;
+  border: 1px solid #4b5266;
+  border-radius: 3px;
+  background: linear-gradient(135deg, #252a3b, #10131d);
+  color: #d8d2ff;
+  font-size: 6px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.vf-gpu-light {
+  display: inline-block;
+  width: 3px;
+  height: 70%;
+  border-radius: 3px;
+  background: var(--vf-cyan);
+  box-shadow: 0 0 7px var(--vf-cyan);
+}
+
+.vf-tower-light {
+  position: absolute;
+  right: 8%;
+  bottom: 5%;
+  width: 3px;
+  height: 35%;
+  border-radius: 4px;
+  background: linear-gradient(var(--vf-cyan), var(--vf-purple));
+  box-shadow: 0 0 10px var(--vf-purple);
+}
+
+/* Tower front panel */
+
+.vf-tower-front {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  margin-top: 5px;
+  border: 1px solid #383d4d;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #171923, #252938, #10121a);
+}
+
+.vf-tower-power {
+  position: absolute;
+  top: 7px;
+  left: 8px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--vf-cyan);
+  box-shadow: 0 0 8px var(--vf-cyan);
+  animation: vf-power-pulse 2s ease-in-out infinite;
+}
+
+.vf-tower-vent {
+  width: 45%;
+  height: 12px;
+  background: repeating-linear-gradient(
+    180deg,
+    #51566a 0,
+    #51566a 1px,
+    transparent 1px,
+    transparent 4px
+  );
+}
+
+.vf-tower-front-logo {
+  position: absolute;
+  right: 7px;
+  bottom: 4px;
+  color: #a99aff;
+  font-size: 8px;
+  font-weight: 900;
+  text-shadow: 0 0 8px var(--vf-purple);
+}
+
+.vf-tower-feet {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 8px;
+}
+
+.vf-tower-feet span {
+  width: 17px;
+  height: 5px;
+  border-radius: 0 0 3px 3px;
+  background: #08090d;
+}
+
+/* Desk */
+
+.vf-setup-desk {
+  position: relative;
+  z-index: 4;
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 90%;
+  height: 42px;
+  margin: -3px auto 0;
+  border: 1px solid #4b5063;
+  border-radius: 5px;
+  background: linear-gradient(180deg, #343747, #151720 50%, #0b0c12);
+  box-shadow:
+    0 6px 0 #090a0f,
+    0 12px 25px rgb(0 0 0 / 35%);
+}
+
+/* Keyboard */
+
+.vf-setup-keyboard {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 3px;
+  width: 56%;
+  padding: 5px;
+  border: 1px solid #55536e;
+  border-radius: 4px;
+  background: #10121b;
+  box-shadow: 0 0 10px rgb(139 92 246 / 20%);
+}
+
+.vf-setup-keyboard span {
+  height: 5px;
+  border-radius: 1px;
+  background: #7770d4;
+  box-shadow: 0 0 4px rgb(139 92 246 / 45%);
+}
+
+.vf-setup-keyboard span:nth-child(3n) {
+  background: #32cde0;
+  box-shadow: 0 0 4px rgb(34 211 238 / 55%);
+}
+
+.vf-setup-keyboard span:nth-child(4n) {
+  background: #e879d8;
+  box-shadow: 0 0 4px rgb(236 72 153 / 45%);
+}
+
+/* Mouse */
+
+.vf-setup-mouse {
+  position: relative;
+  width: 21px;
+  height: 31px;
+  border: 1px solid #8d80ff;
+  border-radius: 48% 48% 42% 42%;
+  background: linear-gradient(135deg, #302a56, #121522);
+  box-shadow: 0 0 10px rgb(139 92 246 / 35%);
+}
+
+.vf-setup-mouse span {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  width: 2px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--vf-cyan);
+  box-shadow: 0 0 5px var(--vf-cyan);
+  transform: translateX(-50%);
+}
+
+/* Platform */
+
+.vf-setup-platform {
+  position: relative;
+  z-index: 1;
+  grid-column: 1 / -1;
+  width: 94%;
+  height: 10px;
+  margin: -1px auto 0;
+  border: 1px solid #42465a;
+  border-radius: 50%;
+  background: linear-gradient(#34364a, #12131c);
+  box-shadow:
+    0 0 18px rgb(139 92 246 / 20%),
+    0 10px 25px rgb(0 0 0 / 35%);
+}
+
+/* Animations */
+
+@keyframes vf-monitor-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes vf-tower-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes vf-fan-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes vf-screen-glow-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes vf-screen-orbit {
+  to {
+    transform: rotateX(65deg) rotate(335deg);
+  }
+}
+
+@keyframes vf-power-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+/* Responsive */
+
+@media (max-width: 600px) {
+  .vf-scroll-visual-layout {
+    min-height: 330px;
+    padding: 20px 5px;
+  }
+
+  .vf-css-gaming-setup {
+    grid-template-columns: minmax(0, 1fr) 95px;
+    grid-template-rows: 195px 53px 15px;
+    column-gap: 10px;
+    width: 100%;
+    min-height: 285px;
+    padding: 10px 4px 15px;
+  }
+
+  .vf-setup-tower {
+    max-width: 95px;
+    height: 205px;
+  }
+
+  .vf-tower-front {
+    height: 27px;
+  }
+
+  .vf-setup-desk {
+    gap: 12px;
+    height: 35px;
+  }
+
+  .vf-setup-keyboard {
+    gap: 2px;
+    padding: 4px;
+  }
+
+  .vf-setup-keyboard span {
+    height: 4px;
+  }
+
+  .vf-setup-mouse {
+    width: 17px;
+    height: 25px;
+  }
+
+  .vf-screen-caption {
+    letter-spacing: 1px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vf-setup-monitor,
+  .vf-setup-tower,
+  .vf-tower-fan,
+  .vf-screen-glow,
+  .vf-screen-orbit,
+  .vf-tower-power {
+    animation: none !important;
+  }
+}

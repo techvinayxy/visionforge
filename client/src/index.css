@@ -3822,3 +3822,2232 @@ font-size: 24px;
     right: 12px;
   }
 }
+
+
+
+/* VISIONFORGE 3D PC assembly hero */
+
+.vf-pc-scene {
+  position: relative;
+  width: 100%;
+  height: clamp(360px, 42vw, 590px);
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid rgba(143, 130, 255, 0.12);
+  border-radius: 24px;
+  background:
+    radial-gradient(ellipse at 50% 48%, rgba(108, 92, 231, 0.18), transparent 58%),
+    linear-gradient(145deg, #12101b, #0b0a10 75%);
+}
+
+.vf-pc-scene::before {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  z-index: -1;
+  border: 1px solid rgba(143, 130, 255, 0.1);
+  border-radius: 50%;
+  box-shadow: 0 0 80px rgba(108, 92, 231, 0.08);
+  pointer-events: none;
+}
+
+.vf-pc-scene canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.vf-scene-label {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 13px;
+  color: #c8c0ff;
+  background: rgba(17, 14, 28, 0.84);
+  border: 1px solid rgba(143, 130, 255, 0.25);
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  pointer-events: none;
+}
+
+.vf-scene-indicator {
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
+  background: #9b8cff;
+  border-radius: 50%;
+  box-shadow: 0 0 12px #8f82ff;
+  animation: vf-indicator-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes vf-indicator-pulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .vf-pc-scene {
+    height: 380px;
+    border-radius: 18px;
+  }
+
+  .vf-scene-label {
+    right: 12px;
+    bottom: 12px;
+    font-size: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vf-scene-indicator {
+    animation: none;
+  }
+}
+
+
+
+/* VISIONFORGE hero with 3D PC assembly */
+
+.hero.hero-with-3d {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: center;
+  gap: 24px;
+  min-height: 580px;
+  padding: 64px clamp(20px, 5vw, 76px);
+  overflow: hidden;
+}
+
+.hero-with-3d .hero-content {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+}
+
+.hero-3d-visual {
+  width: 100%;
+  min-width: 0;
+  min-height: 420px;
+}
+
+.hero-3d-visual .vf-pc-scene {
+  width: 100%;
+  height: 460px;
+  border: 0;
+  background: transparent;
+}
+
+@media (max-width: 900px) {
+  .hero.hero-with-3d {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 48px 24px 28px;
+  }
+
+  .hero-3d-visual {
+    min-height: 340px;
+  }
+
+  .hero-3d-visual .vf-pc-scene {
+    height: 360px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero.hero-with-3d {
+    padding: 36px 16px 20px;
+  }
+
+  .hero-3d-visual {
+    min-height: 300px;
+  }
+
+  .hero-3d-visual .vf-pc-scene {
+    height: 310px;
+  }
+}
+
+
+/* VISIONFORGE premium 2D gaming PC hero */
+
+.hero.hero-with-visual {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  align-items: center;
+  gap: 20px;
+  min-height: 600px;
+  padding: 64px clamp(22px, 5vw, 76px);
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 78% 48%, rgba(108, 92, 231, 0.13), transparent 42%),
+    linear-gradient(115deg, #0b0b10 0%, #101018 58%, #0b0a12 100%);
+}
+
+.hero-with-visual .hero-content {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+}
+
+.hero-with-visual .hero-label {
+  color: #a69aff;
+  letter-spacing: 3px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.hero-with-visual .hero-content h1 {
+  line-height: 1.03;
+  letter-spacing: -2px;
+}
+
+.hero-with-visual .hero-content h1 span {
+  color: #9585ff;
+  text-shadow: 0 0 32px rgba(143, 130, 255, 0.24);
+}
+
+.vf-hero-proof {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 30px;
+  color: #9b98aa;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.vf-proof-dot,
+.vf-tag-light {
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #a99aff;
+  box-shadow: 0 0 12px #8f82ff;
+}
+
+.vf-hero-art {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  height: 490px;
+  overflow: hidden;
+  perspective: 1000px;
+  background: radial-gradient(ellipse, rgba(90, 68, 190, 0.12), transparent 65%);
+}
+
+.vf-art-grid {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  opacity: 0.18;
+  background-image:
+    linear-gradient(rgba(151, 135, 255, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(151, 135, 255, 0.15) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: radial-gradient(ellipse at center, black, transparent 72%);
+}
+
+.vf-art-orb {
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+.vf-art-orb-one {
+  width: 240px;
+  height: 240px;
+  background: rgba(112, 75, 255, 0.14);
+  box-shadow: 0 0 100px 45px rgba(93, 59, 225, 0.12);
+  animation: vf-orb-pulse 5s ease-in-out infinite alternate;
+}
+
+.vf-art-orb-two {
+  width: 130px;
+  height: 130px;
+  transform: translate(95px, 75px);
+  background: rgba(219, 77, 255, 0.08);
+  box-shadow: 0 0 75px 35px rgba(181, 64, 255, 0.08);
+  animation: vf-orb-pulse 6s ease-in-out infinite alternate-reverse;
+}
+
+.vf-art-heading {
+  position: absolute;
+  top: 22px;
+  left: 5%;
+  right: 5%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #aaa4c4;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+}
+
+.vf-art-line {
+  width: 42px;
+  height: 1px;
+  background: #8170ec;
+}
+
+.vf-pc-stage {
+  position: relative;
+  width: 360px;
+  height: 390px;
+  flex-shrink: 0;
+  transform-style: preserve-3d;
+  animation: vf-pc-arrive 1.1s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.vf-pc-shadow {
+  position: absolute;
+  left: 14%;
+  right: 3%;
+  bottom: 9px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(106, 70, 255, 0.45);
+  filter: blur(26px);
+  animation: vf-shadow-breathe 4s ease-in-out infinite alternate;
+}
+
+.vf-pc-tower {
+  position: absolute;
+  top: 28px;
+  left: 35px;
+  width: 290px;
+  height: 326px;
+  transform: rotateY(-10deg) rotateX(1deg);
+  transform-style: preserve-3d;
+  filter: drop-shadow(0 22px 26px rgba(0, 0, 0, 0.55));
+  animation: vf-tower-float 6s ease-in-out 1.1s infinite;
+}
+
+.vf-pc-glass {
+  position: absolute;
+  inset: 0 72px 0 0;
+  overflow: hidden;
+  border: 2px solid #51476d;
+  border-radius: 9px 2px 2px 9px;
+  background:
+    linear-gradient(110deg, rgba(255,255,255,.12), transparent 24%),
+    linear-gradient(135deg, rgba(29, 27, 43, .98), rgba(8, 9, 16, .97) 75%);
+  box-shadow:
+    inset 0 0 0 3px rgba(0,0,0,.45),
+    inset 0 0 24px rgba(143,130,255,.09),
+    -5px 0 22px rgba(130, 89, 255, .09);
+}
+
+.vf-pc-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: linear-gradient(112deg, rgba(255,255,255,.10), transparent 18% 76%, rgba(145,115,255,.06));
+}
+
+.vf-pc-top {
+  position: absolute;
+  z-index: 3;
+  top: -5px;
+  left: 4px;
+  width: 220px;
+  height: 9px;
+  transform: skewX(-20deg);
+  border-radius: 4px;
+  background: linear-gradient(90deg, #5d536f, #17151e);
+}
+
+.vf-pc-front {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 76px;
+  height: 326px;
+  overflow: hidden;
+  border: 2px solid #454052;
+  border-left: 1px solid #786a9e;
+  border-radius: 2px 9px 9px 2px;
+  background: linear-gradient(90deg, #272331, #111018 55%, #302b3c);
+  box-shadow: inset 0 0 20px rgba(0,0,0,.65), 4px 0 14px rgba(0,0,0,.3);
+}
+
+.vf-front-port {
+  position: absolute;
+  top: 15px;
+  left: 23px;
+  width: 25px;
+  height: 3px;
+  border-radius: 5px;
+  background: #9585ff;
+  box-shadow: 0 0 10px #8f82ff;
+}
+
+.vf-front-fan,
+.vf-pc-fan {
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #a99aff, #4c38b7, #ee87ff, #4935a8, #a99aff);
+  box-shadow: 0 0 12px rgba(143,130,255,.38), inset 0 0 0 3px #171321;
+}
+
+.vf-front-fan {
+  position: absolute;
+  left: 9px;
+  width: 54px;
+  height: 54px;
+  padding: 5px;
+}
+
+.vf-front-fan-one { top: 57px; }
+.vf-front-fan-two { top: 127px; }
+.vf-front-fan-three { top: 197px; }
+
+.vf-front-fan span,
+.vf-pc-fan span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid #1a1724;
+  background: repeating-conic-gradient(from 20deg, #262137 0deg 25deg, #6f5acb 26deg 39deg);
+  box-shadow: inset 0 0 9px rgba(183, 155, 255, .55);
+}
+
+.vf-front-brand {
+  position: absolute;
+  bottom: 14px;
+  left: 0;
+  right: 0;
+  color: #bcb2e5;
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.vf-pc-motherboard {
+  position: absolute;
+  top: 29px;
+  left: 17px;
+  width: 104px;
+  height: 168px;
+  border: 1px solid #394c4a;
+  background:
+    linear-gradient(90deg, transparent 48%, rgba(86, 150, 129, .35) 49% 50%, transparent 51%),
+    linear-gradient(0deg, transparent 48%, rgba(86, 150, 129, .25) 49% 50%, transparent 51%),
+    #15231f;
+  background-size: 19px 19px;
+  box-shadow: 0 0 12px rgba(60, 204, 162, .08);
+}
+
+.vf-pc-board-chip {
+  position: absolute;
+  top: 25px;
+  left: 30px;
+  width: 38px;
+  height: 38px;
+  border: 2px solid #8e7ce9;
+  background: linear-gradient(135deg, #2c2842, #11131b);
+  box-shadow: 0 0 16px rgba(143,130,255,.3);
+}
+
+.vf-pc-board-line {
+  position: absolute;
+  top: 82px;
+  left: 12px;
+  width: 77px;
+  height: 3px;
+  background: #4b7e71;
+  box-shadow: 0 13px #2c5149, 0 26px #2c5149;
+}
+
+.vf-pc-board-detail {
+  position: absolute;
+  right: 9px;
+  top: 14px;
+  width: 5px;
+  height: 42px;
+  background: #6553ba;
+  box-shadow: -9px 4px #3c4b47, -9px 13px #3c4b47;
+}
+
+.vf-pc-ram {
+  position: absolute;
+  top: 34px;
+  width: 7px;
+  height: 95px;
+  border: 1px solid #7161ca;
+  background: linear-gradient(90deg, #242035, #8d78ff, #302448);
+  box-shadow: 0 0 10px rgba(143,130,255,.2);
+}
+
+.vf-pc-ram-one { left: 129px; }
+.vf-pc-ram-two { left: 142px; }
+
+.vf-pc-gpu {
+  position: absolute;
+  top: 155px;
+  left: 12px;
+  width: 164px;
+  height: 49px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 13px;
+  border: 1px solid #5c526e;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #393444, #16141e 45%, #282432);
+  box-shadow: 0 5px 10px rgba(0,0,0,.55), inset 0 1px rgba(255,255,255,.1);
+}
+
+.vf-pc-gpu::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #8f82ff, #d18dff, transparent);
+  box-shadow: 0 0 8px #8f82ff;
+}
+
+.vf-pc-gpu span {
+  color: #d8d1ff;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.vf-pc-gpu i {
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  border: 3px solid #9a8aff;
+  box-shadow: 0 0 12px rgba(143,130,255,.65), inset 0 0 6px #8f82ff;
+}
+
+.vf-pc-fan {
+  position: absolute;
+  left: 133px;
+  width: 42px;
+  height: 42px;
+  padding: 4px;
+  animation: vf-fan-glow 3s ease-in-out infinite alternate;
+}
+
+.vf-pc-fan-one { top: 30px; }
+.vf-pc-fan-two { top: 79px; }
+.vf-pc-fan-three { top: 128px; }
+
+.vf-pc-cable {
+  position: absolute;
+  left: 95px;
+  width: 2px;
+  height: 70px;
+  border-radius: 3px;
+  background: linear-gradient(#8f82ff, #42356c, transparent);
+  transform-origin: top;
+}
+
+.vf-pc-cable-one { top: 210px; transform: rotate(-12deg); }
+.vf-pc-cable-two { top: 207px; left: 108px; transform: rotate(12deg); }
+
+.vf-pc-foot {
+  position: absolute;
+  bottom: -8px;
+  width: 45px;
+  height: 10px;
+  border-radius: 0 0 3px 3px;
+  background: linear-gradient(#302b3c, #09090d);
+}
+
+.vf-pc-foot-one { left: 30px; }
+.vf-pc-foot-two { right: 9px; }
+
+.vf-art-floating-tag {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid rgba(168, 151, 255, .22);
+  border-radius: 8px;
+  background: rgba(17, 15, 27, .78);
+  box-shadow: 0 8px 28px rgba(0,0,0,.22);
+  backdrop-filter: blur(12px);
+  color: #c8c0e8;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+}
+
+.vf-tag-top {
+  top: 95px;
+  right: 0;
+  padding: 12px 14px;
+  animation: vf-tag-float 5s ease-in-out infinite;
+}
+
+.vf-tag-bottom {
+  bottom: 42px;
+  left: 0;
+  padding: 10px 13px;
+  animation: vf-tag-float 5s ease-in-out 1s infinite;
+}
+
+.vf-tag-bottom strong {
+  margin-left: 8px;
+  color: #a99aff;
+  font-size: 19px;
+}
+
+@keyframes vf-pc-arrive {
+  from { opacity: 0; transform: translateY(22px) scale(.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes vf-tower-float {
+  from, to { transform: translateY(0) rotateY(-10deg) rotateX(1deg); }
+  50% { transform: translateY(-7px) rotateY(-8deg) rotateX(1deg); }
+}
+
+@keyframes vf-orb-pulse {
+  from { opacity: .55; transform: scale(.92); }
+  to { opacity: 1; transform: scale(1.08); }
+}
+
+@keyframes vf-shadow-breathe {
+  from { opacity: .55; transform: scale(.9); }
+  to { opacity: .9; transform: scale(1.08); }
+}
+
+@keyframes vf-tag-float {
+  from, to { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes vf-fan-glow {
+  from { filter: brightness(.88); }
+  to { filter: brightness(1.18); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vf-art-orb,
+  .vf-pc-stage,
+  .vf-pc-tower,
+  .vf-art-floating-tag,
+  .vf-pc-fan {
+    animation: none !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .hero.hero-with-visual {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 48px 24px 24px;
+  }
+
+  .vf-hero-art {
+    height: 440px;
+  }
+
+  .vf-pc-stage {
+    transform: scale(.95);
+  }
+}
+
+@media (max-width: 480px) {
+  .hero.hero-with-visual {
+    padding: 36px 16px 18px;
+  }
+
+  .hero-with-visual .hero-content h1 {
+    letter-spacing: -1px;
+  }
+
+  .vf-hero-art {
+    height: 380px;
+  }
+
+  .vf-pc-stage {
+    transform: scale(.79);
+    transform-origin: center center;
+  }
+
+  .vf-art-heading {
+    top: 12px;
+    font-size: 8px;
+  }
+
+  .vf-tag-top {
+    top: 65px;
+    right: -4px;
+  }
+
+  .vf-tag-bottom {
+    bottom: 22px;
+  }
+}
+
+
+/* VISIONFORGE CENTERED PC LAYOUT */
+
+.vf-scroll-section {
+  position: relative;
+  padding: 100px 24px;
+  overflow: clip;
+  color: #ffffff;
+  background:
+    radial-gradient(
+      ellipse at 50% 45%,
+      rgba(108, 92, 231, 0.14),
+      transparent 55%
+    ),
+    #0a0c10;
+}
+
+.vf-scroll-intro {
+  width: 100%;
+  max-width: 850px;
+  margin: 0 auto 55px;
+  text-align: center;
+}
+
+.vf-scroll-kicker {
+  color: #a99dff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.vf-scroll-intro h2 {
+  margin: 18px 0;
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -2px;
+}
+
+.vf-scroll-intro h2 span {
+  color: #8f82ff;
+}
+
+.vf-scroll-intro p {
+  max-width: 580px;
+  margin: 0 auto;
+  color: #a7a9b5;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.vf-scroll-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.vf-scroll-sticky {
+  position: sticky;
+  top: 70px;
+  order: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 760px;
+  height: 540px;
+  overflow: hidden;
+  border: 1px solid rgba(143, 130, 255, 0.18);
+  border-radius: 24px;
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(108, 92, 231, 0.12),
+      transparent 65%
+    ),
+    #0d0f16;
+}
+
+.vf-scroll-art {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.vf-scroll-tower {
+  transform: scale(1.08);
+}
+
+.vf-scroll-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  width: 100%;
+}
+
+.vf-scroll-step {
+  min-width: 0;
+  min-height: 250px;
+  padding: 28px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.025);
+  opacity: 0.58;
+  transition:
+    opacity 0.3s ease,
+    border-color 0.3s ease,
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.vf-scroll-step.is-active {
+  opacity: 1;
+  border-color: rgba(143, 130, 255, 0.65);
+  background: rgba(108, 92, 231, 0.08);
+  transform: translateY(-4px);
+}
+
+.vf-scroll-number {
+  display: block;
+  margin-bottom: 22px;
+  color: #a99dff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.vf-scroll-eyebrow {
+  color: #b9b4d9;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.vf-scroll-step h3 {
+  margin: 12px 0;
+  color: #ffffff;
+  font-size: clamp(19px, 2vw, 25px);
+  line-height: 1.2;
+}
+
+.vf-scroll-step p {
+  color: #a7a9b5;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.vf-scroll-tag {
+  display: inline-block;
+  margin-top: 12px;
+  color: #b9b0ff;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.vf-scroll-spec-top {
+  top: 24px;
+  left: 24px;
+}
+
+.vf-scroll-spec-bottom {
+  right: 24px;
+  bottom: 24px;
+}
+
+@media (max-width: 700px) {
+  .vf-scroll-section {
+    padding: 70px 16px;
+  }
+
+  .vf-scroll-intro {
+    margin-bottom: 35px;
+  }
+
+  .vf-scroll-sticky {
+    top: 65px;
+    height: 410px;
+    border-radius: 16px;
+  }
+
+  .vf-scroll-tower {
+    transform: scale(0.82);
+  }
+
+  .vf-scroll-steps {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .vf-scroll-step {
+    min-height: 0;
+    padding: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vf-scroll-step {
+    transition: none;
+  }
+}
+
+
+/* VISIONFORGE - PC SCROLL VISUAL POLISH */
+
+.vf-scroll-art {
+  isolation: isolate;
+  transition: filter 0.5s ease;
+}
+
+.vf-scroll-glow {
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: rgba(108, 92, 231, 0.3);
+  filter: blur(75px);
+  transition:
+    background 0.7s ease,
+    transform 0.7s ease,
+    opacity 0.7s ease;
+  animation: vfGlowPulse 4s ease-in-out infinite;
+}
+
+.vf-scroll-art-2 .vf-scroll-glow {
+  background: rgba(0, 190, 255, 0.3);
+  transform: scale(1.15);
+}
+
+.vf-scroll-art-3 .vf-scroll-glow {
+  background: rgba(214, 75, 255, 0.32);
+  transform: scale(0.9);
+}
+
+.vf-scroll-ring {
+  position: absolute;
+  z-index: -1;
+  width: 350px;
+  height: 350px;
+  border: 1px solid rgba(143, 130, 255, 0.2);
+  border-radius: 50%;
+  pointer-events: none;
+  transition:
+    width 0.7s ease,
+    height 0.7s ease,
+    border-color 0.7s ease,
+    transform 0.7s ease;
+}
+
+.vf-scroll-ring-two {
+  width: 430px;
+  height: 430px;
+  border-color: rgba(143, 130, 255, 0.09);
+}
+
+.vf-scroll-art-2 .vf-scroll-ring {
+  border-color: rgba(0, 190, 255, 0.24);
+  transform: scale(1.06);
+}
+
+.vf-scroll-art-3 .vf-scroll-ring {
+  border-color: rgba(214, 75, 255, 0.24);
+  transform: scale(0.94);
+}
+
+.vf-scroll-tower {
+  z-index: 1;
+  transition: filter 0.6s ease;
+  filter: drop-shadow(0 20px 35px rgba(108, 92, 231, 0.15));
+}
+
+.vf-scroll-art-2 .vf-scroll-tower {
+  filter: drop-shadow(0 20px 35px rgba(0, 190, 255, 0.2));
+}
+
+.vf-scroll-art-3 .vf-scroll-tower {
+  filter: drop-shadow(0 20px 35px rgba(214, 75, 255, 0.2));
+}
+
+.vf-scroll-chip {
+  transition:
+    box-shadow 0.6s ease,
+    border-color 0.6s ease;
+}
+
+.vf-scroll-art-2 .vf-scroll-chip {
+  border-color: #00beff;
+  box-shadow: 0 0 18px rgba(0, 190, 255, 0.7);
+}
+
+.vf-scroll-art-3 .vf-scroll-chip {
+  border-color: #d64bff;
+  box-shadow: 0 0 18px rgba(214, 75, 255, 0.7);
+}
+
+.vf-scroll-ram {
+  transition:
+    box-shadow 0.6s ease,
+    filter 0.6s ease;
+}
+
+.vf-scroll-art-2 .vf-scroll-ram {
+  filter: hue-rotate(65deg);
+  box-shadow: 0 0 16px rgba(0, 190, 255, 0.55);
+}
+
+.vf-scroll-art-3 .vf-scroll-ram {
+  filter: hue-rotate(70deg) saturate(1.5);
+  box-shadow: 0 0 16px rgba(214, 75, 255, 0.55);
+}
+
+.vf-scroll-spec {
+  z-index: 2;
+  transition: color 0.5s ease;
+}
+
+.vf-scroll-art-2 .vf-scroll-spec {
+  color: #8cdeff;
+}
+
+.vf-scroll-art-3 .vf-scroll-spec {
+  color: #e5a0ff;
+}
+
+@keyframes vfGlowPulse {
+  0%,
+  100% {
+    opacity: 0.65;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 700px) {
+  .vf-scroll-ring {
+    width: 260px;
+    height: 260px;
+  }
+
+  .vf-scroll-ring-two {
+    width: 320px;
+    height: 320px;
+  }
+
+  .vf-scroll-glow {
+    width: 220px;
+    height: 220px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vf-scroll-glow {
+    animation: none;
+  }
+}
+
+/* VISIONFORGE scroll section - builder CTA */
+
+.vf-scroll-builder-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 22px;
+  padding: 12px 18px;
+  border: 1px solid #8f82ff;
+  border-radius: 6px;
+  background: #6c5ce7;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.vf-scroll-builder-link:hover {
+  background: #8173ff;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(108, 92, 231, 0.3);
+}
+
+.vf-scroll-builder-link span {
+  font-size: 18px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vf-scroll-builder-link {
+    transition: none;
+  }
+}
+
+
+
+.vf-scroll-builder-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 22px;
+  padding: 12px 18px;
+  border: 1px solid #8f82ff;
+  border-radius: 6px;
+  background: #6c5ce7;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.vf-scroll-builder-link:hover {
+  background: #8173ff;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(108, 92, 231, 0.3);
+}
+
+.vf-scroll-builder-link span {
+  font-size: 18px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vf-scroll-builder-link {
+    transition: none;
+  }
+}
+
+
+
+
+/* VISIONFORGE RGB lighting animation */
+.vf-scroll-glow {
+  background: radial-gradient(
+    circle,
+    rgba(108, 92, 231, 0.38) 0%,
+    rgba(0, 220, 255, 0.18) 38%,
+    transparent 72%
+  );
+  filter: blur(24px);
+  animation: vf-rgb-glow 5s ease-in-out infinite alternate;
+}
+
+.vf-scroll-fan {
+  border-color: rgba(143, 130, 255, 0.9);
+  box-shadow:
+    0 0 8px rgba(108, 92, 231, 0.7),
+    inset 0 0 10px rgba(0, 220, 255, 0.2);
+  animation: vf-rgb-fan 4s linear infinite;
+}
+
+.vf-scroll-fan span {
+  background: linear-gradient(
+    135deg,
+    #8f82ff,
+    #00e5ff,
+    #ff4fd8
+  );
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.75);
+}
+
+.vf-scroll-art-1 .vf-scroll-glow {
+  --rgb-a: rgba(108, 92, 231, 0.42);
+  --rgb-b: rgba(0, 229, 255, 0.2);
+}
+
+.vf-scroll-art-2 .vf-scroll-glow {
+  --rgb-a: rgba(0, 229, 255, 0.42);
+  --rgb-b: rgba(108, 92, 231, 0.2);
+}
+
+.vf-scroll-art-3 .vf-scroll-glow {
+  --rgb-a: rgba(255, 79, 216, 0.4);
+  --rgb-b: rgba(108, 92, 231, 0.24);
+}
+
+@keyframes vf-rgb-glow {
+  0% {
+    background: radial-gradient(
+      circle,
+      var(--rgb-a, rgba(108, 92, 231, 0.42)),
+      transparent 72%
+    );
+    opacity: 0.65;
+    transform: scale(0.94);
+  }
+
+  100% {
+    background: radial-gradient(
+      circle,
+      var(--rgb-b, rgba(0, 229, 255, 0.35)),
+      transparent 72%
+    );
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes vf-rgb-fan {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vf-scroll-glow,
+  .vf-scroll-fan {
+    animation: none;
+  }
+}
+
+
+.vf-gaming-pc-model {
+  position: absolute;
+  z-index: 3;
+  width: min(75%, 420px);
+  height: auto;
+  object-fit: contain;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  filter:
+    drop-shadow(0 0 18px rgba(108, 92, 231, 0.45))
+    drop-shadow(0 0 35px rgba(0, 229, 255, 0.2));
+  pointer-events: none;
+}
+
+
+/* =========================================
+   VISIONFORGE: GAMING PC + ANIMATED CPU
+   ========================================= */
+
+.vf-scroll-art {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-height: 500px;
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+.vf-scroll-visual-layout {
+  position: absolute;
+  inset: 48px 18px 42px;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(100px, 0.7fr);
+  align-items: center;
+  gap: 4px;
+}
+
+.vf-pc-image-area {
+  position: relative;
+  min-width: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.vf-gaming-pc-model {
+  display: block;
+
+  /* 20% larger than the previous 75% / 420px sizing */
+  width: min(90%, 504px);
+  max-width: none;
+  height: auto;
+
+  object-fit: contain;
+  object-position: center;
+  transform: scale(1.2);
+  transform-origin: center;
+
+  filter:
+    drop-shadow(0 0 22px rgba(108, 92, 231, 0.45))
+    drop-shadow(0 0 38px rgba(0, 229, 255, 0.18));
+
+  pointer-events: none;
+}
+
+/* Animated CPU area */
+.vf-cpu-animation {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  animation: vf-cpu-float 4s ease-in-out infinite;
+}
+
+.vf-cpu-chip {
+  position: relative;
+  width: clamp(82px, 13vw, 142px);
+  aspect-ratio: 1;
+  padding: 9px;
+  border: 1px solid rgba(143, 130, 255, 0.8);
+  border-radius: 12px;
+  background: linear-gradient(145deg, #292044, #10131d 65%);
+  box-shadow:
+    0 0 14px rgba(108, 92, 231, 0.5),
+    0 0 38px rgba(0, 229, 255, 0.16),
+    inset 0 0 20px rgba(108, 92, 231, 0.18);
+  animation: vf-cpu-glow 4s ease-in-out infinite alternate;
+}
+
+.vf-cpu-chip-inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border: 1px solid rgba(0, 229, 255, 0.55);
+  border-radius: 7px;
+  background:
+    radial-gradient(circle at center, rgba(108, 92, 231, 0.28), transparent 72%),
+    #0c0e16;
+  text-align: center;
+}
+
+.vf-cpu-brand {
+  color: #00e5ff;
+  font-size: clamp(14px, 2vw, 22px);
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-shadow: 0 0 12px rgba(0, 229, 255, 0.7);
+}
+
+.vf-cpu-chip-inner strong {
+  color: #fff;
+  font-size: clamp(11px, 1.5vw, 17px);
+  letter-spacing: 2px;
+}
+
+.vf-cpu-chip-caption {
+  color: #a99dff;
+  font-size: 6px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.vf-cpu-pins {
+  position: absolute;
+  z-index: 1;
+  opacity: 0.9;
+}
+
+.vf-cpu-pins-top,
+.vf-cpu-pins-bottom {
+  left: 10%;
+  width: 80%;
+  height: 7px;
+  background: repeating-linear-gradient(
+    90deg,
+    #8f82ff 0 3px,
+    transparent 3px 10px
+  );
+}
+
+.vf-cpu-pins-top {
+  top: -7px;
+}
+
+.vf-cpu-pins-bottom {
+  bottom: -7px;
+}
+
+.vf-cpu-pins-left,
+.vf-cpu-pins-right {
+  top: 10%;
+  width: 7px;
+  height: 80%;
+  background: repeating-linear-gradient(
+    180deg,
+    #00e5ff 0 3px,
+    transparent 3px 10px
+  );
+}
+
+.vf-cpu-pins-left {
+  left: -7px;
+}
+
+.vf-cpu-pins-right {
+  right: -7px;
+}
+
+.vf-cpu-orbit {
+  position: absolute;
+  width: 170%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(143, 130, 255, 0.2);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.vf-cpu-orbit-one {
+  width: 145%;
+  border-top-color: #8f82ff;
+  border-bottom-color: rgba(0, 229, 255, 0.45);
+  animation: vf-cpu-orbit-spin 10s linear infinite;
+}
+
+.vf-cpu-orbit-two {
+  width: 175%;
+  border-left-color: rgba(0, 229, 255, 0.6);
+  border-right-color: rgba(255, 79, 216, 0.4);
+  animation: vf-cpu-orbit-spin 14s linear infinite reverse;
+}
+
+.vf-cpu-label {
+  color: #b8b0ff;
+  font-size: clamp(8px, 1vw, 10px);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-align: center;
+}
+
+.vf-cpu-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #9ca3af;
+  font-size: 8px;
+  letter-spacing: 1px;
+}
+
+.vf-cpu-status i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00e5a8;
+  box-shadow: 0 0 8px #00e5a8;
+  animation: vf-cpu-status-blink 1.5s ease-in-out infinite;
+}
+
+/* Different RGB colours while scrolling */
+.vf-scroll-art-1 .vf-cpu-chip {
+  --cpu-accent: #8f82ff;
+}
+
+.vf-scroll-art-2 .vf-cpu-chip {
+  --cpu-accent: #00e5ff;
+}
+
+.vf-scroll-art-3 .vf-cpu-chip {
+  --cpu-accent: #ff4fd8;
+}
+
+.vf-scroll-art-2 .vf-cpu-brand {
+  color: #00e5ff;
+}
+
+.vf-scroll-art-3 .vf-cpu-brand {
+  color: #ff4fd8;
+}
+
+.vf-scroll-art-2 .vf-cpu-pins-top,
+.vf-scroll-art-2 .vf-cpu-pins-bottom,
+.vf-scroll-art-2 .vf-cpu-pins-left,
+.vf-scroll-art-2 .vf-cpu-pins-right {
+  filter: hue-rotate(70deg);
+}
+
+.vf-scroll-art-3 .vf-cpu-pins-top,
+.vf-scroll-art-3 .vf-cpu-pins-bottom,
+.vf-scroll-art-3 .vf-cpu-pins-left,
+.vf-scroll-art-3 .vf-cpu-pins-right {
+  filter: hue-rotate(180deg);
+}
+
+/* RGB lighting */
+.vf-scroll-glow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse at 42% 50%,
+    rgba(108, 92, 231, 0.34),
+    rgba(0, 229, 255, 0.12) 44%,
+    transparent 75%
+  );
+  filter: blur(20px);
+  animation: vf-rgb-glow 5s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.vf-scroll-art-1 .vf-scroll-glow {
+  background: radial-gradient(
+    ellipse at 42% 50%,
+    rgba(108, 92, 231, 0.4),
+    transparent 72%
+  );
+}
+
+.vf-scroll-art-2 .vf-scroll-glow {
+  background: radial-gradient(
+    ellipse at 42% 50%,
+    rgba(0, 229, 255, 0.32),
+    transparent 72%
+  );
+}
+
+.vf-scroll-art-3 .vf-scroll-glow {
+  background: radial-gradient(
+    ellipse at 42% 50%,
+    rgba(255, 79, 216, 0.3),
+    transparent 72%
+  );
+}
+
+/* Animations */
+@keyframes vf-cpu-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-9px);
+  }
+}
+
+@keyframes vf-cpu-glow {
+  0% {
+    border-color: rgba(143, 130, 255, 0.75);
+    box-shadow:
+      0 0 14px rgba(108, 92, 231, 0.45),
+      0 0 30px rgba(0, 229, 255, 0.12);
+  }
+
+  100% {
+    border-color: rgba(0, 229, 255, 0.85);
+    box-shadow:
+      0 0 22px rgba(0, 229, 255, 0.38),
+      0 0 42px rgba(108, 92, 231, 0.25);
+  }
+}
+
+@keyframes vf-cpu-orbit-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes vf-cpu-status-blink {
+  0%, 100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes vf-rgb-glow {
+  from {
+    opacity: 0.55;
+    transform: scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+/* Tablet and mobile */
+@media (max-width: 700px) {
+  .vf-scroll-art {
+    min-height: 360px;
+  }
+
+  .vf-scroll-visual-layout {
+    inset: 42px 12px 38px;
+    grid-template-columns: minmax(0, 1.55fr) minmax(75px, 0.65fr);
+    gap: 2px;
+  }
+
+  .vf-gaming-pc-model {
+    width: min(90%, 390px);
+    transform: scale(1.2);
+  }
+
+  .vf-cpu-animation {
+    gap: 12px;
+  }
+
+  .vf-cpu-chip {
+    width: clamp(70px, 18vw, 100px);
+  }
+
+  .vf-cpu-orbit-two {
+    width: 155%;
+  }
+
+  .vf-cpu-label {
+    font-size: 7px;
+    letter-spacing: 0.8px;
+  }
+
+  .vf-cpu-status {
+    font-size: 7px;
+  }
+}
+
+/* Respect reduced-motion settings */
+@media (prefers-reduced-motion: reduce) {
+  .vf-cpu-animation,
+  .vf-cpu-chip,
+  .vf-cpu-orbit,
+  .vf-cpu-status i,
+  .vf-scroll-glow {
+    animation: none;
+  }
+}
+
+
+
+/* VISIONFORGE - Increase PC showcase box */
+
+.vf-scroll-sticky {
+  width: 100%;
+  min-width: 0;
+  align-self: stretch;
+}
+
+.vf-scroll-art {
+  width: 100%;
+  min-height: 600px;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 20px;
+  position: relative;
+}
+
+/* Give PC and CPU more room */
+.vf-scroll-visual-layout {
+  inset: 55px 24px 50px;
+  grid-template-columns: minmax(0, 1.8fr) minmax(130px, 0.75fr);
+  gap: 14px;
+}
+
+/* Larger gaming PC image */
+.vf-gaming-pc-model {
+  width: min(90%, 605px);
+  height: auto;
+  transform: scale(1.2);
+}
+
+/* Larger CPU animation area */
+.vf-cpu-animation {
+  min-height: 300px;
+}
+
+/* Desktop: increase the overall showcase layout */
+@media (min-width: 1000px) {
+  .vf-scroll-layout {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.5fr);
+    align-items: stretch;
+    gap: 36px;
+  }
+
+  .vf-scroll-sticky {
+    position: sticky;
+    top: 100px;
+    height: 600px;
+    align-self: start;
+  }
+
+  .vf-scroll-art {
+    height: 600px;
+  }
+}
+
+/* Tablet and mobile */
+@media (max-width: 999px) {
+  .vf-scroll-art {
+    min-height: 450px;
+  }
+
+  .vf-scroll-visual-layout {
+    grid-template-columns: minmax(0, 1.6fr) minmax(90px, 0.7fr);
+    inset: 42px 14px 40px;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 600px) {
+  .vf-scroll-art {
+    min-height: 360px;
+  }
+
+  .vf-scroll-visual-layout {
+    grid-template-columns: minmax(0, 1.5fr) minmax(75px, 0.7fr);
+    inset: 40px 8px 36px;
+    gap: 2px;
+  }
+
+  .vf-cpu-chip {
+    width: 76px;
+  }
+}
+
+
+/* ==========================================
+   VISIONFORGE - FINAL PC + CPU SHOWCASE FIX
+   ========================================== */
+
+/* Desktop: feature cards on the left, wide showcase on the right */
+@media (min-width: 1000px) {
+  .vf-scroll-layout {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.5fr);
+    align-items: start;
+    gap: 36px;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  .vf-scroll-steps {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    width: 100%;
+  }
+
+  .vf-scroll-step {
+    min-height: 230px;
+  }
+
+  .vf-scroll-sticky {
+    position: sticky;
+    top: 90px;
+    order: 0;
+    width: 100%;
+    max-width: none;
+    height: 600px;
+    min-width: 0;
+    align-self: start;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .vf-scroll-art {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    border-radius: 20px;
+  }
+
+  /* PC takes the left and centre portion of the box */
+  .vf-scroll-visual-layout {
+    position: absolute;
+    inset: 55px 24px 50px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.8fr) minmax(130px, 0.75fr);
+    align-items: center;
+    gap: 14px;
+    z-index: 2;
+  }
+
+  .vf-pc-image-area {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+  }
+
+  .vf-gaming-pc-model {
+    position: relative;
+    display: block;
+    width: min(100%, 605px);
+    max-width: none;
+    height: auto;
+    object-fit: contain;
+    object-position: center;
+    transform: scale(1.2);
+    transform-origin: center;
+    pointer-events: none;
+    filter:
+      drop-shadow(0 0 22px rgba(108, 92, 231, 0.45))
+      drop-shadow(0 0 38px rgba(0, 229, 255, 0.18));
+  }
+
+  .vf-cpu-animation {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Tablet: keep the showcase wide and balanced */
+@media (min-width: 701px) and (max-width: 999px) {
+  .vf-scroll-layout {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 850px;
+  }
+
+  .vf-scroll-sticky {
+    position: sticky;
+    top: 70px;
+    width: 100%;
+    max-width: none;
+    height: 500px;
+    min-height: 0;
+  }
+
+  .vf-scroll-art {
+    height: 100%;
+    min-height: 0;
+  }
+
+  .vf-scroll-visual-layout {
+    inset: 45px 18px;
+    grid-template-columns: minmax(0, 1.6fr) minmax(100px, 0.7fr);
+    gap: 10px;
+  }
+
+  .vf-gaming-pc-model {
+    width: min(100%, 500px);
+    height: auto;
+    transform: scale(1.2);
+  }
+
+  .vf-scroll-steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+  }
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+  .vf-scroll-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .vf-scroll-sticky {
+    position: sticky;
+    top: 65px;
+    order: -1;
+    width: 100%;
+    max-width: none;
+    height: 380px;
+    min-height: 0;
+  }
+
+  .vf-scroll-art {
+    height: 100%;
+    min-height: 0;
+  }
+
+  .vf-scroll-visual-layout {
+    inset: 42px 10px 38px;
+    grid-template-columns: minmax(0, 1.5fr) minmax(76px, 0.7fr);
+    gap: 4px;
+  }
+
+  .vf-gaming-pc-model {
+    width: min(100%, 350px);
+    height: auto;
+    transform: scale(1.15);
+  }
+
+  .vf-cpu-animation {
+    min-width: 0;
+    gap: 12px;
+  }
+
+  .vf-cpu-chip {
+    width: clamp(68px, 18vw, 95px);
+  }
+
+  .vf-scroll-steps {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+  }
+}
+
+
+
+
+/* ==========================================
+   VISIONFORGE - FINAL PC + CPU SHOWCASE FIX
+   ========================================== */
+
+/* Desktop: feature cards on the left, wide showcase on the right */
+@media (min-width: 1000px) {
+  .vf-scroll-layout {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.5fr);
+    align-items: start;
+    gap: 36px;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  .vf-scroll-steps {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    width: 100%;
+  }
+
+  .vf-scroll-step {
+    min-height: 230px;
+  }
+
+  .vf-scroll-sticky {
+    position: sticky;
+    top: 90px;
+    order: 0;
+    width: 100%;
+    max-width: none;
+    height: 600px;
+    min-width: 0;
+    align-self: start;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .vf-scroll-art {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    border-radius: 20px;
+  }
+
+  /* PC takes the left and centre portion of the box */
+  .vf-scroll-visual-layout {
+    position: absolute;
+    inset: 55px 24px 50px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.8fr) minmax(130px, 0.75fr);
+    align-items: center;
+    gap: 14px;
+    z-index: 2;
+  }
+
+  .vf-pc-image-area {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+  }
+
+  .vf-gaming-pc-model {
+    position: relative;
+    display: block;
+    width: min(100%, 605px);
+    max-width: none;
+    height: auto;
+    object-fit: contain;
+    object-position: center;
+    transform: scale(1.2);
+    transform-origin: center;
+    pointer-events: none;
+    filter:
+      drop-shadow(0 0 22px rgba(108, 92, 231, 0.45))
+      drop-shadow(0 0 38px rgba(0, 229, 255, 0.18));
+  }
+
+  .vf-cpu-animation {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Tablet: keep the showcase wide and balanced */
+@media (min-width: 701px) and (max-width: 999px) {
+  .vf-scroll-layout {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 850px;
+  }
+
+  .vf-scroll-sticky {
+    position: sticky;
+    top: 70px;
+    width: 100%;
+    max-width: none;
+    height: 500px;
+    min-height: 0;
+  }
+
+  .vf-scroll-art {
+    height: 100%;
+    min-height: 0;
+  }
+
+  .vf-scroll-visual-layout {
+    inset: 45px 18px;
+    grid-template-columns: minmax(0, 1.6fr) minmax(100px, 0.7fr);
+    gap: 10px;
+  }
+
+  .vf-gaming-pc-model {
+    width: min(100%, 500px);
+    height: auto;
+    transform: scale(1.2);
+  }
+
+  .vf-scroll-steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+  }
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+  .vf-scroll-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .vf-scroll-sticky {
+    position: sticky;
+    top: 65px;
+    order: -1;
+    width: 100%;
+    max-width: none;
+    height: 380px;
+    min-height: 0;
+  }
+
+  .vf-scroll-art {
+    height: 100%;
+    min-height: 0;
+  }
+
+  .vf-scroll-visual-layout {
+    inset: 42px 10px 38px;
+    grid-template-columns: minmax(0, 1.5fr) minmax(76px, 0.7fr);
+    gap: 4px;
+  }
+
+  .vf-gaming-pc-model {
+    width: min(100%, 350px);
+    height: auto;
+    transform: scale(1.15);
+  }
+
+  .vf-cpu-animation {
+    min-width: 0;
+    gap: 12px;
+  }
+
+  .vf-cpu-chip {
+    width: clamp(68px, 18vw, 95px);
+  }
+
+  .vf-scroll-steps {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+  }
+}
+
+
+
+/* VISIONFORGE — PC showcase image alignment fix */
+
+@media (min-width: 1000px) {
+  .vf-scroll-visual-layout {
+    inset: 55px 28px 50px;
+    grid-template-columns: minmax(0, 1.45fr) minmax(150px, 0.65fr);
+    gap: 10px;
+  }
+
+  .vf-pc-image-area {
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .vf-gaming-pc-model {
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 500px;
+    height: 100%;
+    max-height: 440px;
+    object-fit: contain;
+    object-position: center;
+    transform: none;
+    margin: 0 auto;
+  }
+
+  .vf-cpu-animation {
+    width: 100%;
+    min-width: 0;
+    transform: scale(0.9);
+    transform-origin: center;
+  }
+}
+
+/* Tablet */
+@media (min-width: 701px) and (max-width: 999px) {
+  .vf-gaming-pc-model {
+    width: 100%;
+    max-width: 420px;
+    height: 100%;
+    max-height: 360px;
+    object-fit: contain;
+    transform: none;
+  }
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+  .vf-gaming-pc-model {
+    width: 100%;
+    max-width: 320px;
+    height: 100%;
+    max-height: 260px;
+    object-fit: contain;
+    transform: none;
+  }
+}
+
+
+
+/* VISIONFORGE — Final PC + CPU layout adjustment */
+
+@media (min-width: 1000px) {
+  .vf-scroll-visual-layout {
+    grid-template-columns: minmax(0, 1.7fr) minmax(140px, 0.6fr);
+    gap: 8px;
+    inset: 55px 20px 50px;
+  }
+
+  .vf-pc-image-area {
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+  }
+
+  .vf-gaming-pc-model {
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 560px;
+    height: auto;
+    max-height: none;
+    object-fit: contain;
+    object-position: center;
+    transform: none;
+    margin: 0;
+  }
+
+  .vf-cpu-animation {
+    width: 100%;
+    min-width: 0;
+    transform: scale(0.82);
+    transform-origin: center;
+  }
+}
+
+
+/* VISIONFORGE — PC Visual Layout Fix */
+
+.vf-pc-image-area {
+  display: none !important;
+}
+
+.vf-gaming-pc-model {
+  display: none !important;
+}
+
+@media (min-width: 1000px) {
+  .vf-scroll-visual-layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .vf-cpu-animation {
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto;
+    transform: scale(1);
+    transform-origin: center;
+  }
+}
+

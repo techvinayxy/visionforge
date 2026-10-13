@@ -1,7 +1,8 @@
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import Toast from "../components/common/Toast";
 
 const components = {
   CPU: [
@@ -96,12 +97,27 @@ function getCompatibilityWarnings(build) {
 
 function PCBuilder() {
   const navigate = useNavigate();
-  const { addToCart } = useCart();
+  const { addBuildToCart } = useCart();
 
   const [build, setBuild] = useState({});
   const [budget, setBudget] = useState("100000");
+  const [toast, setToast] = useState(null);
+
+  const showToast = useCallback((type, title, message) => {
+    setToast({
+      id: Date.now(),
+      type,
+      title,
+      message,
+    });
+  }, []);
+
+  const closeToast = useCallback(() => {
+    setToast(null);
+  }, []);
 
   const selectedCount = Object.keys(build).length;
+
   const total = Object.values(build).reduce(
     (sum, part) => sum + part.price,
     0
@@ -109,8 +125,11 @@ function PCBuilder() {
 
   const budgetAmount = Math.max(0, Number(budget) || 0);
   const budgetRemaining = budgetAmount - total;
+
   const budgetUsed =
-    budgetAmount > 0 ? Math.min((total / budgetAmount) * 100, 100) : 0;
+    budgetAmount > 0
+      ? Math.min((total / budgetAmount) * 100, 100)
+      : 0;
 
   const compatibilityWarnings = getCompatibilityWarnings(build);
   const complete = selectedCount === categories.length;
@@ -134,264 +153,371 @@ function PCBuilder() {
   function resetBuild() {
     setBuild({});
     setBudget("100000");
+    showToast("success", "Build reset", "Your PC configuration has been reset.");
   }
 
   function handleAddBuildToCart() {
     if (!complete) {
-      alert("Please select all 7 components before adding your build to the cart.");
-      return;
-    }
-
-    if (compatibilityWarnings.length > 0) {
-      alert(
-        "Please resolve the compatibility warnings before adding your build to the cart."
+      showToast(
+        "warning",
+        "Incomplete build",
+        "Please select all 7 components before adding your build."
       );
       return;
     }
 
-    // Add each selected component as a separate cart item.
-    categories.forEach(({ key }) => {
+    if (compatibilityWarnings.length > 0) {
+      showToast(
+        "error",
+        "Compatibility issue",
+        "Resolve the compatibility warnings before adding your build."
+      );
+      return;
+    }
+
+    const buildKey = categories
+      .map(({ key }) => `${key}-${build[key].id}`)
+      .join("__");
+
+    const buildParts = categories.map(({ key }) => {
       const part = build[key];
 
-      addToCart({
-        id: `vf-build-${part.id}`,
-        name: part.name,
-        price: part.price,
+      return {
+        ...part,
+        id: `vf-build-${buildKey}-${key}`,
         category: "PC Builder Component",
-        description: part.description,
         isCustomBuildPart: true,
         buildCategory: key,
-      });
+      };
     });
+
+    const added = addBuildToCart(buildKey, buildParts);
+
+    if (!added) {
+      showToast(
+        "warning",
+        "Build already exists",
+        "This exact PC build is already in your cart."
+      );
+      return;
+    }
 
     navigate("/cart");
   }
 
   return (
-    <main className="pc-builder-page">
-      <div className="pc-builder-container">
-        <section className="builder-hero">
-          <div className="builder-hero-copy">
-            <span className="builder-eyebrow">VISIONFORGE / CONFIGURATOR</span>
-            <h1>Build your <span>dream PC.</span></h1>
-            <p>
-              Your performance. Your components. Your build.
-              Configure your gaming rig and track its estimated cost in real time.
-            </p>
+    <>
+      <Toast toast={toast} onClose={closeToast} />
 
-            <div className="builder-hero-stats">
-              <div><strong>07</strong><span>Components</span></div>
-              <div><strong>LIVE</strong><span>Price tracking</span></div>
-              <div><strong>PC</strong><span>Compatibility checks</span></div>
-            </div>
-          </div>
+      <main className="pc-builder-page">
+        <div className="pc-builder-container">
+          <section className="builder-hero">
+            <div className="builder-hero-copy">
+              <span className="builder-eyebrow">
+                VISIONFORGE / CONFIGURATOR
+              </span>
 
-          <div className="builder-hero-art" aria-hidden="true">
-            <div className="builder-orbit builder-orbit-one" />
-            <div className="builder-orbit builder-orbit-two" />
-            <div className="builder-hero-chip">
-              <span>VF</span>
-              <small>BUILD SERIES</small>
-            </div>
-            <div className="builder-hero-glow" />
-          </div>
-        </section>
+              <h1>
+                Build your <span>dream PC.</span>
+              </h1>
 
-        <section className="builder-toolbar">
-          <div>
-            <span className="builder-section-kicker">CONFIGURE YOUR RIG</span>
-            <h2>Choose your components</h2>
-            <p>Select a part from each category to build your setup.</p>
-          </div>
+              <p>
+                Your performance. Your components. Your build.
+                Configure your gaming rig and track its estimated cost
+                in real time.
+              </p>
 
-          <button type="button" className="builder-reset-button" onClick={resetBuild}>
-            <span aria-hidden="true">↺</span> Reset build
-          </button>
-        </section>
-
-        <section className="builder-component-grid">
-          {categories.map((category, index) => {
-            const selected = build[category.key];
-
-            return (
-              <article
-                className={`builder-component-card ${selected ? "is-selected" : ""}`}
-                key={category.key}
-              >
-                <div className="builder-card-topline">
-                  <span className="builder-card-icon" aria-hidden="true">{category.icon}</span>
-                  <span className="builder-card-number">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
+              <div className="builder-hero-stats">
+                <div>
+                  <strong>07</strong>
+                  <span>Components</span>
                 </div>
-
-                <div className="builder-card-heading">
-                  <div>
-                    <h3>{category.key}</h3>
-                    <p>{category.subtitle}</p>
-                  </div>
-                  <span className={`builder-selection-indicator ${selected ? "active" : ""}`}>
-                    {selected ? "✓" : "+"}
-                  </span>
+                <div>
+                  <strong>LIVE</strong>
+                  <span>Price tracking</span>
                 </div>
+                <div>
+                  <strong>PC</strong>
+                  <span>Compatibility checks</span>
+                </div>
+              </div>
+            </div>
 
-                <label className="builder-select-label" htmlFor={`builder-${category.key}`}>
-                  SELECT {category.key.toUpperCase()}
-                </label>
+            <div className="builder-hero-art" aria-hidden="true">
+              <div className="builder-orbit builder-orbit-one" />
+              <div className="builder-orbit builder-orbit-two" />
+              <div className="builder-hero-chip">
+                <span>VF</span>
+                <small>BUILD SERIES</small>
+              </div>
+              <div className="builder-hero-glow" />
+            </div>
+          </section>
 
-                <select
-                  id={`builder-${category.key}`}
-                  value={selected?.id || ""}
-                  onChange={(event) => selectComponent(category.key, event.target.value)}
-                >
-                  <option value="">Choose a component</option>
-                  {components[category.key].map((part) => (
-                    <option key={part.id} value={part.id}>
-                      {part.name} — {formatPrice(part.price)}
-                    </option>
-                  ))}
-                </select>
-
-                {selected ? (
-                  <div className="builder-selected-part">
-                    <div>
-                      <span className="builder-selected-caption">SELECTED COMPONENT</span>
-                      <strong>{selected.name}</strong>
-                      <p>{selected.description}</p>
-                    </div>
-                    <strong className="builder-selected-price">
-                      {formatPrice(selected.price)}
-                    </strong>
-                  </div>
-                ) : (
-                  <div className="builder-card-placeholder">
-                    <span>—</span>
-                    <p>Your selected part will appear here</p>
-                  </div>
-                )}
-
-                {selected?.badge && (
-                  <span className="builder-part-badge">{selected.badge}</span>
-                )}
-              </article>
-            );
-          })}
-        </section>
-
-        <section className="builder-summary-panel">
-          <div className="builder-summary-heading">
+          <section className="builder-toolbar">
             <div>
-              <span className="builder-section-kicker">YOUR CONFIGURATION</span>
-              <h2>Build summary</h2>
-              <p>Review your selected hardware and estimated total.</p>
+              <span className="builder-section-kicker">
+                CONFIGURE YOUR RIG
+              </span>
+              <h2>Choose your components</h2>
+              <p>
+                Select a part from each category to build your setup.
+              </p>
             </div>
 
-            <div className="builder-completion-count">
-              <strong>{selectedCount}</strong>
-              <span>/ {categories.length} PARTS</span>
-            </div>
-          </div>
+            <button
+              type="button"
+              className="builder-reset-button"
+              onClick={resetBuild}
+            >
+              <span aria-hidden="true">↺</span> Reset build
+            </button>
+          </section>
 
-          <div className="builder-summary-layout">
-            <div className="builder-summary-parts">
-              <div className="builder-summary-parts-heading">
-                <span>COMPONENT</span>
-                <span>PRICE</span>
-              </div>
+          <section className="builder-component-grid">
+            {categories.map((category, index) => {
+              const selected = build[category.key];
 
-              {categories.map((category) => {
-                const selected = build[category.key];
-
-                return (
-                  <div
-                    className={`builder-summary-row ${selected ? "has-part" : ""}`}
-                    key={category.key}
-                  >
-                    <div className="builder-summary-part-name">
-                      <span className="builder-summary-part-icon">{category.icon}</span>
-                      <div>
-                        <strong>{category.key}</strong>
-                        <p>{selected ? selected.name : "Not selected yet"}</p>
-                      </div>
-                    </div>
-                    <strong className="builder-summary-part-price">
-                      {selected ? formatPrice(selected.price) : "—"}
-                    </strong>
+              return (
+                <article
+                  className={`builder-component-card ${
+                    selected ? "is-selected" : ""
+                  }`}
+                  key={category.key}
+                >
+                  <div className="builder-card-topline">
+                    <span className="builder-card-icon" aria-hidden="true">
+                      {category.icon}
+                    </span>
+                    <span className="builder-card-number">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
                   </div>
-                );
-              })}
+
+                  <div className="builder-card-heading">
+                    <div>
+                      <h3>{category.key}</h3>
+                      <p>{category.subtitle}</p>
+                    </div>
+
+                    <span
+                      className={`builder-selection-indicator ${
+                        selected ? "active" : ""
+                      }`}
+                    >
+                      {selected ? "✓" : "+"}
+                    </span>
+                  </div>
+
+                  <label
+                    className="builder-select-label"
+                    htmlFor={`builder-${category.key}`}
+                  >
+                    SELECT {category.key.toUpperCase()}
+                  </label>
+
+                  <select
+                    id={`builder-${category.key}`}
+                    value={selected?.id || ""}
+                    onChange={(event) =>
+                      selectComponent(category.key, event.target.value)
+                    }
+                  >
+                    <option value="">Choose a component</option>
+
+                    {components[category.key].map((part) => (
+                      <option key={part.id} value={part.id}>
+                        {part.name} — {formatPrice(part.price)}
+                      </option>
+                    ))}
+                  </select>
+
+                  {selected ? (
+                    <div className="builder-selected-part">
+                      <div>
+                        <span className="builder-selected-caption">
+                          SELECTED COMPONENT
+                        </span>
+                        <strong>{selected.name}</strong>
+                        <p>{selected.description}</p>
+                      </div>
+
+                      <strong className="builder-selected-price">
+                        {formatPrice(selected.price)}
+                      </strong>
+                    </div>
+                  ) : (
+                    <div className="builder-card-placeholder">
+                      <span>—</span>
+                      <p>Your selected part will appear here</p>
+                    </div>
+                  )}
+
+                  {selected?.badge && (
+                    <span className="builder-part-badge">
+                      {selected.badge}
+                    </span>
+                  )}
+                </article>
+              );
+            })}
+          </section>
+
+          <section className="builder-summary-panel">
+            <div className="builder-summary-heading">
+              <div>
+                <span className="builder-section-kicker">
+                  YOUR CONFIGURATION
+                </span>
+                <h2>Build summary</h2>
+                <p>
+                  Review your selected hardware and estimated total.
+                </p>
+              </div>
+
+              <div className="builder-completion-count">
+                <strong>{selectedCount}</strong>
+                <span>/ {categories.length} PARTS</span>
+              </div>
             </div>
 
-            <aside className="builder-total-card">
-              <span className="builder-section-kicker">ESTIMATED TOTAL</span>
-              <div className="builder-total-price">{formatPrice(total)}</div>
-              <p className="builder-total-caption">
-                {selectedCount} of {categories.length} components selected
-              </p>
-
-              <div className="builder-budget-heading">
-                <label htmlFor="builder-budget">Your budget (₹)</label>
-                <strong>{formatPrice(budgetAmount)}</strong>
-              </div>
-
-              <input
-                id="builder-budget"
-                type="number"
-                min="0"
-                step="1000"
-                value={budget}
-                onChange={(event) => setBudget(event.target.value)}
-                placeholder="Enter your budget"
-              />
-
-              <div className="builder-budget-track" role="progressbar" aria-label="Budget used" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(budgetUsed)}>
-                <span style={{ width: `${budgetUsed}%` }} />
-              </div>
-
-              <div className="builder-budget-remaining">
-                <span>{budgetRemaining >= 0 ? "Budget remaining" : "Over budget"}</span>
-                <strong className={budgetRemaining < 0 ? "over-budget" : ""}>
-                  {formatPrice(Math.abs(budgetRemaining))}
-                </strong>
-              </div>
-
-              {compatibilityWarnings.length > 0 ? (
-                <div className="builder-compatibility-warning" role="alert">
-                  <h3>⚠ Compatibility warnings</h3>
-                  <ul>
-                    {compatibilityWarnings.map((warning, index) => (
-                      <li key={index}>{warning}</li>
-                    ))}
-                  </ul>
+            <div className="builder-summary-layout">
+              <div className="builder-summary-parts">
+                <div className="builder-summary-parts-heading">
+                  <span>COMPONENT</span>
+                  <span>PRICE</span>
                 </div>
-              ) : selectedCount === 0 ? (
-                <p className="builder-compatibility-pending">
-                  Select components to check compatibility.
-                </p>
-              ) : (
-                <p className="builder-compatibility-ok">
-                  ✓ No known compatibility issues detected in the selected parts.
-                </p>
-              )}
 
-              <button
-                type="button"
-                className="builder-complete-button"
-                onClick={handleAddBuildToCart}
-              >
-                Add build to cart <span aria-hidden="true">→</span>
-              </button>
+                {categories.map((category) => {
+                  const selected = build[category.key];
 
-              <p className="builder-disclaimer">
-                Prices are demonstration estimates and may not reflect current
-                market prices. Compatibility checks are basic and do not
-                guarantee complete hardware compatibility.
-              </p>
-            </aside>
-          </div>
-        </section>
-      </div>
-    </main>
+                  return (
+                    <div
+                      className={`builder-summary-row ${
+                        selected ? "has-part" : ""
+                      }`}
+                      key={category.key}
+                    >
+                      <div className="builder-summary-part-name">
+                        <span className="builder-summary-part-icon">
+                          {category.icon}
+                        </span>
+
+                        <div>
+                          <strong>{category.key}</strong>
+                          <p>
+                            {selected
+                              ? selected.name
+                              : "Not selected yet"}
+                          </p>
+                        </div>
+                      </div>
+
+                      <strong className="builder-summary-part-price">
+                        {selected ? formatPrice(selected.price) : "—"}
+                      </strong>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <aside className="builder-total-card">
+                <span className="builder-section-kicker">
+                  ESTIMATED TOTAL
+                </span>
+
+                <div className="builder-total-price">
+                  {formatPrice(total)}
+                </div>
+
+                <p className="builder-total-caption">
+                  {selectedCount} of {categories.length} components selected
+                </p>
+
+                <div className="builder-budget-heading">
+                  <label htmlFor="builder-budget">Your budget (₹)</label>
+                  <strong>{formatPrice(budgetAmount)}</strong>
+                </div>
+
+                <input
+                  id="builder-budget"
+                  type="number"
+                  min="0"
+                  step="1000"
+                  value={budget}
+                  onChange={(event) => setBudget(event.target.value)}
+                  placeholder="Enter your budget"
+                />
+
+                <div
+                  className="builder-budget-track"
+                  role="progressbar"
+                  aria-label="Budget used"
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                  aria-valuenow={Math.round(budgetUsed)}
+                >
+                  <span style={{ width: `${budgetUsed}%` }} />
+                </div>
+
+                <div className="builder-budget-remaining">
+                  <span>
+                    {budgetRemaining >= 0
+                      ? "Budget remaining"
+                      : "Over budget"}
+                  </span>
+
+                  <strong
+                    className={
+                      budgetRemaining < 0 ? "over-budget" : ""
+                    }
+                  >
+                    {formatPrice(Math.abs(budgetRemaining))}
+                  </strong>
+                </div>
+
+                {compatibilityWarnings.length > 0 ? (
+                  <div
+                    className="builder-compatibility-warning"
+                    role="alert"
+                  >
+                    <h3>⚠ Compatibility warnings</h3>
+                    <ul>
+                      {compatibilityWarnings.map((warning, index) => (
+                        <li key={index}>{warning}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : selectedCount === 0 ? (
+                  <p className="builder-compatibility-pending">
+                    Select components to check compatibility.
+                  </p>
+                ) : (
+                  <p className="builder-compatibility-ok">
+                    ✓ No known compatibility issues detected in the
+                    selected parts.
+                  </p>
+                )}
+
+                <button
+                  type="button"
+                  className="builder-complete-button"
+                  onClick={handleAddBuildToCart}
+                >
+                  Add build to cart <span aria-hidden="true">→</span>
+                </button>
+
+                <p className="builder-disclaimer">
+                  Prices are demonstration estimates and may not reflect
+                  current market prices. Compatibility checks are basic
+                  and do not guarantee complete hardware compatibility.
+                </p>
+              </aside>
+            </div>
+          </section>
+        </div>
+      </main>
+    </>
   );
 }
 

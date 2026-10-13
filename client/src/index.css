@@ -3594,3 +3594,231 @@ font-size: 24px;
     padding-left: 3px;
   }
 }
+
+
+/* ========================================
+   VISIONFORGE TOAST NOTIFICATIONS
+======================================== */
+
+.vf-toast {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 99999;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: min(390px, calc(100vw - 32px));
+  padding: 17px 16px 20px;
+  overflow: hidden;
+  color: #f5f3ff;
+  background: #15131f;
+  border: 1px solid rgba(143, 130, 255, 0.45);
+  border-radius: 14px;
+  box-shadow: 0 14px 45px rgba(0, 0, 0, 0.4),
+    0 0 25px rgba(108, 92, 231, 0.13);
+  animation: vf-toast-enter 350ms ease-out both;
+}
+
+.vf-toast-exit {
+  animation: vf-toast-exit 300ms ease-in both;
+}
+
+.vf-toast-icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  color: #ffffff;
+  background: #6c5ce7;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.vf-toast-success .vf-toast-icon {
+  background: #16865c;
+}
+
+.vf-toast-error .vf-toast-icon {
+  background: #c43d55;
+}
+
+.vf-toast-warning .vf-toast-icon {
+  background: #a66a14;
+}
+
+.vf-toast-content {
+  flex: 1;
+  min-width: 0;
+  padding-top: 1px;
+}
+
+.vf-toast-content strong {
+  display: block;
+  margin-bottom: 5px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.vf-toast-content p {
+  margin: 0;
+  color: #c5c0d6;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.vf-toast-close {
+  flex-shrink: 0;
+  padding: 0 2px;
+  color: #aaa3c1;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.vf-toast-close:hover {
+  color: #ffffff;
+}
+
+.vf-toast-progress {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #6c5ce7, #a99dff);
+  transform-origin: left;
+  animation: vf-toast-progress 3s linear forwards;
+}
+
+.vf-toast-success .vf-toast-progress {
+  background: #35c98a;
+}
+
+.vf-toast-error .vf-toast-progress {
+  background: #ff637d;
+}
+
+.vf-toast-warning .vf-toast-progress {
+  background: #ffbd59;
+}
+
+@keyframes vf-toast-enter {
+  from {
+    opacity: 0;
+    transform: translateX(35px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes vf-toast-exit {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(35px);
+  }
+}
+
+@keyframes vf-toast-progress {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .vf-toast {
+    top: 12px;
+    right: 12px;
+    width: calc(100vw - 24px);
+  }
+}
+
+
+/* VISIONFORGE — Remove All button */
+
+.cart-container {
+  position: relative;
+}
+
+.cart-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.cart-title-row .cart-remove-all-btn {
+  position: static;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.cart-remove-all-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 18px;
+  color: #f5f3ff;
+  background: linear-gradient(135deg, #6c5ce7, #5142c7);
+  border: 1px solid rgba(143, 130, 255, 0.65);
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(108, 92, 231, 0.2);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.cart-remove-all-btn:hover {
+  background: linear-gradient(135deg, #8173ff, #6c5ce7);
+  border-color: #a99dff;
+  box-shadow: 0 6px 20px rgba(108, 92, 231, 0.35);
+  transform: translateY(-1px);
+}
+
+.cart-remove-all-btn:active {
+  transform: translateY(0);
+}
+
+/* Keep the button in the top-right even when the cart is empty */
+.cart-empty-actions .cart-remove-all-btn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+}
+
+@media (max-width: 600px) {
+  .cart-title-row {
+    gap: 12px;
+    align-items: center;
+  }
+
+  .cart-title-row .cart-remove-all-btn {
+    padding: 9px 11px;
+    font-size: 12px;
+  }
+
+  .cart-empty-actions .cart-remove-all-btn {
+    top: 12px;
+    right: 12px;
+  }
+}

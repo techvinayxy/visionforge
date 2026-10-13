@@ -95,30 +95,68 @@ export function CartProvider({ children }) {
     });
   };
 
+  // Add a complete PC build only once.
+  const addBuildToCart = (buildKey, parts) => {
+    if (
+      !buildKey ||
+      !Array.isArray(parts) ||
+      parts.length === 0
+    ) {
+      return false;
+    }
+
+    // Prevent adding this exact build again.
+    if (cartItems.some((item) => item.buildKey === buildKey)) {
+      return false;
+    }
+
+    setCartItems((currentItems) => {
+      // Also protect against repeated calls before a re-render.
+      if (
+        currentItems.some((item) => item.buildKey === buildKey)
+      ) {
+        return currentItems;
+      }
+
+      return [
+        ...currentItems,
+        ...parts.map((part) => ({
+          ...part,
+          buildKey,
+          quantity: 1,
+        })),
+      ];
+    });
+
+    return true;
+  };
+
   // Change the quantity of an existing cart product.
   const updateQuantity = (id, quantity) => {
     const requestedQuantity = Math.floor(Number(quantity) || 1);
 
     setCartItems((currentItems) =>
-      currentItems.map((item) => {
-        if (String(item.id) !== String(id)) {
-          return item;
-        }
+      currentItems
+        .map((item) => {
+          if (String(item.id) !== String(id)) {
+            return item;
+          }
 
-        const stockLimit = getStockLimit(item);
+          const stockLimit = getStockLimit(item);
 
-        return {
-          ...item,
-          quantity: Math.min(
-            Math.max(1, requestedQuantity),
-            stockLimit
-          ),
-        };
-      }).filter((item) => getStockLimit(item) > 0)
+          return {
+            ...item,
+            quantity: Math.min(
+              Math.max(1, requestedQuantity),
+              stockLimit
+            ),
+          };
+        })
+        .filter((item) => getStockLimit(item) > 0)
     );
   };
 
-  // Remove a product completely.
+  // Remove a product or build component.
   const removeFromCart = (id) => {
     setCartItems((currentItems) =>
       currentItems.filter(
@@ -132,10 +170,8 @@ export function CartProvider({ children }) {
     setCartItems([]);
   };
 
-  // Count unique products, not total units.
   const cartCount = cartItems.length;
 
-  // Calculate the total price of all units.
   const cartTotal = cartItems.reduce(
     (total, item) =>
       total +
@@ -151,6 +187,7 @@ export function CartProvider({ children }) {
         cartCount,
         cartTotal,
         addToCart,
+        addBuildToCart,
         updateQuantity,
         removeFromCart,
         clearCart,

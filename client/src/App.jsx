@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import CloudinaryUpload from "./components/CloudinaryUpload";
 import Cart from "./pages/Cart.jsx";
 import PCBuilder from "./pages/PCBuilder";
+import Compare from "./pages/Compare";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
 
         <Route path="*" element={<NotFound />} />
         <Route path="/builder" element={<PCBuilder />} />
+        <Route path="/compare" element={<Compare />} />
       </Routes>
 
       <Footer />

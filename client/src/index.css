@@ -6626,3 +6626,64 @@ font-size: 24px;
   }
 }
 
+
+/* =========================
+   VISIONFORGE HOME SECTION HEADINGS
+========================= */
+
+.categories-section .section-heading,
+.featured-section .section-heading,
+.why-section .section-heading {
+  margin-bottom: 36px;
+}
+
+.categories-section .section-heading > p,
+.featured-section .section-heading > div > p,
+.why-section .section-heading > p {
+  color: #8f82ff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2.2px;
+  line-height: 1.5;
+  text-transform: uppercase;
+  margin: 0 0 12px;
+}
+
+.categories-section .section-heading h2,
+.featured-section .section-heading h2,
+.why-section .section-heading h2 {
+  color: #ffffff;
+  font-size: clamp(30px, 3.2vw, 42px);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.8px;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Keep the Featured Products layout intact */
+.featured-section .featured-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+}
+
+/* Mobile heading adjustments */
+@media (max-width: 768px) {
+  .categories-section .section-heading,
+  .featured-section .section-heading,
+  .why-section .section-heading {
+    margin-bottom: 26px;
+  }
+
+  .categories-section .section-heading h2,
+  .featured-section .section-heading h2,
+  .why-section .section-heading h2 {
+    font-size: clamp(25px, 5.5vw, 32px);
+    line-height: 1.25;
+    letter-spacing: -0.4px;
+  }
+}
+
+

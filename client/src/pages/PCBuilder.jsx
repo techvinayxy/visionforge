@@ -6,39 +6,207 @@ import Toast from "../components/common/Toast";
 
 const components = {
   CPU: [
-    { id: "cpu-7600", name: "AMD Ryzen 5 7600", price: 18999, socket: "AM5", description: "6 cores · 12 threads", badge: "GREAT VALUE" },
-    { id: "cpu-7800x3d", name: "AMD Ryzen 7 7800X3D", price: 36999, socket: "AM5", description: "8 cores · 16 threads", badge: "GAMING PICK" },
-    { id: "cpu-14400f", name: "Intel Core i5-14400F", price: 17999, socket: "LGA1700", description: "10 cores · 16 threads", badge: "INTEL BUILD" },
+    {
+      id: "cpu-7600",
+      name: "AMD Ryzen 5 7600",
+      price: 18999,
+      socket: "AM5",
+      description: "6 cores · 12 threads",
+      badge: "GREAT VALUE",
+      image:
+        "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011857/Performance_Gaming_Processor.jpg",
+    },
+    {
+      id: "cpu-7800x3d",
+      name: "AMD Ryzen 7 7800X3D",
+      price: 36999,
+      socket: "AM5",
+      description: "8 cores · 16 threads",
+      badge: "GAMING PICK",
+      image:
+        "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791012001/Power_Processor.jpg",
+    },
+    {
+      id: "cpu-14400f",
+      name: "Intel Core i5-14400F",
+      price: 17999,
+      socket: "LGA1700",
+      description: "10 cores · 16 threads",
+      badge: "INTEL BUILD",
+      image:
+        "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791267083/High_Performance_CPU.webp",
+    },
   ],
+
   GPU: [
-    { id: "gpu-4060", name: "NVIDIA RTX 4060 8GB", price: 29999, minPsu: 550, description: "1080p gaming", badge: "POPULAR" },
-    { id: "gpu-4070s", name: "NVIDIA RTX 4070 SUPER 12GB", price: 59999, minPsu: 650, description: "1440p high-performance gaming", badge: "HIGH PERFORMANCE" },
-    { id: "gpu-rx7600", name: "AMD Radeon RX 7600 8GB", price: 26999, minPsu: 550, description: "1080p gaming", badge: "AMD BUILD" },
+    {
+      id: "gpu-4060",
+      name: "NVIDIA RTX 4060 8GB",
+      price: 29999,
+      minPsu: 550,
+      description: "1080p gaming",
+      badge: "POPULAR",
+      image:
+        "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011561/Gaming_Graphics_Card_8GB.jpg",
+    },
+    {
+      id: "gpu-4070s",
+      name: "NVIDIA RTX 4070 SUPER 12GB",
+      price: 59999,
+      minPsu: 650,
+      description: "1440p high-performance gaming",
+      badge: "HIGH PERFORMANCE",
+      image:
+        "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011393/RTX_High_Performance_GPU.jpg",
+    },
+    {
+      id: "gpu-rx7600",
+      name: "AMD Radeon RX 7600 8GB",
+      price: 26999,
+      minPsu: 550,
+      description: "1080p gaming",
+      badge: "AMD BUILD",
+      image: "/products/graphics-card.jpg",
+    },
   ],
+
   Motherboard: [
-    { id: "mb-b650m", name: "MSI B650M Gaming WiFi", price: 13999, socket: "AM5", ramType: "DDR5", description: "AM5 · DDR5 · Wi-Fi" },
-    { id: "mb-tuf-b650", name: "ASUS TUF B650-PLUS", price: 19999, socket: "AM5", ramType: "DDR5", description: "AM5 · DDR5 · TUF series" },
-    { id: "mb-b760m", name: "MSI B760M DDR5", price: 12999, socket: "LGA1700", ramType: "DDR5", description: "LGA1700 · DDR5" },
+    {
+      id: "mb-b650m",
+      name: "MSI B650M Gaming WiFi",
+      price: 13999,
+      socket: "AM5",
+      ramType: "DDR5",
+      description: "AM5 · DDR5 · Wi-Fi",
+      image:
+        "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791267271/Gaming_Performance_Motherboard.jpg",
+    },
+    {
+      id: "mb-tuf-b650",
+      name: "ASUS TUF B650-PLUS",
+      price: 19999,
+      socket: "AM5",
+      ramType: "DDR5",
+      description: "AM5 · DDR5 · TUF series",
+      image:
+        "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791267441/VISIONFORGE_Pro_Motherboard.webp",
+    },
+    {
+      id: "mb-b760m",
+      name: "MSI B760M DDR5",
+      price: 12999,
+      socket: "LGA1700",
+      ramType: "DDR5",
+      description: "LGA1700 · DDR5",
+      image:
+        "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791267271/Gaming_Performance_Motherboard.jpg",
+    },
   ],
+
   RAM: [
-    { id: "ram-16", name: "16GB DDR5 RAM", price: 3999, ramType: "DDR5", description: "16GB memory capacity" },
-    { id: "ram-32", name: "32GB DDR5 RAM", price: 7499, ramType: "DDR5", description: "32GB memory capacity", badge: "RECOMMENDED" },
-    { id: "ram-64", name: "64GB DDR5 RAM", price: 13999, ramType: "DDR5", description: "64GB memory capacity" },
+    {
+      id: "ram-16",
+      name: "16GB DDR5 RAM",
+      price: 3999,
+      ramType: "DDR5",
+      description: "16GB memory capacity",
+      image:
+        "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791267702/16GB_DDR5_Gaming_RAM.webp",
+    },
+    {
+      id: "ram-32",
+      name: "32GB DDR5 RAM",
+      price: 7499,
+      ramType: "DDR5",
+      description: "32GB memory capacity",
+      badge: "RECOMMENDED",
+      image:
+        "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791268097/32GB_DDR5_Performance_RAM.jpg",
+    },
+    {
+      id: "ram-64",
+      name: "64GB DDR5 RAM",
+      price: 13999,
+      ramType: "DDR5",
+      description: "64GB memory capacity",
+      image:
+        "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791268097/32GB_DDR5_Performance_RAM.jpg",
+    },
   ],
+
   Storage: [
-    { id: "ssd-500", name: "500GB NVMe SSD", price: 2999, description: "Fast NVMe storage" },
-    { id: "ssd-1tb", name: "1TB NVMe SSD", price: 4999, description: "Everyday gaming storage", badge: "RECOMMENDED" },
-    { id: "ssd-2tb", name: "2TB NVMe SSD", price: 9999, description: "More space for games" },
+    {
+      id: "ssd-500",
+      name: "500GB NVMe SSD",
+      price: 2999,
+      description: "Fast NVMe storage",
+      image:
+        "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791268365/1TB_NVMe_SSD.webp",
+    },
+    {
+      id: "ssd-1tb",
+      name: "1TB NVMe SSD",
+      price: 4999,
+      description: "Everyday gaming storage",
+      badge: "RECOMMENDED",
+      image:
+        "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791268365/1TB_NVMe_SSD.webp",
+    },
+    {
+      id: "ssd-2tb",
+      name: "2TB NVMe SSD",
+      price: 9999,
+      description: "More space for games",
+      image:
+        "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791527396/2TB_NVMe_Performance_SSD.jpg",
+    },
   ],
+
   PSU: [
-    { id: "psu-650", name: "650W 80+ Bronze PSU", price: 4999, wattage: 650, description: "650W · Bronze efficiency" },
-    { id: "psu-750", name: "750W 80+ Gold PSU", price: 7999, wattage: 750, description: "750W · Gold efficiency", badge: "RECOMMENDED" },
-    { id: "psu-850", name: "850W 80+ Gold PSU", price: 10999, wattage: 850, description: "850W · Gold efficiency" },
+    {
+      id: "psu-650",
+      name: "650W 80+ Bronze PSU",
+      price: 4999,
+      wattage: 650,
+      description: "650W · Bronze efficiency",
+    },
+    {
+      id: "psu-750",
+      name: "750W 80+ Gold PSU",
+      price: 7999,
+      wattage: 750,
+      description: "750W · Gold efficiency",
+      badge: "RECOMMENDED",
+    },
+    {
+      id: "psu-850",
+      name: "850W 80+ Gold PSU",
+      price: 10999,
+      wattage: 850,
+      description: "850W · Gold efficiency",
+    },
   ],
+
   Cabinet: [
-    { id: "case-airflow", name: "Mid Tower Airflow Case", price: 3999, description: "Airflow-focused design" },
-    { id: "case-argb", name: "ARGB Gaming Cabinet", price: 5999, description: "RGB lighting · Gaming style", badge: "GAMING PICK" },
-    { id: "case-panoramic", name: "Premium Panoramic Case", price: 8999, description: "Panoramic glass design" },
+    {
+      id: "case-airflow",
+      name: "Mid Tower Airflow Case",
+      price: 3999,
+      description: "Airflow-focused design",
+    },
+    {
+      id: "case-argb",
+      name: "ARGB Gaming Cabinet",
+      price: 5999,
+      description: "RGB lighting · Gaming style",
+      badge: "GAMING PICK",
+    },
+    {
+      id: "case-panoramic",
+      name: "Premium Panoramic Case",
+      price: 8999,
+      description: "Panoramic glass design",
+    },
   ],
 };
 
@@ -153,7 +321,11 @@ function PCBuilder() {
   function resetBuild() {
     setBuild({});
     setBudget("100000");
-    showToast("success", "Build reset", "Your PC configuration has been reset.");
+    showToast(
+      "success",
+      "Build reset",
+      "Your PC configuration has been reset."
+    );
   }
 
   function handleAddBuildToCart() {

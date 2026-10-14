@@ -78,11 +78,17 @@ function Cart() {
     <main className="cart-page">
       <Toast toast={toast} onClose={closeToast} />
 
-      <div className={`cart-container ${cartItems.length === 0 ? "cart-empty" : ""}`}>
+      <div
+        className={`cart-container ${
+          cartItems.length === 0 ? "cart-empty" : ""
+        }`}
+      >
         {cartItems.length === 0 ? (
           <>
             <h1>Your Cart Is Empty</h1>
-            <p>Explore our products and find something you love.</p>
+            <p>
+              Explore our products and find something you love.
+            </p>
 
             <div className="cart-empty-actions">
               <Link to="/products" className="cart-continue-btn">
@@ -122,10 +128,16 @@ function Cart() {
             </div>
 
             <div className="cart-layout">
-              <section className="cart-items" aria-label="Items in your cart">
+              <section
+                className="cart-items"
+                aria-label="Items in your cart"
+              >
                 {cartItems.map((item) => {
                   const itemId = item.id ?? item._id;
-                  const quantity = Math.max(1, Number(item.quantity) || 1);
+                  const quantity = Math.max(
+                    1,
+                    Number(item.quantity) || 1
+                  );
                   const price = Number(item.price) || 0;
 
                   const hasStockLimit =
@@ -138,13 +150,32 @@ function Cart() {
                     : Infinity;
 
                   const image = item.images?.[0] || item.image || "";
-                  const isBuildPart = item.isCustomBuildPart === true;
+                  const isBuildPart =
+                    item.isCustomBuildPart === true;
 
                   return (
                     <article className="cart-item" key={itemId}>
                       {isBuildPart ? (
                         <div className="cart-item-image">
-                          <span>{item.buildCategory || "PC Part"}</span>
+                          {image ? (
+                            <img
+                              src={image}
+                              alt={item.name || "PC component"}
+                              loading="lazy"
+                              onError={(event) => {
+                                event.currentTarget.style.display = "none";
+                                const fallback =
+                                  event.currentTarget.nextElementSibling;
+                                if (fallback) {
+                                  fallback.hidden = false;
+                                }
+                              }}
+                            />
+                          ) : null}
+
+                          <span hidden={Boolean(image)}>
+                            {item.buildCategory || "PC Part"}
+                          </span>
                         </div>
                       ) : (
                         <Link
@@ -193,7 +224,9 @@ function Cart() {
                           >
                             <button
                               type="button"
-                              onClick={() => updateQuantity(itemId, quantity - 1)}
+                              onClick={() =>
+                                updateQuantity(itemId, quantity - 1)
+                              }
                               disabled={quantity <= 1}
                               aria-label={`Decrease quantity of ${item.name}`}
                             >
@@ -204,7 +237,9 @@ function Cart() {
 
                             <button
                               type="button"
-                              onClick={() => updateQuantity(itemId, quantity + 1)}
+                              onClick={() =>
+                                updateQuantity(itemId, quantity + 1)
+                              }
                               disabled={quantity >= maxStock}
                               aria-label={`Increase quantity of ${item.name}`}
                             >

@@ -12,7 +12,7 @@ function Navbar() {
     <nav className={`navbar ${menuOpen ? "menu-open" : ""}`}>
       <div className="navbar-container">
         <Link to="/" className="navbar-logo" onClick={closeMenu}>
-          <img src="/Logo.png" alt="VISIONFORGE" />
+          <img src="/Images/Logo_2.0.png" alt="VISIONFORGE" />
         </Link>
 
         <button

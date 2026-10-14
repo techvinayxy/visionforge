@@ -50,10 +50,10 @@ function PCVisual({ active }) {
 />
 
           <div className="vf-setup-overlay">
-            <span className="vf-setup-brand">VISIONFORGE</span>
-            <span className="vf-setup-tagline">
+            {/* <span className="vf-setup-brand">VISIONFORGE</span> */}
+            {/* <span className="vf-setup-tagline">
               BUILD. POWER. CREATE.
-            </span>
+            </span> */}
           </div>
         </div>
       </div>

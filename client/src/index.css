@@ -6483,3 +6483,146 @@ font-size: 24px;
     animation: none !important;
   }
 }
+
+
+
+
+
+/* VISIONFORGE — Final setup image alignment */
+.vf-scroll-visual-layout {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: block !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.vf-scroll-visual-layout > .vf-premium-setup {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  aspect-ratio: auto !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  border-radius: 18px;
+}
+
+.vf-scroll-visual-layout > .vf-premium-setup > .vf-premium-setup-image {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
+.vf-scroll-visual-layout > .vf-premium-setup > .vf-setup-overlay {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 2;
+  pointer-events: none;
+}
+
+
+
+
+
+/* VISIONFORGE — Mobile gaming setup image */
+@media (max-width: 768px) {
+  .vf-scroll-visual-layout {
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .vf-scroll-visual-layout > .vf-premium-setup {
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    border-radius: 12px;
+  }
+
+  .vf-scroll-visual-layout > .vf-premium-setup > .vf-premium-setup-image {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+  }
+
+  .vf-scroll-visual-layout > .vf-premium-setup > .vf-setup-overlay {
+    padding: 14px !important;
+    box-sizing: border-box;
+  }
+}
+
+
+
+@media (max-width: 768px) {
+  .vf-scroll-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 24px !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  .vf-scroll-steps {
+    order: 2 !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .vf-scroll-sticky {
+    order: 1 !important;
+    position: relative !important;
+    top: auto !important;
+    align-self: stretch !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+  }
+
+  .vf-scroll-art {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  .vf-scroll-visual-layout {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .vf-scroll-visual-layout > .vf-premium-setup {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 4 / 3 !important;
+  }
+}
+

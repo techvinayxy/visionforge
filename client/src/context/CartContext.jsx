@@ -1,21 +1,22 @@
+
 import {
   createContext,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
 
 const CartContext = createContext(null);
-
 const CART_STORAGE_KEY = "visionforge-cart";
 
 function getSavedCart() {
   try {
-    const savedCart = JSON.parse(
+    const saved = JSON.parse(
       localStorage.getItem(CART_STORAGE_KEY)
     );
 
-    return Array.isArray(savedCart) ? savedCart : [];
+    return Array.isArray(saved) ? saved : [];
   } catch {
     return [];
   }
@@ -36,17 +37,32 @@ function getStockLimit(product) {
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState(getSavedCart);
 
-  useEffect(() => {
-    localStorage.setItem(
-      CART_STORAGE_KEY,
-      JSON.stringify(cartItems)
+  // Prevent duplicate builds during rapid clicks.
+  const buildKeysRef = useRef(null);
+
+  if (buildKeysRef.current === null) {
+    buildKeysRef.current = new Set(
+      cartItems
+        .filter((item) => item.buildKey)
+        .map((item) => item.buildKey)
     );
+  }
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(
+        CART_STORAGE_KEY,
+        JSON.stringify(cartItems)
+      );
+    } catch {
+      // Keep the cart usable if browser storage is unavailable.
+    }
   }, [cartItems]);
 
-  // Add a product or increase its existing quantity.
+  // Add a normal product or increase its quantity.
   const addToCart = (product, quantity = 1) => {
-    if (!product || product.id === undefined || product.id === null) {
-      return;
+    if (!product || product.id == null) {
+      return false;
     }
 
     const requestedQuantity = Math.max(
@@ -57,7 +73,7 @@ export function CartProvider({ children }) {
     const stockLimit = getStockLimit(product);
 
     if (stockLimit < 1) {
-      return;
+      return false;
     }
 
     setCartItems((currentItems) => {
@@ -93,25 +109,37 @@ export function CartProvider({ children }) {
         },
       ];
     });
+
+    return true;
   };
 
-  // Add a complete PC build only once.
+  // Add one complete custom PC build only once.
   const addBuildToCart = (buildKey, parts) => {
     if (
       !buildKey ||
       !Array.isArray(parts) ||
-      parts.length === 0
+      parts.length !== 7 ||
+      parts.some(
+        (part) =>
+          !part ||
+          part.id == null ||
+          !Number.isFinite(Number(part.price))
+      )
     ) {
       return false;
     }
 
-    // Prevent adding this exact build again.
-    if (cartItems.some((item) => item.buildKey === buildKey)) {
+    if (
+      buildKeysRef.current.has(buildKey) ||
+      cartItems.some((item) => item.buildKey === buildKey)
+    ) {
       return false;
     }
 
+    // Lock immediately to prevent rapid duplicate clicks.
+    buildKeysRef.current.add(buildKey);
+
     setCartItems((currentItems) => {
-      // Also protect against repeated calls before a re-render.
       if (
         currentItems.some((item) => item.buildKey === buildKey)
       ) {
@@ -124,6 +152,7 @@ export function CartProvider({ children }) {
           ...part,
           buildKey,
           quantity: 1,
+          isCustomBuildPart: true,
         })),
       ];
     });
@@ -131,7 +160,7 @@ export function CartProvider({ children }) {
     return true;
   };
 
-  // Change the quantity of an existing cart product.
+  // Update normal product quantities only.
   const updateQuantity = (id, quantity) => {
     const requestedQuantity = Math.floor(Number(quantity) || 1);
 
@@ -139,6 +168,11 @@ export function CartProvider({ children }) {
       currentItems
         .map((item) => {
           if (String(item.id) !== String(id)) {
+            return item;
+          }
+
+          // Custom PC builds are fixed configurations.
+          if (item.isCustomBuildPart) {
             return item;
           }
 
@@ -156,8 +190,31 @@ export function CartProvider({ children }) {
     );
   };
 
-  // Remove a product or build component.
+  // Remove one normal product or an entire custom PC build.
   const removeFromCart = (id) => {
+    const target = cartItems.find(
+      (item) => String(item.id) === String(id)
+    );
+
+    if (!target) {
+      return;
+    }
+
+    if (target.isCustomBuildPart && target.buildKey) {
+      const buildKey = target.buildKey;
+
+      // Update the duplicate guard outside the state updater.
+      buildKeysRef.current.delete(buildKey);
+
+      setCartItems((currentItems) =>
+        currentItems.filter(
+          (item) => item.buildKey !== buildKey
+        )
+      );
+
+      return;
+    }
+
     setCartItems((currentItems) =>
       currentItems.filter(
         (item) => String(item.id) !== String(id)
@@ -165,12 +222,29 @@ export function CartProvider({ children }) {
     );
   };
 
-  // Empty the cart.
+  // Empty the entire cart.
   const clearCart = () => {
+    buildKeysRef.current.clear();
     setCartItems([]);
   };
 
-  const cartCount = cartItems.length;
+  // Count a complete custom PC build as one item.
+  const cartCount = (() => {
+    const countedBuilds = new Set();
+
+    return cartItems.reduce((count, item) => {
+      if (item.isCustomBuildPart && item.buildKey) {
+        if (countedBuilds.has(item.buildKey)) {
+          return count;
+        }
+
+        countedBuilds.add(item.buildKey);
+        return count + 1;
+      }
+
+      return count + (Number(item.quantity) || 1);
+    }, 0);
+  })();
 
   const cartTotal = cartItems.reduce(
     (total, item) =>

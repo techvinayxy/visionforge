@@ -34,13 +34,46 @@ function Cart() {
       maximumFractionDigits: 2,
     })}`;
 
+  // Group the seven components of each custom PC build.
+  const cartGroups = [];
+  const processedBuilds = new Set();
+
+  cartItems.forEach((item) => {
+    if (item.isCustomBuildPart && item.buildKey) {
+      if (processedBuilds.has(item.buildKey)) return;
+
+      processedBuilds.add(item.buildKey);
+
+      const parts = cartItems.filter(
+        (part) =>
+          part.isCustomBuildPart &&
+          part.buildKey === item.buildKey
+      );
+
+      cartGroups.push({
+        type: "build",
+        key: item.buildKey,
+        parts,
+        total: parts.reduce(
+          (sum, part) =>
+            sum +
+            (Number(part.price) || 0) *
+              (Number(part.quantity) || 1),
+          0
+        ),
+      });
+    } else {
+      cartGroups.push({
+        type: "product",
+        key: String(item.id ?? item._id),
+        item,
+      });
+    }
+  });
+
   function handleRemoveAll() {
     if (cartItems.length === 0) {
-      showToast(
-        "warning",
-        "Cart is empty",
-        "Your cart is already empty."
-      );
+      showToast("warning", "Cart is empty", "Your cart is already empty.");
       setConfirmClear(false);
       return;
     }
@@ -67,10 +100,157 @@ function Cart() {
 
     clearCart();
     setConfirmClear(false);
+    showToast("success", "Cart cleared", "All items removed from cart.");
+  }
+
+  function handleRemoveBuild(buildKey) {
+    const buildParts = cartItems.filter(
+      (item) =>
+        item.isCustomBuildPart && item.buildKey === buildKey
+    );
+
+    if (buildParts.length === 0) return;
+
+    // CartContext removes all components when any build part is removed.
+    removeFromCart(buildParts[0].id);
+
     showToast(
       "success",
-      "Cart cleared",
-      "All items removed from cart."
+      "Build removed",
+      "Your complete custom PC build has been removed from the cart."
+    );
+  }
+
+  function renderProduct(item) {
+    const itemId = item.id ?? item._id;
+    const quantity = Math.max(1, Number(item.quantity) || 1);
+    const price = Number(item.price) || 0;
+    const hasStockLimit =
+      item.stock !== undefined &&
+      item.stock !== null &&
+      item.stock !== "";
+    const maxStock = hasStockLimit
+      ? Math.max(0, Number(item.stock) || 0)
+      : Infinity;
+    const image = item.images?.[0] || item.image || "";
+
+    return (
+      <article className="cart-item" key={itemId}>
+        <Link
+          to={`/products/${itemId}`}
+          className="cart-item-image"
+          aria-label={`View ${item.name || "product"}`}
+        >
+          {image ? (
+            <img
+              src={image}
+              alt={item.name || "Product"}
+              loading="lazy"
+            />
+          ) : (
+            <span>No image available</span>
+          )}
+        </Link>
+
+        <div className="cart-item-details">
+          <span className="cart-item-category">
+            {item.category || "Product"}
+          </span>
+
+          <Link to={`/products/${itemId}`} className="cart-item-name">
+            {item.name || "Unnamed Product"}
+          </Link>
+
+          <p className="cart-item-price">{formatPrice(price)}</p>
+
+          <div className="cart-item-actions">
+            <div
+              className="cart-quantity"
+              aria-label={`Quantity: ${quantity}`}
+            >
+              <button
+                type="button"
+                onClick={() => updateQuantity(itemId, quantity - 1)}
+                disabled={quantity <= 1}
+                aria-label={`Decrease quantity of ${item.name}`}
+              >
+                −
+              </button>
+
+              <span>{quantity}</span>
+
+              <button
+                type="button"
+                onClick={() => updateQuantity(itemId, quantity + 1)}
+                disabled={quantity >= maxStock}
+                aria-label={`Increase quantity of ${item.name}`}
+              >
+                +
+              </button>
+            </div>
+
+            <button
+              type="button"
+              className="cart-remove-btn"
+              onClick={() => removeFromCart(itemId)}
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+
+        <strong className="cart-item-subtotal">
+          {formatPrice(price * quantity)}
+        </strong>
+      </article>
+    );
+  }
+
+  function renderBuild(group) {
+    return (
+      <article className="cart-item cart-build-item" key={group.key}>
+        <div className="cart-item-image cart-build-image">
+          <span>PC BUILD</span>
+        </div>
+
+        <div className="cart-item-details">
+          <span className="cart-item-category">
+            VISIONFORGE CUSTOM BUILD
+          </span>
+
+          <h3 className="cart-item-name">Your Custom PC Build</h3>
+
+          <p className="cart-item-price">
+            {group.parts.length} components selected
+          </p>
+
+          <ul className="cart-build-parts">
+            {group.parts.map((part) => (
+              <li key={part.id}>
+                <span>
+                  {part.buildCategory || "Component"}:{" "}
+                  {part.name || "Unnamed component"}
+                </span>
+                <strong>{formatPrice(part.price)}</strong>
+              </li>
+            ))}
+          </ul>
+
+          <div className="cart-item-actions">
+            <button
+              type="button"
+              className="cart-remove-btn"
+              onClick={() => handleRemoveBuild(group.key)}
+            >
+              Remove build
+            </button>
+          </div>
+        </div>
+
+        <strong className="cart-item-subtotal">
+          {formatPrice(group.total)}
+        </strong>
+      </article>
     );
   }
 
@@ -86,22 +266,15 @@ function Cart() {
         {cartItems.length === 0 ? (
           <>
             <h1>Your Cart Is Empty</h1>
-            <p>
-              Explore our products and find something you love.
-            </p>
+            <p>Explore our products and find something you love.</p>
 
             <div className="cart-empty-actions">
               <Link to="/products" className="cart-continue-btn">
                 Explore Products
               </Link>
-
-              <button
-                type="button"
-                className="cart-remove-all-btn"
-                onClick={handleRemoveAll}
-              >
-                Remove All
-              </button>
+              <Link to="/builder" className="cart-continue-btn">
+                Build Your PC
+              </Link>
             </div>
           </>
         ) : (
@@ -128,141 +301,12 @@ function Cart() {
             </div>
 
             <div className="cart-layout">
-              <section
-                className="cart-items"
-                aria-label="Items in your cart"
-              >
-                {cartItems.map((item) => {
-                  const itemId = item.id ?? item._id;
-                  const quantity = Math.max(
-                    1,
-                    Number(item.quantity) || 1
-                  );
-                  const price = Number(item.price) || 0;
-
-                  const hasStockLimit =
-                    item.stock !== undefined &&
-                    item.stock !== null &&
-                    item.stock !== "";
-
-                  const maxStock = hasStockLimit
-                    ? Math.max(0, Number(item.stock) || 0)
-                    : Infinity;
-
-                  const image = item.images?.[0] || item.image || "";
-                  const isBuildPart =
-                    item.isCustomBuildPart === true;
-
-                  return (
-                    <article className="cart-item" key={itemId}>
-                      {isBuildPart ? (
-                        <div className="cart-item-image">
-                          {image ? (
-                            <img
-                              src={image}
-                              alt={item.name || "PC component"}
-                              loading="lazy"
-                              onError={(event) => {
-                                event.currentTarget.style.display = "none";
-                                const fallback =
-                                  event.currentTarget.nextElementSibling;
-                                if (fallback) {
-                                  fallback.hidden = false;
-                                }
-                              }}
-                            />
-                          ) : null}
-
-                          <span hidden={Boolean(image)}>
-                            {item.buildCategory || "PC Part"}
-                          </span>
-                        </div>
-                      ) : (
-                        <Link
-                          to={`/products/${itemId}`}
-                          className="cart-item-image"
-                          aria-label={`View ${item.name || "product"}`}
-                        >
-                          {image ? (
-                            <img
-                              src={image}
-                              alt={item.name || "Product"}
-                              loading="lazy"
-                            />
-                          ) : (
-                            <span>No image available</span>
-                          )}
-                        </Link>
-                      )}
-
-                      <div className="cart-item-details">
-                        <span className="cart-item-category">
-                          {item.category || "Product"}
-                        </span>
-
-                        {isBuildPart ? (
-                          <span className="cart-item-name">
-                            {item.name || "Unnamed Product"}
-                          </span>
-                        ) : (
-                          <Link
-                            to={`/products/${itemId}`}
-                            className="cart-item-name"
-                          >
-                            {item.name || "Unnamed Product"}
-                          </Link>
-                        )}
-
-                        <p className="cart-item-price">
-                          {formatPrice(price)}
-                        </p>
-
-                        <div className="cart-item-actions">
-                          <div
-                            className="cart-quantity"
-                            aria-label={`Quantity: ${quantity}`}
-                          >
-                            <button
-                              type="button"
-                              onClick={() =>
-                                updateQuantity(itemId, quantity - 1)
-                              }
-                              disabled={quantity <= 1}
-                              aria-label={`Decrease quantity of ${item.name}`}
-                            >
-                              −
-                            </button>
-
-                            <span>{quantity}</span>
-
-                            <button
-                              type="button"
-                              onClick={() =>
-                                updateQuantity(itemId, quantity + 1)
-                              }
-                              disabled={quantity >= maxStock}
-                              aria-label={`Increase quantity of ${item.name}`}
-                            >
-                              +
-                            </button>
-                          </div>
-
-                          <button
-                            type="button"
-                            className="cart-remove-btn"
-                            onClick={() => removeFromCart(itemId)}
-                          >
-                            Remove
-                          </button>
-                        </div>
-                      </div>
-
-                      <strong className="cart-item-subtotal">
-                        {formatPrice(price * quantity)}
-                      </strong>
-                    </article>
-                  );
-                })}
+              <section className="cart-items" aria-label="Items in your cart">
+                {cartGroups.map((group) =>
+                  group.type === "build"
+                    ? renderBuild(group)
+                    : renderProduct(group.item)
+                )}
               </section>
 
               <aside className="cart-summary">

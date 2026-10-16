@@ -6687,3 +6687,26 @@ font-size: 24px;
 }
 
 
+/* Authentication navbar */
+.navbar-user {
+  color: #d9dce5;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.navbar-logout {
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.register-nav-btn {
+  border-color: #6c5ce7;
+  color: #a49aff;
+}
+
+.register-nav-btn:hover {
+  background: rgba(108, 92, 231, 0.12);
+  border-color: #8f82ff;
+}

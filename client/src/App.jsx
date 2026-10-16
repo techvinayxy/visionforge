@@ -11,6 +11,8 @@ import CloudinaryUpload from "./components/CloudinaryUpload";
 import Cart from "./pages/Cart.jsx";
 import PCBuilder from "./pages/PCBuilder";
 import Compare from "./pages/Compare";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -19,25 +21,18 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-
         <Route path="/products" element={<Products />} />
-
-        <Route
-          path="/products/:id"
-          element={<ProductDetails />}
-        />
-
+        <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
-
-        {/* Cloudinary Upload Test */}
         <Route
           path="/cloudinary-test"
           element={<CloudinaryUpload />}
         />
-
-        <Route path="*" element={<NotFound />} />
         <Route path="/builder" element={<PCBuilder />} />
         <Route path="/compare" element={<Compare />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
 
       <Footer />
@@ -46,4 +41,3 @@ function App() {
 }
 
 export default App;
-

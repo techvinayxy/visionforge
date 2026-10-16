@@ -1,12 +1,21 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext.jsx";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 function Navbar() {
   const { cartCount } = useCart();
+  const { user, isAuthenticated, logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const closeMenu = () => setMenuOpen(false);
+
+  function handleLogout() {
+    logout();
+    closeMenu();
+    navigate("/", { replace: true });
+  }
 
   return (
     <nav className={`navbar ${menuOpen ? "menu-open" : ""}`}>
@@ -41,10 +50,42 @@ function Navbar() {
           <Link to="/cart" className="navbar-cart" onClick={closeMenu}>
             🛒 Cart ({cartCount})
           </Link>
-          <Link to="/login" className="login-btn" onClick={closeMenu}>
-            Login
-          </Link>
-          <Link to="/seller/register" className="seller-btn" onClick={closeMenu}>
+
+          {isAuthenticated ? (
+            <>
+              <span className="navbar-user">
+                Hi, {user?.firstName || "User"}
+              </span>
+
+              <button
+                type="button"
+                className="login-btn navbar-logout"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="login-btn" onClick={closeMenu}>
+                Login
+              </Link>
+
+              <Link
+                to="/register"
+                className="login-btn register-nav-btn"
+                onClick={closeMenu}
+              >
+                Register
+              </Link>
+            </>
+          )}
+
+          <Link
+            to="/seller/register"
+            className="seller-btn"
+            onClick={closeMenu}
+          >
             Become a Seller
           </Link>
         </div>

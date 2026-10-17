@@ -17,6 +17,16 @@ app.use(cors({
     if (!origin || allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
+
+     // Ye naya code add karna hai
+    const isVercelPreview =
+      /^https:\/\/visionforge(?:-[a-z0-9-]+)*\.vercel\.app$/i.test(
+        origin || ""
+      );
+
+    if (isVercelPreview) {
+      return callback(null, true);
+    }
     return callback(new Error("Origin not allowed by CORS"));
   }
 }));

@@ -1,13 +1,20 @@
+
 import {
   createContext,
   useContext,
   useState,
 } from "react";
 
-// Uses VITE_API_URL in production and Vite's proxy locally.
-const API_BASE_URL = (import.meta.env.VITE_API_URL || "")
-  .trim()
-  .replace(/\/+$/, "");
+// Use Render API in production if VITE_API_URL is missing.
+// Locally, continue using Vite's /api proxy.
+const configuredApiUrl = (import.meta.env.VITE_API_URL || "").trim();
+
+const API_BASE_URL = (
+  configuredApiUrl ||
+  (import.meta.env.PROD
+    ? "https://visionforge-api-wu2u.onrender.com"
+    : "")
+).replace(/\/+$/, "");
 
 const AuthContext = createContext(null);
 
@@ -41,7 +48,9 @@ export function AuthProvider({ children }) {
           body: JSON.stringify(formData),
         }
       );
-    } catch {
+    } catch (error) {
+      console.error("Authentication request failed:", error);
+
       throw new Error(
         "Unable to connect to the server. Please try again."
       );

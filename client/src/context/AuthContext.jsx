@@ -5,8 +5,6 @@ import {
   useState,
 } from "react";
 
-// Use Render API in production if VITE_API_URL is missing.
-// Locally, continue using Vite's /api proxy.
 const configuredApiUrl = (import.meta.env.VITE_API_URL || "").trim();
 
 const API_BASE_URL = (
@@ -34,7 +32,7 @@ export function AuthProvider({ children }) {
     () => localStorage.getItem("vf-token") || ""
   );
 
-  async function authenticate(endpoint, formData) {
+  async function request(endpoint, formData) {
     let response;
 
     try {
@@ -59,11 +57,19 @@ export function AuthProvider({ children }) {
     const data = await response.json().catch(() => ({}));
 
     if (!response.ok) {
-      throw new Error(
-        data.message || "Authentication failed. Please try again."
+      const error = new Error(
+        data.message || "Request failed. Please try again."
       );
+
+      error.status = response.status;
+      error.retryAfterSeconds = data.retryAfterSeconds;
+      throw error;
     }
 
+    return data;
+  }
+
+  function saveSession(data) {
     if (!data.token || !data.user) {
       throw new Error("The server returned an invalid response.");
     }
@@ -83,12 +89,24 @@ export function AuthProvider({ children }) {
     return data;
   }
 
+  // Registration now starts email verification.
   function register(formData) {
-    return authenticate("register", formData);
+    return request("register", formData);
   }
 
-  function login(formData) {
-    return authenticate("login", formData);
+  // Create a session only after the server confirms OTP verification.
+  async function verifyRegistrationOTP(email, otp) {
+    const data = await request("verify-otp", { email, otp });
+    return saveSession(data);
+  }
+
+  function resendRegistrationOTP(email) {
+    return request("resend-otp", { email });
+  }
+
+  async function login(formData) {
+    const data = await request("login", formData);
+    return saveSession(data);
   }
 
   function logout() {
@@ -106,6 +124,8 @@ export function AuthProvider({ children }) {
         token,
         isAuthenticated: Boolean(user && token),
         register,
+        verifyRegistrationOTP,
+        resendRegistrationOTP,
         login,
         logout,
       }}
@@ -124,5 +144,7 @@ export function useAuth() {
     );
   }
 
+
   return context;
 }
+

@@ -1,11 +1,24 @@
+
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
+
 const User = require("../models/User");
+const PendingRegistration = require("../models/PendingRegistration");
 
 const router = express.Router();
 
+const OTP_EXPIRY_MS = 5 * 60 * 1000;
+const RESEND_COOLDOWN_MS = 60 * 1000;
+const MAX_ATTEMPTS = 5;
+const MAX_RESENDS = 5;
+
 function createToken(user) {
+  if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET is not configured.");
+  }
+
   return jwt.sign(
     { sub: user._id.toString() },
     process.env.JWT_SECRET,
@@ -22,70 +35,305 @@ function publicUser(user) {
   };
 }
 
+function generateOtp() {
+  return crypto.randomInt(100000, 1000000).toString();
+}
+
+function hashOtp(email, otp) {
+  if (!process.env.OTP_SECRET) {
+    throw new Error("OTP_SECRET is not configured.");
+  }
+
+  return crypto
+    .createHmac("sha256", process.env.OTP_SECRET)
+    .update(`${email}:${otp}`)
+    .digest("hex");
+}
+
+function safeCompareHex(a, b) {
+  if (
+    typeof a !== "string" ||
+    typeof b !== "string" ||
+    !/^[a-f0-9]{64}$/i.test(a) ||
+    !/^[a-f0-9]{64}$/i.test(b)
+  ) {
+    return false;
+  }
+
+  const left = Buffer.from(a, "hex");
+  const right = Buffer.from(b, "hex");
+
+  return crypto.timingSafeEqual(left, right);
+}
+
+function isValidEmail(email) {
+  return (
+    typeof email === "string" &&
+    email.length <= 254 &&
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+  );
+}
+
+async function sendOtpEmail(email, otp) {
+  const apiKey = process.env.RESEND_API_KEY;
+  const from = process.env.EMAIL_FROM;
+
+  if (!apiKey || !from) {
+    throw new Error("Resend email service is not configured.");
+  }
+
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from,
+      to: [email],
+      subject: "Your VISIONFORGE verification code",
+      text:
+        `Your VISIONFORGE verification code is ${otp}.\n\n` +
+        "It expires in 5 minutes. If you did not request this, ignore this email.",
+      html: `
+        <div style="font-family:Arial,sans-serif;background:#0f1115;color:#f5f5f7;padding:28px;border-radius:12px">
+          <h2 style="color:#8f82ff">VISIONFORGE</h2>
+          <p>Your email verification code is:</p>
+          <p style="font-size:32px;letter-spacing:8px;font-weight:bold">${otp}</p>
+          <p>This code expires in 5 minutes.</p>
+          <p style="color:#a4a8b5">If you did not request this code, ignore this email.</p>
+        </div>
+      `,
+    }),
+  });
+
+  if (!response.ok) {
+    const details = await response.text();
+    console.error("Resend API error:", response.status, details);
+    throw new Error("Unable to send verification email.");
+  }
+}
+
+function validateRegistration(body) {
+  const { firstName, surname, email, password } = body || {};
+
+  if (
+    typeof firstName !== "string" ||
+    typeof surname !== "string" ||
+    typeof email !== "string" ||
+    typeof password !== "string"
+  ) {
+    return { error: "Please provide all required fields." };
+  }
+
+  const cleanFirstName = firstName.trim();
+  const cleanSurname = surname.trim();
+  const cleanEmail = email.trim().toLowerCase();
+
+  if (
+    !cleanFirstName ||
+    cleanFirstName.length > 50 ||
+    !cleanSurname ||
+    cleanSurname.length > 50
+  ) {
+    return { error: "Please enter valid first and last names." };
+  }
+
+  if (!isValidEmail(cleanEmail)) {
+    return { error: "Please enter a valid email address." };
+  }
+
+  if (password.length < 8 || password.length > 128) {
+    return { error: "Password must be 8–128 characters long." };
+  }
+
+  return {
+    value: {
+      firstName: cleanFirstName,
+      surname: cleanSurname,
+      email: cleanEmail,
+      password,
+    },
+  };
+}
+
+// Step 1: Start registration and send an OTP.
 router.post("/register", async (req, res) => {
   try {
-    const { firstName, surname, email, password } = req.body || {};
-
-    if (
-      typeof firstName !== "string" ||
-      typeof surname !== "string" ||
-      typeof email !== "string" ||
-      typeof password !== "string"
-    ) {
-      return res.status(400).json({
-        message: "Please provide all required fields.",
+    if (!process.env.OTP_SECRET) {
+      return res.status(503).json({
+        message: "Email verification is not configured yet.",
       });
     }
 
-    const cleanFirstName = firstName.trim();
-    const cleanSurname = surname.trim();
-    const cleanEmail = email.trim().toLowerCase();
+    const validation = validateRegistration(req.body);
 
-    if (
-      !cleanFirstName ||
-      cleanFirstName.length > 50 ||
-      !cleanSurname ||
-      cleanSurname.length > 50
-    ) {
-      return res.status(400).json({
-        message: "Please enter valid first and last names.",
-      });
+    if (validation.error) {
+      return res.status(400).json({ message: validation.error });
     }
 
-    if (
-      cleanEmail.length > 254 ||
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)
-    ) {
-      return res.status(400).json({
-        message: "Please enter a valid email address.",
-      });
-    }
+    const { firstName, surname, email, password } = validation.value;
 
-    if (password.length < 8 || password.length > 128) {
-      return res.status(400).json({
-        message: "Password must be 8–128 characters long.",
-      });
-    }
-
-    const existingUser = await User.findOne({ email: cleanEmail });
-
-    if (existingUser) {
+    if (await User.exists({ email })) {
       return res.status(409).json({
         message: "An account with this email already exists.",
       });
     }
 
+    const existingPending = await PendingRegistration.findOne({ email });
+
+    if (existingPending && existingPending.expiresAt.getTime() > Date.now()) {
+      const retryAfterSeconds = Math.max(
+        1,
+        Math.ceil(
+          (existingPending.resendAvailableAt.getTime() - Date.now()) / 1000
+        )
+      );
+
+      return res.status(429).json({
+        message: "A verification code was already sent. Please verify it or wait before requesting another.",
+        retryAfterSeconds,
+      });
+    }
+
     const passwordHash = await bcrypt.hash(password, 12);
+    const otp = generateOtp();
+    const now = Date.now();
+
+    // Save the pending registration before sending the email.
+    // This allows a resend request if the email provider temporarily fails.
+    await PendingRegistration.findOneAndUpdate(
+      { email },
+      {
+        $set: {
+          firstName,
+          surname,
+          email,
+          passwordHash,
+          otpHash: hashOtp(email, otp),
+          expiresAt: new Date(now + OTP_EXPIRY_MS),
+          resendAvailableAt: new Date(now + RESEND_COOLDOWN_MS),
+          attempts: 0,
+          resendCount: 0,
+        },
+      },
+      {
+        upsert: true,
+        new: true,
+        runValidators: true,
+        setDefaultsOnInsert: true,
+      }
+    );
+
+    await sendOtpEmail(email, otp);
+
+    return res.status(200).json({
+      message: "Verification code sent. Please check your email.",
+      email,
+      expiresInSeconds: OTP_EXPIRY_MS / 1000,
+      resendAfterSeconds: RESEND_COOLDOWN_MS / 1000,
+    });
+  } catch (error) {
+    if (error.code === 11000) {
+      return res.status(409).json({
+        message: "An account or registration already exists for this email.",
+      });
+    }
+
+    console.error("Registration start failed:", error.message);
+
+    return res.status(503).json({
+      message: "Unable to start registration or send the verification email. Please try again later.",
+    });
+  }
+});
+
+// Step 2: Verify OTP and create the account.
+router.post("/verify-otp", async (req, res) => {
+  try {
+    const email =
+      typeof req.body?.email === "string"
+        ? req.body.email.trim().toLowerCase()
+        : "";
+
+    const otp =
+      typeof req.body?.otp === "string"
+        ? req.body.otp.trim()
+        : "";
+
+    if (!isValidEmail(email) || !/^\d{6}$/.test(otp)) {
+      return res.status(400).json({
+        message: "Enter a valid email and 6-digit verification code.",
+      });
+    }
+
+    const pending = await PendingRegistration.findOne({ email }).select(
+      "+otpHash +passwordHash"
+    );
+
+    if (!pending) {
+      return res.status(400).json({
+        message: "Registration not found or the code has expired. Please register again.",
+      });
+    }
+
+    if (pending.expiresAt.getTime() <= Date.now()) {
+      await PendingRegistration.deleteOne({ _id: pending._id });
+
+      return res.status(400).json({
+        message: "Verification code expired. Please register again.",
+      });
+    }
+
+    if (pending.attempts >= MAX_ATTEMPTS) {
+      await PendingRegistration.deleteOne({ _id: pending._id });
+
+      return res.status(429).json({
+        message: "Too many incorrect attempts. Please register again.",
+      });
+    }
+
+    const candidateHash = hashOtp(email, otp);
+
+    if (!safeCompareHex(pending.otpHash, candidateHash)) {
+      pending.attempts += 1;
+
+      if (pending.attempts >= MAX_ATTEMPTS) {
+        await PendingRegistration.deleteOne({ _id: pending._id });
+
+        return res.status(429).json({
+          message: "Too many incorrect attempts. Please register again.",
+        });
+      }
+
+      await pending.save();
+
+      return res.status(400).json({
+        message: "Incorrect verification code.",
+        attemptsRemaining: MAX_ATTEMPTS - pending.attempts,
+      });
+    }
+
+    if (await User.exists({ email })) {
+      await PendingRegistration.deleteOne({ _id: pending._id });
+
+      return res.status(409).json({
+        message: "An account with this email already exists.",
+      });
+    }
 
     const user = await User.create({
-      firstName: cleanFirstName,
-      surname: cleanSurname,
-      email: cleanEmail,
-      passwordHash,
+      firstName: pending.firstName,
+      surname: pending.surname,
+      email: pending.email,
+      passwordHash: pending.passwordHash,
+      isEmailVerified: true,
     });
 
+    await PendingRegistration.deleteOne({ _id: pending._id });
+
     return res.status(201).json({
-      message: "Account created successfully.",
+      message: "Email verified and account created successfully.",
       token: createToken(user),
       user: publicUser(user),
     });
@@ -96,35 +344,119 @@ router.post("/register", async (req, res) => {
       });
     }
 
-    console.error("Registration failed:", error.message);
+    console.error("OTP verification failed:", error.message);
+
     return res.status(500).json({
-      message: "Unable to register right now. Please try again.",
+      message: "Unable to verify the code right now. Please try again.",
     });
   }
 });
 
-router.post("/login", async (req, res) => {
+// Step 3: Resend OTP with cooldown and resend limits.
+router.post("/resend-otp", async (req, res) => {
   try {
-    const { email, password } = req.body || {};
+    const email =
+      typeof req.body?.email === "string"
+        ? req.body.email.trim().toLowerCase()
+        : "";
 
-    if (
-      typeof email !== "string" ||
-      typeof password !== "string" ||
-      !email.trim() ||
-      !password
-    ) {
+    if (!isValidEmail(email)) {
       return res.status(400).json({
-        message: "Email and password are required.",
+        message: "Please provide a valid email address.",
       });
     }
 
-    const user = await User.findOne({
-      email: email.trim().toLowerCase(),
-    }).select("+passwordHash");
+    const pending = await PendingRegistration.findOne({ email }).select(
+      "+otpHash +passwordHash"
+    );
+
+    if (!pending) {
+      return res.status(404).json({
+        message: "Pending registration not found. Please register again.",
+      });
+    }
+
+    if (pending.expiresAt.getTime() <= Date.now()) {
+      await PendingRegistration.deleteOne({ _id: pending._id });
+
+      return res.status(400).json({
+        message: "Verification code expired. Please register again.",
+      });
+    }
+
+    const waitMs = pending.resendAvailableAt.getTime() - Date.now();
+
+    if (waitMs > 0) {
+      return res.status(429).json({
+        message: "Please wait before requesting another code.",
+        retryAfterSeconds: Math.ceil(waitMs / 1000),
+      });
+    }
+
+    if (pending.resendCount >= MAX_RESENDS) {
+      await PendingRegistration.deleteOne({ _id: pending._id });
+
+      return res.status(429).json({
+        message: "Resend limit reached. Please register again.",
+      });
+    }
+
+    const otp = generateOtp();
+    const now = Date.now();
+
+    // Send first. Keep the existing code valid if sending fails.
+    await sendOtpEmail(email, otp);
+
+    pending.otpHash = hashOtp(email, otp);
+    pending.expiresAt = new Date(now + OTP_EXPIRY_MS);
+    pending.resendAvailableAt = new Date(now + RESEND_COOLDOWN_MS);
+    pending.attempts = 0;
+    pending.resendCount += 1;
+
+    await pending.save();
+
+    return res.json({
+      message: "A new verification code has been sent.",
+      expiresInSeconds: OTP_EXPIRY_MS / 1000,
+      resendAfterSeconds: RESEND_COOLDOWN_MS / 1000,
+    });
+  } catch (error) {
+    console.error("OTP resend failed:", error.message);
+
+    return res.status(503).json({
+      message: "Unable to resend the code right now. Please try again later.",
+    });
+  }
+});
+
+// Step 4: Login only after email verification.
+router.post("/login", async (req, res) => {
+  try {
+    const email =
+      typeof req.body?.email === "string"
+        ? req.body.email.trim().toLowerCase()
+        : "";
+
+    const { password } = req.body || {};
+
+    if (!email || !isValidEmail(email) || typeof password !== "string" || !password) {
+      return res.status(400).json({
+        message: "A valid email and password are required.",
+      });
+    }
+
+    const user = await User.findOne({ email }).select("+passwordHash");
 
     if (!user || !(await bcrypt.compare(password, user.passwordHash))) {
       return res.status(401).json({
         message: "Invalid email or password.",
+      });
+    }
+
+    // Legacy accounts without this field must verify too.
+    if (user.isEmailVerified !== true) {
+      return res.status(403).json({
+        message: "Please verify your email before logging in.",
       });
     }
 
@@ -135,6 +467,7 @@ router.post("/login", async (req, res) => {
     });
   } catch (error) {
     console.error("Login failed:", error.message);
+
     return res.status(500).json({
       message: "Unable to log in right now. Please try again.",
     });

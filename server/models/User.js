@@ -1,3 +1,4 @@
+
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
@@ -25,6 +26,29 @@ const userSchema = new mongoose.Schema(
     passwordHash: {
       type: String,
       required: true,
+      select: false,
+    },
+
+    // Email verification
+    isEmailVerified: {
+      type: Boolean,
+      default: false,
+    },
+    emailOtpHash: {
+      type: String,
+      select: false,
+    },
+    emailOtpExpiresAt: {
+      type: Date,
+      select: false,
+    },
+    emailOtpLastSentAt: {
+      type: Date,
+      select: false,
+    },
+    emailOtpAttempts: {
+      type: Number,
+      default: 0,
       select: false,
     },
   },

@@ -76,35 +76,7 @@ function isValidEmail(email) {
 }
 
 async function sendOtpEmail(email, otp) {
-  const user = process.env.SMTP_USER;
-  const appPassword = process.env.SMTP_APP_PASSWORD;
-  const from = process.env.EMAIL_FROM || user;
-
-  if (!user || !appPassword || !from) {
-    throw new Error("Gmail SMTP is not configured.");
-  }
-
-  const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    auth: {
-      user,
-      pass: appPassword.replace(/\s/g, ""),
-    },
-  });
-
-  await transporter.sendMail({
-    from: {
-      name: "VISIONFORGE",
-      address: user,
-    },
-    to: email,
-    subject: "Your VISIONFORGE verification code",
-    text:
-      `Your VISIONFORGE verification code is ${otp}.\n\n` +
-      "It expires in 5 minutes. If you did not request this, ignore this email.",
-    html: `
+  const html = `
       <div style="font-family:Arial,sans-serif;background:#0f1115;color:#f5f5f7;padding:28px;border-radius:12px;max-width:520px;margin:auto">
         <h2 style="color:#8f82ff;letter-spacing:1px">VISIONFORGE</h2>
         <p style="font-size:16px">Use this code to verify your email address:</p>
@@ -115,7 +87,65 @@ async function sendOtpEmail(email, otp) {
         <p style="color:#a4a8b5;font-size:13px">If you did not request this code, you can safely ignore this email.</p>
         <p style="color:#777b89;font-size:12px;margin-top:28px">Build. Power. Create.</p>
       </div>
-    `,
+    `;
+  const text =
+    `Your VISIONFORGE verification code is ${otp}.\\n\\n` +
+    "It expires in 5 minutes. If you did not request this, ignore this email.";
+
+  // Prefer the Resend HTTPS API because Render's free service blocks SMTP ports.
+  if (process.env.RESEND_API_KEY) {
+    const from = process.env.EMAIL_FROM || "VISIONFORGE <onboarding@resend.dev>";
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from,
+        to: [email],
+        subject: "Your VISIONFORGE verification code",
+        text,
+        html,
+      }),
+      signal: AbortSignal.timeout(15000),
+    });
+
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      const providerMessage =
+        typeof result.message === "string" ? result.message : "Resend email API request failed.";
+      throw new Error(`Resend API error (${response.status}): ${providerMessage}`);
+    }
+    return;
+  }
+
+  // Backward-compatible Gmail fallback if no Resend key is configured.
+  const user = process.env.SMTP_USER;
+  const appPassword = process.env.SMTP_APP_PASSWORD;
+  if (!user || !appPassword) {
+    throw new Error("Email provider is not configured. Set RESEND_API_KEY.");
+  }
+
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user,
+      pass: appPassword.replace(/\\s/g, ""),
+    },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 15000,
+  });
+
+  await transporter.sendMail({
+    from: { name: "VISIONFORGE", address: user },
+    to: email,
+    subject: "Your VISIONFORGE verification code",
+    text,
+    html,
   });
 }
 

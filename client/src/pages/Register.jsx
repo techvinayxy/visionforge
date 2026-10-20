@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "../styles/Auth.css";
@@ -20,7 +20,7 @@ function Register() {
     password: "",
   });
 
-  const [otp, setOtp] = useState("");
+  const [otp, setOtp] = useState(Array(6).fill(""));\n  const otpRefs = useRef([]);
   const [otpStep, setOtpStep] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
@@ -80,7 +80,7 @@ function Register() {
         email,
       }));
 
-      setOtp("");
+      setOtp(Array(6).fill(""));
       setOtpStep(true);
       setCooldown(result.resendAfterSeconds ?? 60);
       setNotice(
@@ -92,7 +92,7 @@ function Register() {
       // A pending registration already exists: show the OTP screen.
       if (err.status === 429) {
         setOtpStep(true);
-        setOtp("");
+        setOtp(Array(6).fill(""));
         setCooldown(
           Number.isFinite(err.retryAfterSeconds)
             ? Math.max(0, err.retryAfterSeconds)
@@ -117,7 +117,7 @@ function Register() {
     setError("");
     setNotice("");
 
-    if (!/^\d{6}$/.test(otp)) {
+    if (!/^\\d{6}$/.test(otp.join(""))) {
       setError("Enter the complete 6-digit verification code.");
       return;
     }
@@ -126,9 +126,7 @@ function Register() {
 
     try {
       await verifyRegistrationOTP(
-        form.email.trim().toLowerCase(),
-        otp
-      );
+        form.email.trim().toLowerCase(),\n        otp.join("")\n      );
 
       navigate("/", {
         replace: true,
@@ -154,7 +152,7 @@ function Register() {
         form.email.trim().toLowerCase()
       );
 
-      setOtp("");
+      setOtp(Array(6).fill(""));
       setCooldown(result.resendAfterSeconds ?? 60);
       setNotice(
         result.message || "A new verification code has been sent."
@@ -172,7 +170,7 @@ function Register() {
 
   function handleEditDetails() {
     setOtpStep(false);
-    setOtp("");
+    setOtp(Array(6).fill(""));
     setError("");
     setNotice("");
   }
@@ -333,26 +331,64 @@ function Register() {
               </form>
             ) : (
               <form className="auth-form" onSubmit={handleVerify}>
-                <label className="auth-field">
-                  6-digit verification code
-                  <input
-                    type="text"
-                    inputMode="numeric"
-                    name="otp"
-                    value={otp}
-                    onChange={(event) =>
-                      setOtp(
-                        event.target.value.replace(/\D/g, "").slice(0, 6)
-                      )
-                    }
-                    placeholder="Enter 6-digit code"
-                    autoComplete="one-time-code"
-                    pattern="[0-9]{6}"
-                    maxLength={6}
-                    autoFocus
-                    required
-                  />
-                </label>
+                <div className="auth-field">
+                  <label htmlFor="otp-digit-0">6-digit verification code</label>
+                  <div className="auth-otp-boxes" role="group" aria-label="6-digit verification code">
+                    {otp.map((digit, index) => (
+                      <input
+                        key={index}
+                        ref={(element) => {
+                          otpRefs.current[index] = element;
+                        }}
+                        id={\`otp-digit-\${index}\`}
+                        className="auth-otp-box"
+                        type="text"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                        aria-label={\`Verification code digit \${index + 1}\`}
+                        value={digit}
+                        autoComplete={index === 0 ? "one-time-code" : "off"}
+                        maxLength={1}
+                        autoFocus={index === 0}
+                        required
+                        onChange={(event) => {
+                          const nextDigit = event.target.value.replace(/\D/g, "").slice(-1);
+                          setOtp((current) =>
+                            current.map((value, currentIndex) =>
+                              currentIndex === index ? nextDigit : value
+                            )
+                          );
+                          if (nextDigit && index < 5) {
+                            otpRefs.current[index + 1]?.focus();
+                          }
+                        }}
+                        onKeyDown={(event) => {
+                          if (event.key === "Backspace" && !digit && index > 0) {
+                            otpRefs.current[index - 1]?.focus();
+                          } else if (event.key === "ArrowLeft" && index > 0) {
+                            otpRefs.current[index - 1]?.focus();
+                          } else if (event.key === "ArrowRight" && index < 5) {
+                            otpRefs.current[index + 1]?.focus();
+                          }
+                        }}
+                        onPaste={(event) => {
+                          event.preventDefault();
+                          const pasted = event.clipboardData
+                            .getData("text")
+                            .replace(/\D/g, "")
+                            .slice(0, 6);
+                          if (!pasted) return;
+                          const digits = Array(6).fill("");
+                          pasted.split("").forEach((value, pastedIndex) => {
+                            digits[pastedIndex] = value;
+                          });
+                          setOtp(digits);
+                          otpRefs.current[Math.min(pasted.length, 6) - 1]?.focus();
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
 
                 {error && (
                   <p className="auth-error" role="alert">
@@ -369,7 +405,7 @@ function Register() {
                 <button
                   className="auth-submit"
                   type="submit"
-                  disabled={loading || otp.length !== 6}
+                  disabled={loading || otp.some((digit) => !digit)}
                 >
                   {loading
                     ? "Verifying email..."

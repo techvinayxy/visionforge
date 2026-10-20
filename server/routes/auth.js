@@ -3,6 +3,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
+const nodemailer = require("nodemailer");
 
 const User = require("../models/User");
 const PendingRegistration = require("../models/PendingRegistration");
@@ -75,43 +76,47 @@ function isValidEmail(email) {
 }
 
 async function sendOtpEmail(email, otp) {
-  const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.EMAIL_FROM;
+  const user = process.env.SMTP_USER;
+  const appPassword = process.env.SMTP_APP_PASSWORD;
+  const from = process.env.EMAIL_FROM || user;
 
-  if (!apiKey || !from) {
-    throw new Error("Resend email service is not configured.");
+  if (!user || !appPassword || !from) {
+    throw new Error("Gmail SMTP is not configured.");
   }
 
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user,
+      pass: appPassword.replace(/\\s/g, ""),
     },
-    body: JSON.stringify({
-      from,
-      to: [email],
-      subject: "Your VISIONFORGE verification code",
-      text:
-        `Your VISIONFORGE verification code is ${otp}.\n\n` +
-        "It expires in 5 minutes. If you did not request this, ignore this email.",
-      html: `
-        <div style="font-family:Arial,sans-serif;background:#0f1115;color:#f5f5f7;padding:28px;border-radius:12px">
-          <h2 style="color:#8f82ff">VISIONFORGE</h2>
-          <p>Your email verification code is:</p>
-          <p style="font-size:32px;letter-spacing:8px;font-weight:bold">${otp}</p>
-          <p>This code expires in 5 minutes.</p>
-          <p style="color:#a4a8b5">If you did not request this code, ignore this email.</p>
-        </div>
-      `,
-    }),
   });
 
-  if (!response.ok) {
-    const details = await response.text();
-    console.error("Resend API error:", response.status, details);
-    throw new Error("Unable to send verification email.");
-  }
+  await transporter.sendMail({
+    from: {
+      name: "VISIONFORGE",
+      address: user,
+    },
+    to: email,
+    subject: "Your VISIONFORGE verification code",
+    text:
+      `Your VISIONFORGE verification code is ${otp}.\\n\\n` +
+      "It expires in 5 minutes. If you did not request this, ignore this email.",
+    html: `
+      <div style="font-family:Arial,sans-serif;background:#0f1115;color:#f5f5f7;padding:28px;border-radius:12px;max-width:520px;margin:auto">
+        <h2 style="color:#8f82ff;letter-spacing:1px">VISIONFORGE</h2>
+        <p style="font-size:16px">Use this code to verify your email address:</p>
+        <div style="background:#191b24;border:1px solid #38334f;border-radius:12px;padding:20px;text-align:center;margin:24px 0">
+          <span style="font-size:34px;letter-spacing:10px;font-weight:bold;color:#ffffff">${otp}</span>
+        </div>
+        <p>This code expires in <strong>5 minutes</strong>.</p>
+        <p style="color:#a4a8b5;font-size:13px">If you did not request this code, you can safely ignore this email.</p>
+        <p style="color:#777b89;font-size:12px;margin-top:28px">Build. Power. Create.</p>
+      </div>
+    `,
+  });
 }
 
 function validateRegistration(body) {
@@ -225,7 +230,16 @@ router.post("/register", async (req, res) => {
       }
     );
 
-    await sendOtpEmail(email, otp);
+    try {
+      await sendOtpEmail(email, otp);
+    } catch (emailError) {
+      // Remove only the pending record created with this OTP so retries work.
+      await PendingRegistration.deleteOne({
+        email,
+        otpHash: hashOtp(email, otp),
+      });
+      throw emailError;
+    }
 
     return res.status(200).json({
       message: "Verification code sent. Please check your email.",

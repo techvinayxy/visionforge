@@ -20,7 +20,8 @@ function Register() {
     password: "",
   });
 
-  const [otp, setOtp] = useState(Array(6).fill(""));\n  const otpRefs = useRef([]);
+  const [otp, setOtp] = useState(Array(6).fill(""));
+  const otpRefs = useRef([]);
   const [otpStep, setOtpStep] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
@@ -117,7 +118,7 @@ function Register() {
     setError("");
     setNotice("");
 
-    if (!/^\\d{6}$/.test(otp.join(""))) {
+    if (!/^\d{6}$/.test(otp.join(""))) {
       setError("Enter the complete 6-digit verification code.");
       return;
     }
@@ -126,7 +127,9 @@ function Register() {
 
     try {
       await verifyRegistrationOTP(
-        form.email.trim().toLowerCase(),\n        otp.join("")\n      );
+        form.email.trim().toLowerCase(),
+        otp.join("")
+      );
 
       navigate("/", {
         replace: true,
@@ -340,12 +343,12 @@ function Register() {
                         ref={(element) => {
                           otpRefs.current[index] = element;
                         }}
-                        id={\`otp-digit-\${index}\`}
+                        id={"otp-digit-" + index}
                         className="auth-otp-box"
                         type="text"
                         inputMode="numeric"
                         pattern="[0-9]*"
-                        aria-label={\`Verification code digit \${index + 1}\`}
+                        aria-label={"Verification code digit " + (index + 1)}
                         value={digit}
                         autoComplete={index === 0 ? "one-time-code" : "off"}
                         maxLength={1}

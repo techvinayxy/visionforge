@@ -90,7 +90,7 @@ async function sendOtpEmail(email, otp) {
     secure: true,
     auth: {
       user,
-      pass: appPassword.replace(/\\s/g, ""),
+      pass: appPassword.replace(/\s/g, ""),
     },
   });
 
@@ -102,7 +102,7 @@ async function sendOtpEmail(email, otp) {
     to: email,
     subject: "Your VISIONFORGE verification code",
     text:
-      `Your VISIONFORGE verification code is ${otp}.\\n\\n` +
+      `Your VISIONFORGE verification code is ${otp}.\n\n` +
       "It expires in 5 minutes. If you did not request this, ignore this email.",
     html: `
       <div style="font-family:Arial,sans-serif;background:#0f1115;color:#f5f5f7;padding:28px;border-radius:12px;max-width:520px;margin:auto">

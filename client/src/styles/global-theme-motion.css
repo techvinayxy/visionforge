@@ -181,3 +181,201 @@ input:focus, select:focus, textarea:focus {
   .product-card:hover, .category-card:hover { transform: none; }
   .product-card:hover .product-image img { transform: none; }
 }
+
+
+/* VISIONFORGE VISIBLE REDESIGN v2 — stronger, consistent visual identity */
+:root {
+  --vf-bg: #080a11;
+  --vf-surface: #101522;
+  --vf-surface-raised: #171d2d;
+  --vf-border: rgba(148, 163, 184, .22);
+  --vf-border-hover: rgba(139, 92, 246, .85);
+  --vf-purple: #8b5cf6;
+  --vf-purple-bright: #a78bfa;
+  --vf-cyan: #22d3ee;
+  --vf-muted: #a5afc3;
+  --vf-radius: 18px;
+}
+
+html { background: #080a11; }
+body {
+  background:
+    radial-gradient(ellipse at 12% 0%, rgba(91, 33, 182, .19), transparent 34rem),
+    radial-gradient(ellipse at 92% 22%, rgba(8, 145, 178, .09), transparent 28rem),
+    #080a11 !important;
+  color: #f7f8ff;
+}
+main { isolation: isolate; }
+a { text-underline-offset: 4px; }
+
+/* Clearer page hierarchy and shared content surfaces */
+.products-page, .product-details-page, .pc-builder-page, .compare-page,
+.cart-page, .auth-page, .wishlist-page, .seller-page {
+  background: transparent !important;
+}
+.products-container, .product-details-container, .pc-builder-container,
+.cart-container, .compare-container, .auth-container {
+  position: relative;
+}
+.products-header h1, .builder-hero h1, .cart-heading, .compare-page h1,
+.auth-card h1, .product-details-info h1 {
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+.products-header h1, .builder-toolbar h2, .builder-summary-heading h2,
+.cart-heading, .compare-page h1 {
+  background: linear-gradient(100deg, #ffffff 10%, #c4b5fd 60%, #67e8f9 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Stronger premium card treatment */
+.product-card, .category-card, .why-card, .feature-card,
+.builder-component-card, .builder-summary-panel, .builder-total-card,
+.cart-item, .cart-summary, .compare-card, .product-details-main,
+.product-section, .auth-card, .login-card, .register-card,
+.products-sidebar, .delivery-box {
+  background: linear-gradient(145deg, rgba(20, 26, 42, .96), rgba(10, 14, 24, .98)) !important;
+  border: 1px solid rgba(148, 163, 184, .2);
+  border-radius: 18px;
+  box-shadow: 0 12px 38px rgba(0, 0, 0, .14);
+}
+.product-card, .builder-component-card, .cart-item, .category-card, .why-card {
+  transition: transform .28s cubic-bezier(.2,.7,.2,1), border-color .28s ease, box-shadow .28s ease !important;
+}
+.product-card:hover, .builder-component-card:hover, .cart-item:hover,
+.category-card:hover, .why-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(139, 92, 246, .75) !important;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, .3), 0 0 28px rgba(139, 92, 246, .1);
+}
+
+/* Navbar becomes a more deliberate glass header */
+.navbar {
+  background: rgba(8, 10, 17, .82) !important;
+  border-bottom: 1px solid rgba(139, 92, 246, .24) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, .16);
+  backdrop-filter: blur(18px);
+}
+.navbar-links a { transition: color .2s ease, transform .2s ease; }
+.navbar-links a:hover { color: #c4b5fd !important; transform: translateY(-1px); }
+.login-btn, .seller-btn, .hero-primary-btn, .hero-secondary-btn,
+.cta-primary-btn, .cta-secondary-btn, .add-cart-btn, .add-cart-large,
+.buy-now-btn, .wishlist-btn, .builder-complete-button,
+.builder-reset-button, .cart-checkout-btn, .cart-continue-btn,
+.auth-submit, .view-all-btn {
+  border-radius: 10px !important;
+  transition: transform .22s ease, box-shadow .22s ease, background .22s ease, border-color .22s ease !important;
+}
+.seller-btn, .hero-primary-btn, .cta-primary-btn, .add-cart-btn,
+.add-cart-large, .builder-complete-button, .cart-checkout-btn, .auth-submit {
+  background: linear-gradient(110deg, #7c3aed, #6d5efc 58%, #0891b2) !important;
+  border-color: transparent !important;
+  box-shadow: 0 8px 22px rgba(109, 94, 252, .2);
+}
+.seller-btn:hover, .hero-primary-btn:hover, .cta-primary-btn:hover,
+.add-cart-btn:hover, .add-cart-large:hover, .builder-complete-button:hover,
+.cart-checkout-btn:hover, .auth-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(109, 94, 252, .34);
+  opacity: 1;
+}
+.hero-secondary-btn, .cta-secondary-btn, .buy-now-btn, .wishlist-btn,
+.builder-reset-button, .view-all-btn {
+  background: rgba(17, 24, 39, .72);
+  border: 1px solid rgba(167, 139, 250, .32) !important;
+}
+.hero-secondary-btn:hover, .cta-secondary-btn:hover, .buy-now-btn:hover,
+.wishlist-btn:hover, .builder-reset-button:hover, .view-all-btn:hover {
+  border-color: #a78bfa !important;
+  box-shadow: 0 0 22px rgba(139, 92, 246, .14);
+}
+
+/* Home hero: make the existing content feel cinematic without changing layout */
+.hero {
+  background:
+    radial-gradient(ellipse at 76% 42%, rgba(91, 33, 182, .22), transparent 28rem),
+    linear-gradient(120deg, #080a11 20%, #101225 100%) !important;
+}
+.hero::before {
+  background: #5b21b6 !important;
+  opacity: .45;
+}
+.hero-label, .cta-label, .product-category, .builder-eyebrow,
+.builder-section-kicker {
+  color: #a78bfa !important;
+}
+.hero h1 span, .cta-container h2 span { color: #a78bfa !important; }
+
+/* Catalogue controls and prices */
+.products-search input, .products-toolbar select, .products-page input,
+.products-page select, .auth-field input, .auth-field select,
+.auth-field textarea, #builder-budget, .builder-component-card select {
+  background: rgba(7, 10, 18, .9) !important;
+  border: 1px solid rgba(148, 163, 184, .24) !important;
+  border-radius: 10px !important;
+  color: #f7f8ff !important;
+}
+.products-categories button {
+  border-radius: 999px !important;
+  background: rgba(17, 24, 39, .72);
+}
+.products-categories button.active {
+  background: linear-gradient(100deg, #7c3aed, #6257ea) !important;
+  border-color: transparent !important;
+}
+.product-price, .product-details-price, .product-bottom strong,
+.builder-selected-price, .builder-total-price, .cart-item-subtotal {
+  color: #67e8f9 !important;
+  font-variant-numeric: tabular-nums;
+}
+.product-image { background: radial-gradient(ellipse at center, rgba(109, 94, 252, .14), rgba(8, 12, 20, .92)) !important; }
+
+/* PC builder gets a visible configurator panel style */
+.builder-hero {
+  border: 1px solid rgba(139, 92, 246, .28);
+  border-radius: 24px;
+  padding: clamp(24px, 4vw, 48px);
+  background:
+    radial-gradient(ellipse at 85% 25%, rgba(34, 211, 238, .1), transparent 24rem),
+    linear-gradient(130deg, rgba(27, 20, 54, .95), rgba(12, 17, 30, .98)) !important;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .22);
+}
+.builder-component-card.is-selected {
+  border-color: rgba(34, 211, 238, .55) !important;
+  box-shadow: inset 0 0 0 1px rgba(34, 211, 238, .08), 0 12px 34px rgba(0, 0, 0, .2);
+}
+.builder-selection-indicator.active {
+  background: rgba(34, 211, 238, .14);
+  color: #67e8f9;
+}
+.builder-budget-track { background: rgba(148, 163, 184, .16); }
+.builder-budget-track span { background: linear-gradient(90deg, #7c3aed, #22d3ee); }
+
+/* Cart / compare / account screens share one design language */
+.cart-summary, .builder-total-card {
+  border-color: rgba(139, 92, 246, .3) !important;
+}
+.cart-summary-total, .builder-total-price {
+  border-color: rgba(148, 163, 184, .18);
+}
+.cart-build-image {
+  background: radial-gradient(circle, rgba(139, 92, 246, .26), rgba(9, 12, 20, .95)) !important;
+  border: 1px solid rgba(139, 92, 246, .28);
+  border-radius: 14px;
+}
+.compare-table-wrapper { border-color: rgba(148, 163, 184, .22) !important; }
+.compare-table thead th { background: rgba(124, 58, 237, .2) !important; }
+.auth-submit { min-height: 46px; }
+
+/* More comfortable responsive layout; preserve existing breakpoints */
+@media (max-width: 768px) {
+  .builder-hero { border-radius: 18px; }
+  .product-card, .builder-component-card, .cart-item { border-radius: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .product-card, .builder-component-card, .cart-item, .category-card, .why-card {
+    transition: none !important;
+  }
+}

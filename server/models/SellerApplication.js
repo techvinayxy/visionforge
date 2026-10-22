@@ -5,6 +5,7 @@ const sellerApplicationSchema = new mongoose.Schema(
     ownerName: { type: String, required: true, trim: true, maxlength: 100 },
     businessName: { type: String, required: true, trim: true, maxlength: 120 },
     email: { type: String, required: true, lowercase: true, trim: true, maxlength: 254 },
+    passwordHash: { type: String, required: true, select: false },
     phone: { type: String, required: true, trim: true, maxlength: 20 },
     businessType: {
       type: String,

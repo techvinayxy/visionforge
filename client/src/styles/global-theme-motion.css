@@ -116,3 +116,68 @@ input:focus, select:focus, textarea:focus {
 @media (max-width: 768px) {
   .navbar { -webkit-backdrop-filter: none; backdrop-filter: none; }
 }
+
+
+/* Page-specific finish: catalogue, builder, compare, cart and account screens. */
+.products-page, .pc-builder-page, .compare-page, .cart-page {
+  color: var(--vf-text);
+}
+.product-grid, .builder-components-grid { align-items: stretch; }
+.product-card {
+  background: linear-gradient(155deg, rgba(24, 29, 42, .96), rgba(15, 18, 27, .98));
+  border-radius: var(--vf-radius);
+  overflow: hidden;
+}
+.product-card .product-image { background: radial-gradient(ellipse at 50% 35%, rgba(108, 92, 231, .12), rgba(13, 16, 23, .45)); }
+.product-card .product-image img { transition: transform .38s var(--vf-ease), filter .38s var(--vf-ease); }
+.product-card:hover .product-image img { transform: scale(1.045); filter: saturate(1.08); }
+.product-card .product-price, .compare-table-price { color: var(--vf-cyan); font-variant-numeric: tabular-nums; }
+.add-cart-btn, .cart-checkout-btn, .builder-complete-button, .auth-submit {
+  border: 1px solid rgba(143, 130, 255, .36);
+  border-radius: 9px;
+}
+.add-cart-btn:hover, .cart-checkout-btn:hover, .builder-complete-button:hover, .auth-submit:hover:not(:disabled) {
+  border-color: var(--vf-purple-bright);
+  box-shadow: 0 0 24px rgba(108, 92, 231, .18);
+}
+.builder-component, .builder-component-card, .builder-part-card,
+.builder-summary, .cart-summary, .auth-panel, .auth-card {
+  border-color: var(--vf-border);
+  border-radius: var(--vf-radius);
+}
+.builder-compatibility-ok {
+  border-color: rgba(92, 225, 230, .28);
+}
+.builder-compatibility-warning {
+  border-color: rgba(255, 176, 84, .42);
+}
+.compare-table-wrapper {
+  border: 1px solid var(--vf-border);
+  border-radius: var(--vf-radius);
+  overflow-x: auto;
+}
+.compare-table { border-collapse: separate; border-spacing: 0; }
+.compare-table thead th {
+  background: rgba(143, 130, 255, .09);
+  color: var(--vf-text);
+}
+.compare-table tbody tr:hover { background: rgba(143, 130, 255, .045); }
+.compare-table th, .compare-table td { border-color: var(--vf-border); }
+.cart-summary {
+  background: linear-gradient(155deg, rgba(23, 28, 40, .96), rgba(13, 16, 23, .98));
+  box-shadow: 0 16px 42px rgba(0, 0, 0, .16);
+}
+.auth-field input, .auth-field select, .auth-field textarea,
+.products-page input, .products-page select {
+  background-color: rgba(10, 12, 18, .82);
+  border-color: var(--vf-border);
+  color: var(--vf-text);
+}
+.auth-switch a { color: var(--vf-purple-bright); }
+.auth-error { border-radius: 8px; }
+.auth-success { border-radius: 8px; }
+
+@media (hover: none) {
+  .product-card:hover, .category-card:hover { transform: none; }
+  .product-card:hover .product-image img { transform: none; }
+}

@@ -19,7 +19,7 @@ import Assistant from "./pages/Assistant.jsx";
 
 function App() {
   const location = useLocation();
-  const isAssistantPage = location.pathname.replace(/\\/+$/, "") === "/ai-assistant";
+  const isAssistantPage = location.pathname === "/ai-assistant" || location.pathname === "/ai-assistant/";
 
   return (
     <>

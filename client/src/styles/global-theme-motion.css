@@ -1,0 +1,118 @@
+/* VISIONFORGE global visual polish — additive layer, existing page styles preserved */
+:root {
+  color-scheme: dark;
+  --vf-bg: #0b0d12;
+  --vf-surface: #121620;
+  --vf-surface-raised: #171c28;
+  --vf-border: rgba(151, 164, 190, 0.18);
+  --vf-border-hover: rgba(143, 130, 255, 0.62);
+  --vf-text: #f5f7ff;
+  --vf-muted: #aab2c4;
+  --vf-purple: #8f82ff;
+  --vf-purple-bright: #a69cff;
+  --vf-cyan: #5ce1e6;
+  --vf-radius: 14px;
+  --vf-ease: cubic-bezier(.2,.7,.2,1);
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+body {
+  background:
+    radial-gradient(ellipse at 85% -10%, rgba(108, 92, 231, .10), transparent 36rem),
+    var(--vf-bg);
+  color: var(--vf-text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+::selection { color: #fff; background: rgba(108, 92, 231, .72); }
+:focus-visible { outline: 2px solid var(--vf-cyan); outline-offset: 3px; }
+
+/* Shared links and controls: preserve each component's existing sizing/layout. */
+a, button, input, select, textarea {
+  transition-property: color, background-color, border-color, box-shadow, transform, opacity;
+  transition-duration: .22s;
+  transition-timing-function: var(--vf-ease);
+}
+button { -webkit-tap-highlight-color: transparent; }
+button:not(:disabled):active { transform: translateY(1px); }
+button:disabled { cursor: not-allowed; opacity: .55; }
+
+/* Common surfaces used across catalogue, builder, comparison and account pages. */
+.product-card, .category-card, .feature-card, .why-card,
+.pc-component-card, .component-card, .compare-card, .cart-item,
+.auth-card, .login-card, .register-card, .builder-summary {
+  border-color: var(--vf-border);
+  transition: border-color .24s var(--vf-ease), box-shadow .24s var(--vf-ease), transform .24s var(--vf-ease), background-color .24s var(--vf-ease);
+}
+.product-card:hover, .category-card:hover, .feature-card:hover,
+.why-card:hover, .pc-component-card:hover, .component-card:hover,
+.compare-card:hover, .cart-item:hover {
+  border-color: var(--vf-border-hover);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, .22), 0 0 24px rgba(108, 92, 231, .08);
+}
+
+/* Refined shared navbar without changing its React behaviour. */
+.navbar {
+  background: rgba(10, 12, 16, .88);
+  border-bottom-color: rgba(143, 130, 255, .16);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+.navbar-links a { position: relative; }
+.navbar-links a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 100%; bottom: -7px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--vf-purple), var(--vf-cyan));
+  transition: right .22s var(--vf-ease);
+}
+.navbar-links a:hover::after, .navbar-links a:focus-visible::after { right: 0; }
+.login-btn:hover, .register-nav-btn:hover {
+  box-shadow: 0 0 22px rgba(108, 92, 231, .16);
+}
+
+/* Existing CTA classes across the site get consistent feedback. */
+.hero-primary-btn, .seller-btn, .add-to-cart-btn, .checkout-btn,
+.build-btn, .primary-btn, .submit-btn, .view-all-btn {
+  transition: transform .22s var(--vf-ease), box-shadow .22s var(--vf-ease), border-color .22s var(--vf-ease), background-color .22s var(--vf-ease), color .22s var(--vf-ease);
+}
+.hero-primary-btn:hover, .seller-btn:hover, .add-to-cart-btn:hover,
+.checkout-btn:hover, .build-btn:hover, .primary-btn:hover, .submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(108, 92, 231, .24);
+}
+
+/* Gentle entrance for page content; no scroll listeners or heavy animation libraries. */
+@keyframes vf-page-enter {
+  from { opacity: 0; transform: translateY(7px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+main, .hero, .products-page, .pc-builder-page, .compare-page, .cart-page, .auth-page {
+  animation: vf-page-enter .42s var(--vf-ease) both;
+}
+.hero::before {
+  animation: vf-glow-drift 14s ease-in-out infinite alternate;
+}
+@keyframes vf-glow-drift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(-18px, 12px, 0) scale(1.06); }
+}
+
+/* Clear, consistent keyboard interaction and reduced-motion accessibility. */
+input:focus, select:focus, textarea:focus {
+  border-color: rgba(143, 130, 255, .78);
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, .12);
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+@media (max-width: 768px) {
+  .navbar { -webkit-backdrop-filter: none; backdrop-filter: none; }
+}

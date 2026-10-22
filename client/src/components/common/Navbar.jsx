@@ -104,6 +104,10 @@ function Navbar() {
             </>
           )}
 
+          <Link to="/seller/login" className="seller-btn" onClick={closeMenu}>
+            Seller Login
+          </Link>
+
           <Link
             to="/seller/register"
             className="seller-btn"

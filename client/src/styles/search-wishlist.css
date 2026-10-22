@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   height: 38px;
-  width: clamp(150px, 18vw, 245px);
+  width: clamp(125px, 13vw, 185px);
   border: 1px solid rgba(151, 164, 190, .28);
   border-radius: 9px;
   overflow: hidden;
@@ -12,7 +12,7 @@
 .navbar-search:focus-within { border-color: #8f82ff; box-shadow: 0 0 0 3px rgba(143, 130, 255, .12); }
 .navbar-search input { min-width: 0; width: 100%; height: 100%; padding: 0 10px; border: 0; outline: 0; color: #f5f7ff; background: transparent; font-size: 12px; }
 .navbar-search input::placeholder { color: #8e97ab; }
-.navbar-search button { height: 100%; padding: 0 10px; border: 0; color: #c8c1ff; background: transparent; font-size: 23px; cursor: pointer; }
+.navbar-search button { height: 100%; padding: 0 8px; border: 0; color: #c8c1ff; background: transparent; font-size: 23px; cursor: pointer; }
 .navbar-wishlist { display: inline-flex; align-items: center; gap: 5px; color: #e5e8f2; text-decoration: none; font-size: 13px; white-space: nowrap; }
 .navbar-wishlist:hover { color: #ff6b9b; }
 .product-card { position: relative; }
@@ -39,7 +39,7 @@
 .wishlist-card-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .wishlist-card-actions .wishlist-remove { border-color: rgba(255,92,145,.35); background: transparent; color: #ff8eb2; }
 @media (max-width: 1100px) {
-  .navbar-search { width: 180px; }
+  .navbar-search { width: 155px; }
   .navbar-actions { gap: 8px; }
   .navbar-wishlist span { display: none; }
 }

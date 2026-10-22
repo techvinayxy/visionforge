@@ -234,7 +234,7 @@ function Products() {
                     {isWishlisted(product.id) ? "♥" : "♡"}
                   </button>
                   <Link
-                    to={`/products/${product.id}`
+                    to={`/products/${product.id}`}
                     className="product-card-link"
                   >
                     <div className="product-image">

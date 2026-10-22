@@ -15,6 +15,7 @@ import Compare from "./pages/Compare";
 import Register from "./pages/Register";
 import SellerRegister from "./pages/SellerRegister";
 import SellerLogin from "./pages/SellerLogin";
+import SellerDashboard from "./pages/SellerDashboard";
 import Login from "./pages/Login";
 import Wishlist from "./pages/Wishlist.jsx";
 import Assistant from "./pages/Assistant.jsx";
@@ -40,6 +41,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/seller/register" element={<SellerRegister />} />
         <Route path="/seller/login" element={<SellerLogin />} />
+        <Route path="/seller/dashboard" element={<SellerDashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

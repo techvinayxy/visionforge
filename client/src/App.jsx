@@ -36,6 +36,7 @@ function App() {
         <Route path="/compare" element={<Compare />} />
         <Route path="/ai-assistant" element={<Assistant />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/seller/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

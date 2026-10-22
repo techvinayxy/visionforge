@@ -25,8 +25,8 @@ function getRecommendations(message) {
   const query = message.toLowerCase();
   const budgetMatch = query.match(/(?:under|below|within|budget(?: of)?|₹|rs\.?\s*)(?:₹\s*)?([\d,]+)/i);
   let budget = budgetMatch ? Number(budgetMatch[1].replace(/,/g, "")) : Infinity;
-  if (budget < 1000 && /lakh|lac|l/.test(query)) budget *= 100000;
-  else if (budget < 1000 && /k/.test(query)) budget *= 1000;
+  if (budget < 1000 && /lakh|lac|l\\b/.test(query)) budget *= 100000;
+  else if (budget < 1000 && /k\\b/.test(query)) budget *= 1000;
   if (/1,?20,?000|1\.2\s*lakh/.test(query)) budget = 120000;
   if (/1,?80,?000|1\.8\s*lakh/.test(query)) budget = 180000;
   if (/40,?000|40k/.test(query)) budget = 40000;

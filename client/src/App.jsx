@@ -1,7 +1,8 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 import Navbar from "./components/common/Navbar";
 import Footer from "./components/common/Footer";
+import AIAssistantHover from "./components/common/AIAssistantHover";
 
 import Home from "./pages/Home";
 import Products from "./pages/Products";
@@ -17,6 +18,9 @@ import Wishlist from "./pages/Wishlist.jsx";
 import Assistant from "./pages/Assistant.jsx";
 
 function App() {
+  const location = useLocation();
+  const isAssistantPage = location.pathname === "/ai-assistant" || location.pathname === "/ai-assistant/";
+
   return (
     <>
       <Navbar />
@@ -27,10 +31,7 @@ function App() {
         <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<Wishlist />} />
-        <Route
-          path="/cloudinary-test"
-          element={<CloudinaryUpload />}
-        />
+        <Route path="/cloudinary-test" element={<CloudinaryUpload />} />
         <Route path="/builder" element={<PCBuilder />} />
         <Route path="/compare" element={<Compare />} />
         <Route path="/ai-assistant" element={<Assistant />} />
@@ -39,6 +40,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
 
+      {!isAssistantPage && <AIAssistantHover />}
       <Footer />
     </>
   );

@@ -13,6 +13,7 @@ import PCBuilder from "./pages/PCBuilder";
 import Compare from "./pages/Compare";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import Wishlist from "./pages/Wishlist.jsx";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/wishlist" element={<Wishlist />} />
         <Route
           path="/cloudinary-test"
           element={<CloudinaryUpload />}

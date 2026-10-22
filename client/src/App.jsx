@@ -13,6 +13,7 @@ import Cart from "./pages/Cart.jsx";
 import PCBuilder from "./pages/PCBuilder";
 import Compare from "./pages/Compare";
 import Register from "./pages/Register";
+import SellerRegister from "./pages/SellerRegister";
 import Login from "./pages/Login";
 import Wishlist from "./pages/Wishlist.jsx";
 import Assistant from "./pages/Assistant.jsx";
@@ -36,7 +37,7 @@ function App() {
         <Route path="/compare" element={<Compare />} />
         <Route path="/ai-assistant" element={<Assistant />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/seller/register" element={<Register />} />
+        <Route path="/seller/register" element={<SellerRegister />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

@@ -1,26 +1,31 @@
 .vf-ai-hover {
   position: fixed;
-  right: 22px;
-  bottom: 22px;
+  right: 20px;
+  bottom: 20px;
   z-index: 1200;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  min-height: 44px;
-  padding: 5px 12px 5px 5px;
-  border: 1px solid rgba(181, 165, 255, 0.48);
+  justify-content: center;
+  gap: 0;
+  width: 36px;
+  height: 36px;
+  padding: 2px;
+  border: 1px solid rgba(181, 165, 255, 0.45);
   border-radius: 999px;
   color: #fff;
   background: linear-gradient(135deg, #7659f6, #4f35c8);
-  box-shadow: 0 5px 18px rgba(108, 92, 231, 0.28);
+  box-shadow: 0 3px 12px rgba(108, 92, 231, 0.25);
   text-decoration: none;
-  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+  transition: width 180ms ease, padding 180ms ease, gap 180ms ease, transform 180ms ease, box-shadow 180ms ease;
 }
 
 .vf-ai-hover:hover,
 .vf-ai-hover:focus-visible {
+  width: auto;
+  gap: 6px;
+  padding: 4px 10px 4px 4px;
   transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(108, 92, 231, 0.4);
+  box-shadow: 0 6px 16px rgba(108, 92, 231, 0.36);
   background: linear-gradient(135deg, #8a73ff, #6246e8);
 }
 
@@ -32,19 +37,19 @@
 .vf-ai-hover-icon {
   display: grid;
   place-items: center;
-  flex: 0 0 30px;
-  width: 30px;
-  height: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.12);
-  font-size: 19px;
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 17px;
   line-height: 1;
-  transition: transform 220ms ease;
+  transition: transform 200ms ease;
 }
 
 .vf-ai-hover:hover .vf-ai-hover-icon {
-  transform: rotate(25deg);
+  transform: rotate(20deg);
 }
 
 .vf-ai-hover-label {
@@ -54,7 +59,7 @@
   opacity: 0;
   font-size: 12px;
   font-weight: 650;
-  transition: max-width 220ms ease, opacity 180ms ease;
+  transition: max-width 180ms ease, opacity 150ms ease;
 }
 
 .vf-ai-hover:hover .vf-ai-hover-label,
@@ -67,14 +72,15 @@
   .vf-ai-hover {
     right: 14px;
     bottom: 14px;
-    min-height: 40px;
-    padding: 4px;
+    width: 34px;
+    height: 34px;
   }
 
   .vf-ai-hover-icon {
-    flex-basis: 30px;
-    width: 30px;
-    height: 30px;
+    flex-basis: 26px;
+    width: 26px;
+    height: 26px;
+    font-size: 16px;
   }
 
   .vf-ai-hover-label {

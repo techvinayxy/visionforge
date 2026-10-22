@@ -125,6 +125,12 @@ function Products() {
       result = [...result].sort((a, b) => b.price - a.price);
     }
 
+    // Product records currently have no createdAt field. Use descending catalogue
+    // IDs as the available fallback until real product creation dates are stored.
+    if (sortBy === "newest") {
+      result = [...result].sort((a, b) => b.id - a.id);
+    }
+
     return result;
   }, [search, selectedCategory, priceRange, sortBy]);
 

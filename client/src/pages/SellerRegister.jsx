@@ -11,6 +11,7 @@ const initialForm = {
   ownerName: "",
   businessName: "",
   email: "",
+  password: "",
   phone: "",
   businessType: "Retailer",
   address: "",
@@ -44,6 +45,7 @@ function SellerRegister() {
           ownerName: form.ownerName.trim(),
           businessName: form.businessName.trim(),
           email: form.email.trim().toLowerCase(),
+          password: form.password,
           phone: form.phone.trim(),
           address: form.address.trim(),
           website: form.website.trim(),
@@ -107,6 +109,9 @@ function SellerRegister() {
                   <input type="tel" name="phone" value={form.phone} onChange={handleChange} autoComplete="tel" maxLength={20} minLength={7} required placeholder="+91 ..." />
                 </label>
               </div>
+              <label className="auth-field">Create password (minimum 8 characters)
+                <input type="password" name="password" value={form.password} onChange={handleChange} autoComplete="new-password" minLength={8} maxLength={128} required placeholder="Create a strong password" />
+              </label>
               <label className="auth-field">Business type
                 <select name="businessType" value={form.businessType} onChange={handleChange} required>
                   <option>Retailer</option>
@@ -134,7 +139,8 @@ function SellerRegister() {
               </button>
             </form>
 
-            <p className="auth-switch">Already have a customer account? <Link to="/login">Log in</Link></p>
+            <p className="auth-switch">Already a seller? <Link to="/seller/login">Seller login</Link></p>
+            <p className="auth-switch">Customer account? <Link to="/login">Customer login</Link></p>
             <p className="auth-terms">Submitting an application does not grant seller access. Our team must approve it first.</p>
           </div>
         </div>

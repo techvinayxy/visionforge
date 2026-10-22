@@ -3,11 +3,13 @@ import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import products from "../data/products";
 import { useCart } from "../context/CartContext";
+import { useWishlist } from "../context/WishlistContext.jsx";
 
 function ProductDetails() {
   const { id } = useParams();
   const product = products.find((item) => item.id === Number(id));
   const { addToCart } = useCart();
+  const { isWishlisted, toggleWishlist } = useWishlist();
 
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
@@ -236,10 +238,12 @@ function ProductDetails() {
 
               <button
                 type="button"
-                className="wishlist-btn"
-                aria-label="Add to wishlist"
+                className={`wishlist-btn ${isWishlisted(product.id) ? "is-wishlisted" : ""}`}
+                aria-label={isWishlisted(product.id) ? "Remove from wishlist" : "Add to wishlist"}
+                aria-pressed={isWishlisted(product.id)}
+                onClick={() => toggleWishlist(product)}
               >
-                ♡
+                {isWishlisted(product.id) ? "♥" : "♡"}
               </button>
             </div>
 

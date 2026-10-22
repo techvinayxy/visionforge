@@ -8,6 +8,8 @@ import App from "./App.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import { CartProvider } from "./context/CartContext.jsx";
 import { CompareProvider } from "./context/CompareContext.jsx";
+import { WishlistProvider } from "./context/WishlistContext.jsx";
+import "./styles/search-wishlist.css";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -15,7 +17,9 @@ createRoot(document.getElementById("root")).render(
       <AuthProvider>
         <CartProvider>
           <CompareProvider>
-            <App />
+            <WishlistProvider>
+              <App />
+            </WishlistProvider>
           </CompareProvider>
         </CartProvider>
       </AuthProvider>

@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useCart } from "../context/CartContext.jsx";
+import { useWishlist } from "../context/WishlistContext.jsx";
 
 const products = [
   { id: 1, name: "VISIONFORGE Titan Gaming PC", category: "Gaming PCs", price: 89999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1790958993/Titan_Gaming_PC.png" },
@@ -50,14 +51,19 @@ const componentCategories = [
 
 function Products() {
   const { addToCart } = useCart();
+  const { isWishlisted, toggleWishlist } = useWishlist();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(() => searchParams.get("q") || "");
   const [selectedCategory, setSelectedCategory] = useState(
     () => searchParams.get("category") || "All"
   );
   const [priceRange, setPriceRange] = useState("all");
   const [sortBy, setSortBy] = useState("popular");
+
+  useEffect(() => {
+    setSearch(searchParams.get("q") || "");
+  }, [searchParams]);
 
   useEffect(() => {
     const categoryFromUrl = searchParams.get("category") || "All";
@@ -218,6 +224,15 @@ function Products() {
             <div className="product-grid">
               {filteredProducts.map((product) => (
                 <div className="product-card" key={product.id}>
+                  <button
+                    type="button"
+                    className={`product-wishlist-btn ${isWishlisted(product.id) ? "is-wishlisted" : ""}`}
+                    onClick={() => toggleWishlist(product)}
+                    aria-label={isWishlisted(product.id) ? "Remove from wishlist" : "Add to wishlist"}
+                    aria-pressed={isWishlisted(product.id)}
+                  >
+                    {isWishlisted(product.id) ? "♥" : "♡"}
+                  </button>
                   <Link
                     to={`/products/${product.id}`}
                     className="product-card-link"

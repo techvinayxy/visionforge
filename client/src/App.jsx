@@ -14,6 +14,7 @@ import Compare from "./pages/Compare";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Wishlist from "./pages/Wishlist.jsx";
+import Assistant from "./pages/Assistant.jsx";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         />
         <Route path="/builder" element={<PCBuilder />} />
         <Route path="/compare" element={<Compare />} />
+        <Route path="/ai-assistant" element={<Assistant />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<NotFound />} />

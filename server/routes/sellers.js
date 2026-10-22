@@ -114,4 +114,43 @@ router.post("/login", async (req, res) => {
   }
 });
 
+
+router.get("/me", async (req, res) => {
+  try {
+    const authorization = req.headers.authorization || "";
+    const match = authorization.match(/^Bearer\s+(.+)$/i);
+    if (!match) return res.status(401).json({ message: "Please sign in as a seller." });
+    if (!process.env.JWT_SECRET) throw new Error("JWT_SECRET is not configured.");
+
+    let payload;
+    try {
+      payload = jwt.verify(match[1], process.env.JWT_SECRET);
+    } catch {
+      return res.status(401).json({ message: "Your seller session has expired. Please sign in again." });
+    }
+    if (payload.role !== "seller" || !payload.sub) {
+      return res.status(403).json({ message: "Seller access is required." });
+    }
+
+    const seller = await SellerApplication.findById(payload.sub);
+    if (!seller || seller.status !== "approved") {
+      return res.status(403).json({ message: "This seller account is not approved for access." });
+    }
+
+    return res.json({
+      seller: {
+        id: seller._id.toString(),
+        ownerName: seller.ownerName,
+        businessName: seller.businessName,
+        email: seller.email,
+        status: seller.status,
+        role: "seller",
+      },
+    });
+  } catch (error) {
+    console.error("Seller session verification failed:", error.message);
+    return res.status(500).json({ message: "Unable to verify your seller session right now." });
+  }
+});
+
 module.exports = router;

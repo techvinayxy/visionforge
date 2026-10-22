@@ -7,9 +7,17 @@ function Navbar() {
   const { cartCount } = useCart();
   const { user, isAuthenticated, logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
   const closeMenu = () => setMenuOpen(false);
+
+  function handleSearch(event) {
+    event.preventDefault();
+    const query = searchTerm.trim();
+    closeMenu();
+    navigate(query ? `/products?q=${encodeURIComponent(query)}` : "/products");
+  }
 
   function handleLogout() {
     logout();
@@ -47,6 +55,21 @@ function Navbar() {
         </div>
 
         <div className={`navbar-actions ${menuOpen ? "show-mobile-menu" : ""}`}>
+          <form className="navbar-search" role="search" onSubmit={handleSearch}>
+            <input
+              type="search"
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+              placeholder="Search products..."
+              aria-label="Search products"
+            />
+            <button type="submit" aria-label="Submit product search">⌕</button>
+          </form>
+
+          <Link to="/wishlist" className="navbar-wishlist" onClick={closeMenu} aria-label="Wishlist">
+            ♡ <span>Wishlist</span>
+          </Link>
+
           <Link to="/cart" className="navbar-cart" onClick={closeMenu}>
             🛒 Cart ({cartCount})
           </Link>

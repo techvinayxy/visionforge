@@ -89,11 +89,55 @@ async function sendOtpEmail(email, otp) {
       </div>
     `;
   const text =
-    `Your VISIONFORGE verification code is ${otp}.\\n\\n` +
+    `Your VISIONFORGE verification code is ${otp}.\n\n` +
     "It expires in 5 minutes. If you did not request this, ignore this email.";
 
-  // Prefer the Resend HTTPS API because Render's free service blocks SMTP ports.
-  if (process.env.RESEND_API_KEY) {
+  // Choose the provider. EMAIL_PROVIDER ("resend" | "brevo" | "smtp") wins if set;
+  // otherwise keep the previous behaviour (Resend if its key exists), then Brevo, then Gmail SMTP.
+  const provider = (
+    process.env.EMAIL_PROVIDER ||
+    (process.env.RESEND_API_KEY ? "resend" : process.env.BREVO_API_KEY ? "brevo" : "smtp")
+  ).toLowerCase();
+
+  // Brevo HTTPS API: works on Render's free plan (SMTP ports are blocked) and only
+  // needs a single verified sender address instead of a verified domain.
+  if (provider === "brevo") {
+    const apiKey = process.env.BREVO_API_KEY;
+    const senderEmail = process.env.BREVO_SENDER_EMAIL;
+    if (!apiKey || !senderEmail) {
+      throw new Error("Brevo is not configured. Set BREVO_API_KEY and BREVO_SENDER_EMAIL.");
+    }
+    const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+      method: "POST",
+      headers: {
+        "api-key": apiKey,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        sender: { name: "VISIONFORGE", email: senderEmail },
+        to: [{ email }],
+        subject: "Your VISIONFORGE verification code",
+        textContent: text,
+        htmlContent: html,
+      }),
+      signal: AbortSignal.timeout(15000),
+    });
+
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      const providerMessage =
+        typeof result.message === "string" ? result.message : "Brevo email API request failed.";
+      throw new Error(`Brevo API error (${response.status}): ${providerMessage}`);
+    }
+    return;
+  }
+
+  // Resend HTTPS API (needs a verified domain to send to anyone but the account owner).
+  if (provider === "resend") {
+    if (!process.env.RESEND_API_KEY) {
+      throw new Error("Resend is not configured. Set RESEND_API_KEY.");
+    }
     const from = process.env.EMAIL_FROM || "VISIONFORGE <onboarding@resend.dev>";
     const response = await fetch("https://api.resend.com/emails", {
       method: "POST",

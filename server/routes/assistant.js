@@ -4,8 +4,32 @@ const router = express.Router();
 
 const MAX_MESSAGES = 12;
 const MAX_MESSAGE_LENGTH = 2000;
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_MAX_REQUESTS = 10;
+const requestBuckets = new Map();
 
-router.post("/", async (req, res) => {
+function rateLimit(req, res, next) {
+  const now = Date.now();
+  const key = req.ip || req.socket.remoteAddress || "unknown";
+  const current = requestBuckets.get(key);
+
+  if (!current || now - current.startedAt >= RATE_LIMIT_WINDOW_MS) {
+    requestBuckets.set(key, { startedAt: now, count: 1 });
+    return next();
+  }
+
+  if (current.count >= RATE_LIMIT_MAX_REQUESTS) {
+    res.set("Retry-After", String(Math.ceil((RATE_LIMIT_WINDOW_MS - (now - current.startedAt)) / 1000)));
+    return res.status(429).json({ message: "You're sending messages too quickly. Please wait a minute and try again." });
+  }
+
+  current.count += 1;
+  return next();
+}
+
+// In-memory protection for a single server process; use shared-store limiting
+// before scaling to multiple instances.
+router.post("/", rateLimit, async (req, res) => {
   const apiKey = process.env.GEMINI_API_KEY;
   const model = process.env.GEMINI_MODEL;
 

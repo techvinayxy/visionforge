@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext.jsx";
 import { useAuth } from "../../context/AuthContext.jsx";
 
@@ -47,11 +47,11 @@ function Navbar() {
           id="navbar-navigation"
           className={`navbar-links ${menuOpen ? "show-mobile-menu" : ""}`}
         >
-          <Link to="/" onClick={closeMenu}>Home</Link>
-          <Link to="/products" onClick={closeMenu}>Products</Link>
-          <Link to="/builder" onClick={closeMenu}>PC Builder</Link>
-          <Link to="/compare" onClick={closeMenu}>Compare</Link>
-          <Link to="/ai-assistant" onClick={closeMenu}>AI Assistant</Link>
+          <NavLink to="/" end onClick={closeMenu}>Home</NavLink>
+          <NavLink to="/products" onClick={closeMenu}>Products</NavLink>
+          <NavLink to="/builder" onClick={closeMenu}>PC Builder</NavLink>
+          <NavLink to="/compare" onClick={closeMenu}>Compare</NavLink>
+          <NavLink to="/ai-assistant" onClick={closeMenu}>AI Assistant</NavLink>
         </div>
 
         <div className={`navbar-actions ${menuOpen ? "show-mobile-menu" : ""}`}>
@@ -91,7 +91,7 @@ function Navbar() {
           ) : (
             <>
               <Link to="/login" className="login-btn" onClick={closeMenu}>
-                Login
+                Sign in
               </Link>
 
               <Link
@@ -104,7 +104,7 @@ function Navbar() {
             </>
           )}
 
-          <Link to="/seller/login" className="seller-btn" onClick={closeMenu}>
+          <Link to="/seller/login" className="seller-btn seller-link" onClick={closeMenu}>
             Seller Login
           </Link>
 

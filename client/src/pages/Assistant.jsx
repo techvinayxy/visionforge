@@ -6,10 +6,22 @@ const catalog = [
   { id: 1, name: "VISIONFORGE Titan Gaming PC", category: "Gaming PCs", price: 89999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1790958993/Titan_Gaming_PC.png", tags: ["gaming", "1440p", "pc", "build"] },
   { id: 2, name: "VISIONFORGE Phantom Gaming PC", category: "Gaming PCs", price: 74999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791010393/Phantom_Gaming_PC.jpg", tags: ["gaming", "budget", "1080p", "pc"] },
   { id: 3, name: "VISIONFORGE Pro Gaming PC", category: "Gaming PCs", price: 109999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791010644/Pro_Gaming_PC.jpg", tags: ["gaming", "1440p", "high performance", "pc"] },
+  { id: 4, name: "VISIONFORGE Entry Gaming PC", category: "Gaming PCs", price: 54999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791010952/Entry_Gaming_PC.jpg", tags: ["gaming", "entry", "budget", "1080p", "pc"] },
   { id: 5, name: "RTX Gaming Graphics Card", category: "Graphics Cards", price: 54999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011087/RTX_Gaming_Graphics_Card.jpg", tags: ["gpu", "graphics", "gaming"] },
+  { id: 6, name: "RTX Performance Graphics Card", category: "Graphics Cards", price: 69999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011211/RTX_Performance_Graphics_Card.jpg", tags: ["gpu", "graphics", "performance"] },
+  { id: 7, name: "RTX High Performance GPU", category: "Graphics Cards", price: 84999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011393/RTX_High_Performance_GPU.jpg", tags: ["gpu", "graphics", "high performance"] },
+  { id: 8, name: "Gaming Graphics Card 8GB", category: "Graphics Cards", price: 32999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011561/Gaming_Graphics_Card_8GB.jpg", tags: ["gpu", "graphics", "gaming", "budget"] },
   { id: 9, name: "Performance Gaming Processor", category: "Processors", price: 32999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011857/Performance_Gaming_Processor.jpg", tags: ["cpu", "processor", "gaming"] },
-  { id: 18, name: "VISIONFORGE Gaming Laptop", category: "Laptops", price: 74999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791527535/Gaming_Laptop.jpg", tags: ["laptop", "gaming", "creative", "blender", "unreal"] },
-  { id: 19, name: "VISIONFORGE Pro Gaming Laptop", category: "Laptops", price: 99999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791527640/Pro_Gaming_Laptop.jpg", tags: ["laptop", "gaming", "creative", "blender", "unreal", "performance"] },
+  { id: 10, name: "VISIONFORGE Power Processor", category: "Processors", price: 42999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791012001/Power_Processor.jpg", tags: ["cpu", "processor", "performance"] },
+  { id: 11, name: "High Performance CPU", category: "Processors", price: 51999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791267083/High_Performance_CPU.webp", tags: ["cpu", "processor", "high performance"] },
+  { id: 12, name: "Gaming Performance Motherboard", category: "Motherboards", price: 18999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791267271/Gaming_Performance_Motherboard.jpg", tags: ["motherboard", "gaming", "pc component"] },
+  { id: 13, name: "VISIONFORGE Pro Motherboard", category: "Motherboards", price: 24999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791267441/VISIONFORGE_Pro_Motherboard.webp", tags: ["motherboard", "performance", "pc component"] },
+  { id: 14, name: "16GB DDR5 Gaming RAM", category: "RAM", price: 5999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791267702/16GB_DDR5_Gaming_RAM.webp", tags: ["ram", "memory", "ddr5", "budget"] },
+  { id: 15, name: "32GB DDR5 Performance RAM", category: "RAM", price: 10999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791268097/32GB_DDR5_Performance_RAM.jpg", tags: ["ram", "memory", "ddr5", "creator", "performance"] },
+  { id: 16, name: "1TB NVMe SSD", category: "Storage", price: 7999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791268365/1TB_NVMe_SSD.webp", tags: ["ssd", "storage", "nvme", "budget"] },
+  { id: 17, name: "2TB NVMe Performance SSD", category: "Storage", price: 13999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791527396/2TB_NVMe_Performance_SSD.jpg", tags: ["ssd", "storage", "nvme", "performance"] },
+  { id: 18, name: "VISIONFORGE Gaming Laptop", category: "Laptops", price: 74999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791527535/Gaming_Laptop.jpg", tags: ["laptop", "gaming", "creator", "blender", "unreal"] },
+  { id: 19, name: "VISIONFORGE Pro Gaming Laptop", category: "Laptops", price: 99999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791527640/Pro_Gaming_Laptop.jpg", tags: ["laptop", "gaming", "creator", "blender", "unreal", "performance"] },
   { id: 20, name: "VISIONFORGE Performance Smartphone", category: "Mobiles", price: 39999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791528474/Performance_Smartphone.png", tags: ["phone", "mobile", "gaming", "smartphone"] },
 ];
 
@@ -18,6 +30,12 @@ const quickPrompts = [
   { icon: "▱", title: "Laptop for creators", prompt: "Best laptop for Unreal Engine & Blender under ₹1,80,000" },
   { icon: "▣", title: "Gaming phone", prompt: "Best phone under ₹40,000 for gaming" },
 ];
+
+const configuredApiUrl = (import.meta.env.VITE_API_URL || "").trim();
+const API_BASE_URL = (
+  configuredApiUrl ||
+  (import.meta.env.PROD ? "https://visionforge-api-wu2u.onrender.com" : "")
+).replace(/\/+$/, "");
 
 const money = (value) => new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(value);
 
@@ -50,28 +68,77 @@ function Assistant() {
   const [input, setInput] = useState("");
   const [thinking, setThinking] = useState(false);
 
-  function sendMessage(value = input) {
+  async function sendMessage(value = input) {
     const text = value.trim();
     if (!text || thinking) return;
-    setMessages((current) => [...current, { role: "user", text }]);
+
+    const userMessage = { role: "user", text };
+    const conversation = [...messages, userMessage]
+      .map((message) => ({ role: message.role, text: message.text }))
+      .slice(-12);
+
+    setMessages((current) => [...current, userMessage]);
     setInput("");
     setThinking(true);
-    window.setTimeout(() => {
-      const recommendations = getRecommendations(text);
-      const response = recommendations.length
-        ? ( /laptop|unreal|blender|creative|creator/i.test(text)
-            ? "For creative workloads, start with these catalogue laptops. Check the full specifications and software requirements before buying."
-            : /phone|mobile|smartphone/i.test(text)
-              ? "Here’s the phone currently listed in our catalogue that fits your budget."
-              : /component|gpu|graphics card|processor|cpu/i.test(text)
-                ? "These catalogue components are a useful starting point. Check compatibility with your existing build."
-                : "Here are catalogue matches for your request. These are product listings, not a live benchmark or compatibility guarantee.")
-        : "I couldn’t find a catalogue item matching that budget and use case yet. Try a higher budget or browse all products.";
-      setMessages((current) => [...current, { role: "assistant", text: response, products: recommendations }]);
-      setThinking(false);
-    }, 450);
-  }
 
+    try {
+      const response = await fetch(API_BASE_URL + "/api/assistant/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: conversation,
+          catalog: catalog.map(({ id, name, category, price }) => ({
+            id,
+            name,
+            category,
+            price,
+          })),
+        }),
+        signal: AbortSignal.timeout(28000),
+      });
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(data.message || "MJ couldn't respond right now.");
+      }
+
+      const productsById = new Map(catalog.map((product) => [String(product.id), product]));
+      const recommendations = Array.isArray(data.recommendedProductIds)
+        ? data.recommendedProductIds
+            .map((id) => productsById.get(String(id)))
+            .filter(Boolean)
+            .slice(0, 3)
+        : [];
+
+      setMessages((current) => [
+        ...current,
+        {
+          role: "assistant",
+          text: typeof data.reply === "string" && data.reply.trim()
+            ? data.reply.trim()
+            : "I couldn't form a complete reply just now. Could you try asking that another way?",
+          products: recommendations,
+        },
+      ]);
+    } catch (error) {
+      const recommendations = getRecommendations(text);
+      const isConfigurationIssue = /not configured/i.test(error.message || "");
+      const fallbackText = isConfigurationIssue
+        ? "My live AI connection still needs its backend API key configured. I can show catalogue matches for now, but full AI replies will work after setup."
+        : "I couldn't reach my AI service just now. Here are a few local catalogue matches while the connection is unavailable.";
+
+      setMessages((current) => [
+        ...current,
+        {
+          role: "assistant",
+          text: fallbackText,
+          products: recommendations,
+        },
+      ]);
+    } finally {
+      setThinking(false);
+    }
+  }
   return (
     <main className="mj-page">
       <div className="mj-shell">
@@ -113,7 +180,7 @@ function Assistant() {
                   </div>
                 </div>
               ))}
-              {thinking && <div className="mj-message-row"><div className="mj-message-avatar">✳</div><div className="mj-message-content"><div className="mj-message-name">MJ</div><div className="mj-bubble mj-thinking"><i /><i /><i /> Finding catalogue matches…</div></div></div>}
+              {thinking && <div className="mj-message-row"><div className="mj-message-avatar">✳</div><div className="mj-message-content"><div className="mj-message-name">MJ</div><div className="mj-bubble mj-thinking"><i /><i /><i /> Thinking through your request…</div></div></div>}
             </div>
             {messages.length === 1 && <div className="mj-prompts"><span>TRY ASKING</span><div>{quickPrompts.map((item) => <button key={item.title} type="button" onClick={() => sendMessage(item.prompt)}><span>{item.icon}</span><b>{item.title}</b><i>↗</i></button>)}</div></div>}
             <form className="mj-composer" onSubmit={(event) => { event.preventDefault(); sendMessage(); }}>

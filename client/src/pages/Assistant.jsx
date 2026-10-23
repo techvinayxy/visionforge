@@ -187,7 +187,7 @@ function Assistant() {
               <input value={input} onChange={(event) => setInput(event.target.value)} placeholder="Ask MJ anything about your next build…" aria-label="Message MJ" />
               <button type="submit" disabled={!input.trim() || thinking} aria-label="Send message">↑</button>
             </form>
-            <p className="mj-disclaimer">MJ matches products from the current catalogue. Verify specifications, stock and compatibility before purchase.</p>
+            <p className="mj-disclaimer">Product details come from the VISIONFORGE catalogue; verify specifications, stock and compatibility before purchase. Chats are processed by Google Gemini, so avoid sharing passwords, payment details or other sensitive information.</p>
           </div>
           <aside className="mj-insights" aria-label="MJ tech insights">
             <div className="mj-insights-title"><span>⌁</span> MJ INTELLIGENCE</div>

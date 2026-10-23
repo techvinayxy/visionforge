@@ -131,6 +131,39 @@ h1, h2, h3, h4,
   opacity: 1;
 }
 
+/* ---------- Navbar fit ----------
+   Never wrap labels onto two lines. Above 1300px everything sits on one row
+   (compact spacing, icon-only wishlist, "Seller Login" as a plain text link so
+   "Become a Seller" stays visible). At 1300px and below the hamburger menu
+   takes over (breakpoint set in index.css). */
+.navbar-links a,
+.navbar-actions > *,
+.login-btn,
+.seller-btn,
+.navbar-cart,
+.navbar-wishlist { white-space: nowrap; }
+
+@media (min-width: 1301px) {
+  .navbar-container { width: calc(100% - 40px); max-width: 1640px; gap: 14px; }
+  .navbar-logo { width: 180px; }
+  .navbar-links { gap: 2px; flex-shrink: 0; }
+  .navbar-links a { padding: 8px 10px; font-size: 14px; }
+  .navbar-actions { gap: 8px; flex-shrink: 0; }
+  .navbar-actions > * { flex-shrink: 0; }
+  .navbar-search { width: 118px; }
+  .navbar-wishlist span { display: none; }
+  .navbar-wishlist { font-size: 20px; }
+  .navbar-cart { font-size: 13px; }
+  .login-btn { padding: 8px 10px; font-size: 13px; }
+  .seller-btn { padding: 8px 12px; font-size: 13px; }
+  .seller-btn.seller-link {
+    padding: 8px 6px;
+    border-color: transparent;
+    color: #aeb4c0;
+  }
+  .seller-btn.seller-link:hover { color: var(--vf-cyan); border-color: transparent; }
+}
+
 /* ---------- Page backgrounds ---------- */
 .products-page,
 .pc-builder-page,

@@ -43,9 +43,12 @@
   .navbar-actions { gap: 8px; }
   .navbar-wishlist span { display: none; }
 }
-@media (max-width: 900px) {
+/* Mobile menu now starts at 1300px (see index.css), so these follow it. */
+@media (max-width: 1300px) {
   .navbar-search { width: 100%; max-width: 100%; }
   .navbar-wishlist span { display: inline; }
   .navbar-actions.show-mobile-menu { align-items: stretch; }
+}
+@media (max-width: 900px) {
   .wishlist-page-header { align-items: flex-start; flex-direction: column; }
 }

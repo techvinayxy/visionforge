@@ -1,6 +1,6 @@
 # MJ Gemini API setup
 
-This backend endpoint is the first step toward connecting the VISIONFORGE MJ chat UI to Gemini. It does not change the existing frontend yet.
+The MJ chat UI now sends recent conversation history to this backend endpoint. Gemini generates the reply; product cards remain matched from the frontend's existing local catalogue and are not live inventory data.
 
 ## Render environment variables
 
@@ -33,4 +33,4 @@ The endpoint accepts up to 12 recent messages, validates roles and message lengt
 { "text": "MJ's response..." }
 ```
 
-This endpoint is not yet connected to the MJ frontend. That is a separate follow-up change. Before launch, add rate limiting and test the endpoint with the Render environment variables configured. The model is instructed not to invent live catalogue stock, prices, or specifications because catalogue data is not yet provided to it.
+The endpoint has a basic in-memory rate limit of 10 requests per IP per minute. This is a lightweight single-process safeguard, not a shared/distributed limiter; replace it with a shared store before scaling to multiple API instances. Test the endpoint with Render environment variables configured before treating live Gemini as verified. The model is instructed not to invent live catalogue stock, prices, or specifications because catalogue data is not yet provided to it.

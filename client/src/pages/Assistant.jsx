@@ -45,7 +45,7 @@ function getRecommendations(message) {
 
 function Assistant() {
   const [messages, setMessages] = useState([
-    { role: "assistant", text: "Hey! I’m Nexus, your VISIONFORGE tech shopping assistant. Tell me what you’re shopping for, your budget, and how you’ll use it. I’ll match you with products from our current catalogue." },
+    { role: "assistant", text: "Hey, I’m MJ — your VISIONFORGE tech companion. Tell me what you want to build, your budget, or the gear you’re looking for. I’ll help you explore matching products from our catalogue." },
   ]);
   const [input, setInput] = useState("");
   const [thinking, setThinking] = useState(false);
@@ -73,55 +73,75 @@ function Assistant() {
   }
 
   return (
-    <main className="nexus-page">
-      <div className="nexus-shell">
-        <section className="nexus-heading">
+    <main className="mj-page">
+      <div className="mj-shell">
+        <section className="mj-heading">
           <div>
-            <div className="nexus-eyebrow"><span className="nexus-status-dot" /> YOUR PERSONAL TECH SHOPPER</div>
-            <h1>Meet <span>Nexus AI.</span></h1>
-            <p>Less scrolling. Smarter picks. Find the right tech for your budget.</p>
+            <div className="mj-eyebrow"><span className="mj-status-dot" /> VISIONFORGE INTELLIGENCE</div>
+            <h1>Meet <span>MJ.</span></h1>
+            <p>Your next build starts here. Smarter hardware picks, without the noise.</p>
           </div>
-          <div className="nexus-orb" aria-hidden="true"><span>✳</span><i /><b /></div>
+          <div className="mj-orb" aria-hidden="true"><span>✳</span><i /><b /></div>
         </section>
 
-        <section className="nexus-workspace" aria-label="Nexus AI chat assistant">
-          <aside className="nexus-sidebar">
-            <div className="nexus-brand"><div className="nexus-avatar">✳</div><div><strong>Nexus AI</strong><span>VISIONFORGE assistant</span></div><span className="nexus-live">LIVE</span></div>
-            <div className="nexus-side-label">WHAT I CAN HELP WITH</div>
-            <div className="nexus-capability"><span>⌁</span><div><strong>Gaming setups</strong><small>PCs, parts & performance</small></div></div>
-            <div className="nexus-capability"><span>▱</span><div><strong>Creator gear</strong><small>Laptops for creative work</small></div></div>
-            <div className="nexus-capability"><span>◉</span><div><strong>Budget matching</strong><small>Find picks within your spend</small></div></div>
-            <div className="nexus-sidebar-note"><span>✦</span><p>Recommendations are matched from the VISIONFORGE product catalogue.</p></div>
-            <Link className="nexus-browse-link" to="/products">Browse all products <span>↗</span></Link>
+        <section className="mj-workspace" aria-label="MJ chat assistant">
+          <aside className="mj-sidebar">
+            <div className="mj-brand"><div className="mj-avatar">✳</div><div><strong>MJ</strong><span>VISIONFORGE assistant</span></div><span className="mj-live">LIVE</span></div>
+            <div className="mj-side-label">YOUR TECH, REIMAGINED</div>
+            <div className="mj-capability"><span>⌁</span><div><strong>Gaming setups</strong><small>PCs, parts & performance</small></div></div>
+            <div className="mj-capability"><span>▱</span><div><strong>Creator gear</strong><small>Laptops for creative work</small></div></div>
+            <div className="mj-capability"><span>◉</span><div><strong>Budget matching</strong><small>Find picks within your spend</small></div></div>
+            <div className="mj-sidebar-note"><span>✦</span><p>Recommendations are matched from the VISIONFORGE product catalogue.</p></div>
+            <Link className="mj-browse-link" to="/products">Browse all products <span>↗</span></Link>
           </aside>
 
-          <div className="nexus-chat">
-            <div className="nexus-chat-top"><div><strong>Shopping assistant</strong><span>Ask about products, budgets, or your next setup</span></div><span className="nexus-secure">⌁ Catalogue connected</span></div>
-            <div className="nexus-messages" aria-live="polite">
+          <div className="mj-chat">
+            <div className="mj-chat-top"><div><strong>MJ · TECH INTELLIGENCE</strong><span>Ask about products, budgets, or your next setup</span></div><span className="mj-secure">⌁ Catalogue connected</span></div>
+            <div className="mj-messages" aria-live="polite">
               {messages.map((message, index) => (
-                <div className={`nexus-message-row ${message.role === "user" ? "is-user" : ""}`} key={index}>
-                  {message.role === "assistant" && <div className="nexus-message-avatar">✳</div>}
-                  <div className="nexus-message-content">
-                    <div className="nexus-message-name">{message.role === "user" ? "You" : "Nexus AI"}</div>
-                    <div className="nexus-bubble">{message.text}</div>
-                    {message.products?.length > 0 && <div className="nexus-recommendations">
-                      {message.products.map((product) => <article className="nexus-product" key={product.id}>
-                        <div className="nexus-product-image"><img src={product.image} alt="" loading="lazy" /></div>
-                        <div className="nexus-product-info"><span>{product.category}</span><strong>{product.name}</strong><b>{money(product.price)}</b><Link to={`/products?q=${encodeURIComponent(product.name)}`}>View product <span>↗</span></Link></div>
+                <div className={`mj-message-row ${message.role === "user" ? "is-user" : ""}`} key={index}>
+                  {message.role === "assistant" && <div className="mj-message-avatar">✳</div>}
+                  <div className="mj-message-content">
+                    <div className="mj-message-name">{message.role === "user" ? "You" : "MJ"}</div>
+                    <div className="mj-bubble">{message.text}</div>
+                    {message.products?.length > 0 && <div className="mj-recommendations">
+                      {message.products.map((product) => <article className="mj-product" key={product.id}>
+                        <div className="mj-product-image"><img src={product.image} alt="" loading="lazy" /></div>
+                        <div className="mj-product-info"><span>{product.category}</span><strong>{product.name}</strong><b>{money(product.price)}</b><Link to={`/products?q=${encodeURIComponent(product.name)}`}>View product <span>↗</span></Link></div>
                       </article>)}
                     </div>}
                   </div>
                 </div>
               ))}
-              {thinking && <div className="nexus-message-row"><div className="nexus-message-avatar">✳</div><div className="nexus-message-content"><div className="nexus-message-name">Nexus AI</div><div className="nexus-bubble nexus-thinking"><i /><i /><i /> Finding catalogue matches…</div></div></div>}
+              {thinking && <div className="mj-message-row"><div className="mj-message-avatar">✳</div><div className="mj-message-content"><div className="mj-message-name">MJ</div><div className="mj-bubble mj-thinking"><i /><i /><i /> Finding catalogue matches…</div></div></div>}
             </div>
-            {messages.length === 1 && <div className="nexus-prompts"><span>TRY ASKING</span><div>{quickPrompts.map((item) => <button key={item.title} type="button" onClick={() => sendMessage(item.prompt)}><span>{item.icon}</span><b>{item.title}</b><i>↗</i></button>)}</div></div>}
-            <form className="nexus-composer" onSubmit={(event) => { event.preventDefault(); sendMessage(); }}>
-              <input value={input} onChange={(event) => setInput(event.target.value)} placeholder="Tell Nexus what you need… (e.g. gaming PC under ₹90,000)" aria-label="Message Nexus AI" />
+            {messages.length === 1 && <div className="mj-prompts"><span>TRY ASKING</span><div>{quickPrompts.map((item) => <button key={item.title} type="button" onClick={() => sendMessage(item.prompt)}><span>{item.icon}</span><b>{item.title}</b><i>↗</i></button>)}</div></div>}
+            <form className="mj-composer" onSubmit={(event) => { event.preventDefault(); sendMessage(); }}>
+              <input value={input} onChange={(event) => setInput(event.target.value)} placeholder="Ask MJ anything about your next build…" aria-label="Message MJ" />
               <button type="submit" disabled={!input.trim() || thinking} aria-label="Send message">↑</button>
             </form>
-            <p className="nexus-disclaimer">Nexus uses catalogue matching in this demo. Verify specifications, stock and compatibility before purchase.</p>
+            <p className="mj-disclaimer">MJ matches products from the current catalogue. Verify specifications, stock and compatibility before purchase.</p>
           </div>
+          <aside className="mj-insights" aria-label="MJ tech insights">
+            <div className="mj-insights-title"><span>⌁</span> MJ INTELLIGENCE</div>
+            <div className="mj-insight-card">
+              <div className="mj-insight-kicker">01 / DISCOVER</div>
+              <strong>Find your next upgrade</strong>
+              <p>Tell MJ your favourite games, creative apps, or everyday needs.</p>
+              <div className="mj-insight-line"><span /></div>
+            </div>
+            <div className="mj-insight-card">
+              <div className="mj-insight-kicker">02 / OPTIMISE</div>
+              <strong>Make the budget count</strong>
+              <p>Explore catalogue options that fit your spending range.</p>
+            </div>
+            <div className="mj-insight-card">
+              <div className="mj-insight-kicker">03 / BUILD</div>
+              <strong>Think compatibility first</strong>
+              <p>Before buying, verify socket, power, size, and other requirements.</p>
+            </div>
+            <p className="mj-insight-foot">Designed for curious minds and serious builds.<br />BUILD. POWER. CREATE.</p>
+          </aside>
         </section>
       </div>
     </main>

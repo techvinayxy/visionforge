@@ -1,6 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+import { inject } from "@vercel/analytics";
 
 import "./index.css";
 import "./styles/global-theme-motion.css";
@@ -11,6 +12,8 @@ import { CompareProvider } from "./context/CompareContext.jsx";
 import { WishlistProvider } from "./context/WishlistContext.jsx";
 import "./styles/search-wishlist.css";
 import "./styles/vf-cyan-theme.css";
+
+inject();
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

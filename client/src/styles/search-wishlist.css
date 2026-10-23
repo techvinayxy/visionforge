@@ -52,3 +52,21 @@
 @media (max-width: 900px) {
   .wishlist-page-header { align-items: flex-start; flex-direction: column; }
 }
+
+
+/* VISIONFORGE — Consistent breathing room between navbar items */
+@media (min-width: 901px) {
+  .navbar-links {
+    gap: 24px;
+  }
+
+  .navbar-actions {
+    gap: 12px;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1100px) {
+  .navbar-actions {
+    gap: 10px;
+  }
+}

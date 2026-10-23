@@ -60,7 +60,12 @@ function Assistant() {
     if (!text || thinking) return;
 
     const userMessage = { role: "user", text };
-    const conversation = [...messages, userMessage]
+    // The first assistant message is a local welcome, not a Gemini reply.
+    // Exclude it so Gemini receives a valid conversation beginning with a user turn.
+    const conversation = [
+      ...messages.slice(1),
+      userMessage,
+    ]
       .filter((message) => message.role === "user" || message.role === "assistant")
       .slice(-12)
       .map(({ role, text: messageText }) => ({ role, text: messageText }));

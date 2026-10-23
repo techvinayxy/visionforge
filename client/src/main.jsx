@@ -10,6 +10,7 @@ import { CartProvider } from "./context/CartContext.jsx";
 import { CompareProvider } from "./context/CompareContext.jsx";
 import { WishlistProvider } from "./context/WishlistContext.jsx";
 import "./styles/search-wishlist.css";
+import "./styles/vf-cyan-theme.css";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

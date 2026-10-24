@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const authRoutes = require("./routes/auth");
 const sellerRoutes = require("./routes/sellers");
+const assistantRoutes = require("./routes/assistant");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -36,6 +37,7 @@ app.use(express.json({ limit: "1mb" }));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/sellers", sellerRoutes);
+app.use("/api/assistant", assistantRoutes);
 
 app.get("/", (_req, res) => {
   res.json({ message: "VISIONFORGE API is running" });

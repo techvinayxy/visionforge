@@ -19,6 +19,11 @@ const quickPrompts = [
   { icon: "▣", title: "Gaming phone", prompt: "Best phone under ₹40,000 for gaming" },
 ];
 
+const API_BASE_URL = (
+  (import.meta.env.VITE_API_URL || "").trim() ||
+  (import.meta.env.PROD ? "https://visionforge-api-wu2u.onrender.com" : "")
+).replace(/\/+$/, "");
+
 const money = (value) => new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(value);
 
 function getRecommendations(message) {
@@ -26,7 +31,7 @@ function getRecommendations(message) {
   const budgetMatch = query.match(/(?:under|below|within|budget(?: of)?|₹|rs\.?\s*)(?:₹\s*)?([\d,]+)/i);
   let budget = budgetMatch ? Number(budgetMatch[1].replace(/,/g, "")) : Infinity;
   if (budget < 1000 && /lakh|lac|l\\b/.test(query)) budget *= 100000;
-  else if (budget < 1000 && /k\\b/.test(query)) budget *= 1000;
+  else if (budget < 1000 && /k\b/.test(query)) budget *= 1000;
   if (/1,?20,?000|1\.2\s*lakh/.test(query)) budget = 120000;
   if (/1,?80,?000|1\.8\s*lakh/.test(query)) budget = 180000;
   if (/40,?000|40k/.test(query)) budget = 40000;
@@ -50,26 +55,54 @@ function Assistant() {
   const [input, setInput] = useState("");
   const [thinking, setThinking] = useState(false);
 
-  function sendMessage(value = input) {
+  async function sendMessage(value = input) {
     const text = value.trim();
     if (!text || thinking) return;
-    setMessages((current) => [...current, { role: "user", text }]);
+
+    const userMessage = { role: "user", text };
+    // The first assistant message is a local welcome, not a Gemini reply.
+    // Exclude it so Gemini receives a valid conversation beginning with a user turn.
+    const conversation = [
+      ...messages.slice(1),
+      userMessage,
+    ]
+      .filter((message) => message.role === "user" || message.role === "assistant")
+      .slice(-12)
+      .map(({ role, text: messageText }) => ({ role, text: messageText }));
+
+    setMessages((current) => [...current, userMessage]);
     setInput("");
     setThinking(true);
-    window.setTimeout(() => {
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/assistant`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: conversation }),
+      });
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(data.message || "MJ couldn't respond right now. Please try again.");
+      }
+
       const recommendations = getRecommendations(text);
-      const response = recommendations.length
-        ? ( /laptop|unreal|blender|creative|creator/i.test(text)
-            ? "For creative workloads, start with these catalogue laptops. Check the full specifications and software requirements before buying."
-            : /phone|mobile|smartphone/i.test(text)
-              ? "Here’s the phone currently listed in our catalogue that fits your budget."
-              : /component|gpu|graphics card|processor|cpu/i.test(text)
-                ? "These catalogue components are a useful starting point. Check compatibility with your existing build."
-                : "Here are catalogue matches for your request. These are product listings, not a live benchmark or compatibility guarantee.")
-        : "I couldn’t find a catalogue item matching that budget and use case yet. Try a higher budget or browse all products.";
-      setMessages((current) => [...current, { role: "assistant", text: response, products: recommendations }]);
+      setMessages((current) => [
+        ...current,
+        { role: "assistant", text: data.text, products: recommendations },
+      ]);
+    } catch (error) {
+      setMessages((current) => [
+        ...current,
+        {
+          role: "assistant",
+          text: error.message || "MJ is temporarily unavailable. Please try again shortly.",
+          products: [],
+        },
+      ]);
+    } finally {
       setThinking(false);
-    }, 450);
+    }
   }
 
   return (
@@ -91,12 +124,12 @@ function Assistant() {
             <div className="mj-capability"><span>⌁</span><div><strong>Gaming setups</strong><small>PCs, parts & performance</small></div></div>
             <div className="mj-capability"><span>▱</span><div><strong>Creator gear</strong><small>Laptops for creative work</small></div></div>
             <div className="mj-capability"><span>◉</span><div><strong>Budget matching</strong><small>Find picks within your spend</small></div></div>
-            <div className="mj-sidebar-note"><span>✦</span><p>Recommendations are matched from the VISIONFORGE product catalogue.</p></div>
+            <div className="mj-sidebar-note"><span>✦</span><p>AI answers are powered by Gemini. Product cards below are matched from the current local catalogue.</p></div>
             <Link className="mj-browse-link" to="/products">Browse all products <span>↗</span></Link>
           </aside>
 
           <div className="mj-chat">
-            <div className="mj-chat-top"><div><strong>MJ · TECH INTELLIGENCE</strong><span>Ask about products, budgets, or your next setup</span></div><span className="mj-secure">⌁ Catalogue connected</span></div>
+            <div className="mj-chat-top"><div><strong>MJ · TECH INTELLIGENCE</strong><span>Ask about products, budgets, or your next setup</span></div><span className="mj-secure">⌁ Gemini AI</span></div>
             <div className="mj-messages" aria-live="polite">
               {messages.map((message, index) => (
                 <div className={`mj-message-row ${message.role === "user" ? "is-user" : ""}`} key={index}>
@@ -113,14 +146,14 @@ function Assistant() {
                   </div>
                 </div>
               ))}
-              {thinking && <div className="mj-message-row"><div className="mj-message-avatar">✳</div><div className="mj-message-content"><div className="mj-message-name">MJ</div><div className="mj-bubble mj-thinking"><i /><i /><i /> Finding catalogue matches…</div></div></div>}
+              {thinking && <div className="mj-message-row"><div className="mj-message-avatar">✳</div><div className="mj-message-content"><div className="mj-message-name">MJ</div><div className="mj-bubble mj-thinking"><i /><i /><i /> Thinking with Gemini…</div></div></div>}
             </div>
             {messages.length === 1 && <div className="mj-prompts"><span>TRY ASKING</span><div>{quickPrompts.map((item) => <button key={item.title} type="button" onClick={() => sendMessage(item.prompt)}><span>{item.icon}</span><b>{item.title}</b><i>↗</i></button>)}</div></div>}
             <form className="mj-composer" onSubmit={(event) => { event.preventDefault(); sendMessage(); }}>
               <input value={input} onChange={(event) => setInput(event.target.value)} placeholder="Ask MJ anything about your next build…" aria-label="Message MJ" />
               <button type="submit" disabled={!input.trim() || thinking} aria-label="Send message">↑</button>
             </form>
-            <p className="mj-disclaimer">MJ matches products from the current catalogue. Verify specifications, stock and compatibility before purchase.</p>
+            <p className="mj-disclaimer">MJ uses Gemini for answers and local catalogue matches for product cards. Verify specifications, stock and compatibility before purchase.</p>
           </div>
           <aside className="mj-insights" aria-label="MJ tech insights">
             <div className="mj-insights-title"><span>⌁</span> MJ INTELLIGENCE</div>

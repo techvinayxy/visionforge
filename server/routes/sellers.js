@@ -1,4 +1,5 @@
 const express = require("express");
+const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const SellerApplication = require("../models/SellerApplication");
@@ -9,6 +10,30 @@ function validEmail(value) {
   return typeof value === "string" &&
     value.length <= 254 &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function requireSellerReviewer(req, res, next) {
+  const configuredSecret = process.env.SELLER_REVIEW_SECRET;
+
+  // Fail closed until the reviewer secret has been configured in the deployment.
+  if (!configuredSecret || configuredSecret.length < 32) {
+    return res.status(503).json({
+      message: "Seller review is not configured. Please contact the site operator.",
+    });
+  }
+
+  const match = (req.headers.authorization || "").match(/^Bearer\\s+(.+)$/i);
+  if (!match) {
+    return res.status(401).json({ message: "Reviewer authorization is required." });
+  }
+
+  const supplied = Buffer.from(match[1], "utf8");
+  const expected = Buffer.from(configuredSecret, "utf8");
+  if (supplied.length !== expected.length || !crypto.timingSafeEqual(supplied, expected)) {
+    return res.status(403).json({ message: "Reviewer authorization failed." });
+  }
+
+  return next();
 }
 
 function createSellerToken(seller) {
@@ -150,6 +175,72 @@ router.get("/me", async (req, res) => {
   } catch (error) {
     console.error("Seller session verification failed:", error.message);
     return res.status(500).json({ message: "Unable to verify your seller session right now." });
+  }
+});
+
+
+/**
+ * Private seller-review operations. These routes are intended for a trusted
+ * operator's server-side/API client, not for calls from the public frontend.
+ * Protect them with a long random SELLER_REVIEW_SECRET stored as a deployment
+ * environment variable. No admin panel is exposed by these endpoints.
+ */
+router.get("/review/pending", requireSellerReviewer, async (_req, res) => {
+  try {
+    const applications = await SellerApplication.find({ status: "pending" })
+      .select("ownerName businessName email phone businessType address website description status createdAt")
+      .sort({ createdAt: 1 })
+      .lean();
+
+    return res.json({ applications, total: applications.length });
+  } catch (error) {
+    console.error("Listing pending seller applications failed:", error.message);
+    return res.status(500).json({ message: "Unable to load seller applications right now." });
+  }
+});
+
+router.patch("/review/:id", requireSellerReviewer, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body || {};
+
+    if (!/^[a-f\\d]{24}$/i.test(id)) {
+      return res.status(400).json({ message: "A valid seller application ID is required." });
+    }
+    if (!["approved", "rejected"].includes(status)) {
+      return res.status(400).json({ message: "Status must be either approved or rejected." });
+    }
+
+    // Only pending applications can be reviewed. This prevents a later request
+    // from silently reversing a decision already recorded for the application.
+    const application = await SellerApplication.findOneAndUpdate(
+      { _id: id, status: "pending" },
+      { $set: { status, reviewedAt: new Date() } },
+      { new: true, runValidators: true }
+    )
+      .select("ownerName businessName email phone businessType address website description status createdAt reviewedAt")
+      .lean();
+
+    if (!application) {
+      const existing = await SellerApplication.findById(id).select("status").lean();
+      if (!existing) {
+        return res.status(404).json({ message: "Seller application not found." });
+      }
+      return res.status(409).json({
+        message: "This application has already been reviewed and cannot be changed by this endpoint.",
+        status: existing.status,
+      });
+    }
+
+    return res.json({
+      message: status === "approved"
+        ? "Seller application approved. The seller can now sign in."
+        : "Seller application rejected.",
+      application,
+    });
+  } catch (error) {
+    console.error("Reviewing seller application failed:", error.message);
+    return res.status(500).json({ message: "Unable to review this seller application right now." });
   }
 });
 

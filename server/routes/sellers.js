@@ -22,7 +22,7 @@ function requireSellerReviewer(req, res, next) {
     });
   }
 
-  const match = (req.headers.authorization || "").match(/^Bearer\\s+(.+)$/i);
+  const match = (req.headers.authorization || "").match(/^Bearer\s+(.+)$/i);
   if (!match) {
     return res.status(401).json({ message: "Reviewer authorization is required." });
   }
@@ -204,7 +204,7 @@ router.patch("/review/:id", requireSellerReviewer, async (req, res) => {
     const { id } = req.params;
     const { status } = req.body || {};
 
-    if (!/^[a-f\\d]{24}$/i.test(id)) {
+    if (!/^[a-f\d]{24}$/i.test(id)) {
       return res.status(400).json({ message: "A valid seller application ID is required." });
     }
     if (!["approved", "rejected"].includes(status)) {

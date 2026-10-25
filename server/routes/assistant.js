@@ -110,7 +110,17 @@ router.post("/", rateLimit, async (req, res) => {
     const result = await response.json().catch(() => ({}));
 
     if (!response.ok) {
-      console.error("Gemini API request failed with status:", response.status);
+      const providerMessage = typeof result?.error?.message === "string"
+        ? result.error.message.split(apiKey).join("[REDACTED]").slice(0, 500)
+        : "No provider error message returned";
+      console.error("Gemini API request failed:", JSON.stringify({
+        status: response.status,
+        statusText: response.statusText,
+        providerStatus: result?.error?.status || null,
+        providerCode: result?.error?.code || null,
+        model,
+        message: providerMessage,
+      }));
       if (response.status === 429) {
         return res.status(429).json({
           message: "MJ is getting too many requests right now. Please try again shortly.",

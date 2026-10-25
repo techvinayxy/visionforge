@@ -73,6 +73,7 @@ router.post("/", rateLimit, async (req, res) => {
     });
   }
 
+  const requestStartedAt = Date.now();
   try {
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
@@ -146,9 +147,13 @@ router.post("/", rateLimit, async (req, res) => {
     return res.json({ text });
   } catch (error) {
     const isTimeout = error.name === "TimeoutError" || error.name === "AbortError";
-    if (!isTimeout) {
-      console.error("MJ AI request failed:", error.message);
-    }
+    console.error("MJ AI request failed:", JSON.stringify({
+      model,
+      errorName: error.name || "Error",
+      errorMessage: String(error.message || "Unknown error").slice(0, 300),
+      timedOut: isTimeout,
+      elapsedMs: Date.now() - requestStartedAt,
+    }));
     return res.status(isTimeout ? 504 : 502).json({
       message: isTimeout
         ? "MJ took too long to respond. Please try again."

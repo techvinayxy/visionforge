@@ -3,10 +3,10 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useCart } from "../context/CartContext.jsx";
 import { useWishlist } from "../context/WishlistContext.jsx";
-import products from "../data/products";
+import catalogueData from "../data/products";
 
 /* Product inventory defaults to zero until verified stock is entered. */
-const catalogueProducts = products.map((product) => ({
+const catalogueProducts = catalogueData.map((product) => ({
   ...product,
   image: product.images?.[0] || product.image || "",
 }));

@@ -99,8 +99,8 @@ async function sendOtpEmail(email, otp) {
     (process.env.RESEND_API_KEY ? "resend" : process.env.BREVO_API_KEY ? "brevo" : "smtp")
   ).toLowerCase();
 
-  // Brevo HTTPS API: works on Render's free plan (SMTP ports are blocked) and only
-  // needs a single verified sender address instead of a verified domain.
+  // Brevo HTTPS API avoids SMTP port dependencies and needs only a verified sender
+  // address instead of a verified domain.
   if (provider === "brevo") {
     const apiKey = process.env.BREVO_API_KEY;
     const senderEmail = process.env.BREVO_SENDER_EMAIL;

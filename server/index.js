@@ -105,6 +105,10 @@ app.use(async (_req, res, next) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/sellers", sellerRoutes);
 app.use("/api/assistant", assistantRoutes);
+// Register the public subscribe path explicitly at app level so Vercel's
+// Express route discovery exposes the preflight and POST endpoints reliably.
+app.options("/api/stock-notifications/subscribe", (_req, res) => res.status(204).end());
+app.post("/api/stock-notifications/subscribe", stockNotificationRoutes.subscribeToStockNotifications);
 app.use("/api/stock-notifications", stockNotificationRoutes);
 
 app.get("/", (_req, res) => {

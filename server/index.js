@@ -6,6 +6,7 @@ const cors = require("cors");
 const authRoutes = require("./routes/auth");
 const sellerRoutes = require("./routes/sellers");
 const assistantRoutes = require("./routes/assistant");
+const stockNotificationRoutes = require("./routes/stockNotifications");
 
 const app = express();
 app.set("trust proxy", 1);
@@ -80,6 +81,7 @@ app.use(async (_req, res, next) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/sellers", sellerRoutes);
 app.use("/api/assistant", assistantRoutes);
+app.use("/api/stock-notifications", stockNotificationRoutes);
 
 app.get("/", (_req, res) => {
   res.json({ message: "VISIONFORGE API is running" });

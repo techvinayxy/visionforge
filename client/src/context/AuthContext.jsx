@@ -10,7 +10,7 @@ const configuredApiUrl = (import.meta.env.VITE_API_URL || "").trim();
 const API_BASE_URL = (
   configuredApiUrl ||
   (import.meta.env.PROD
-    ? "https://visionforge-api-wu2u.onrender.com"
+    ? "https://visionforge-api.vercel.app"
     : "")
 ).replace(/\/+$/, "");
 

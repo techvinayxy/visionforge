@@ -96,7 +96,7 @@ async function sendBackInStockEmail(email, productName) {
     secure: true,
     auth: {
       user: process.env.SMTP_USER,
-      pass: process.env.SMTP_APP_PASSWORD.replace(/\\s/g, ""),
+      pass: process.env.SMTP_APP_PASSWORD.replace(/\s/g, ""),
     },
     connectionTimeout: 10000,
     greetingTimeout: 10000,

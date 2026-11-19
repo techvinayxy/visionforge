@@ -129,9 +129,10 @@ function Cart() {
       item.stock !== undefined &&
       item.stock !== null &&
       item.stock !== "";
-    const maxStock = hasStockLimit
-      ? Math.max(0, Number(item.stock) || 0)
-      : Infinity;
+    const parsedStock = Number(item.stock);
+    const maxStock = hasStockLimit && Number.isFinite(parsedStock)
+      ? Math.min(99, Math.max(0, Math.floor(parsedStock)))
+      : 99;
     const image = item.images?.[0] || item.image || "";
 
     return (

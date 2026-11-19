@@ -9,6 +9,7 @@ import {
 
 const CartContext = createContext(null);
 const CART_STORAGE_KEY = "visionforge-cart";
+const MAX_CART_QUANTITY = 99;
 
 function getSavedCart() {
   try {
@@ -28,10 +29,11 @@ function getStockLimit(product) {
     product.stock === null ||
     product.stock === ""
   ) {
-    return Infinity;
+    return MAX_CART_QUANTITY;
   }
 
-  return Math.max(0, Number(product.stock) || 0);
+  const stock = Number(product.stock);
+  return Number.isFinite(stock) ? Math.min(MAX_CART_QUANTITY, Math.max(0, Math.floor(stock))) : MAX_CART_QUANTITY;
 }
 
 export function CartProvider({ children }) {
@@ -81,6 +83,9 @@ export function CartProvider({ children }) {
         (item) => String(item.id) === String(product.id)
       );
 
+      const effectiveStockLimit = Math.min(stockLimit, existingItem ? getStockLimit(existingItem) : MAX_CART_QUANTITY);
+      if (effectiveStockLimit < 1) return currentItems;
+
       if (existingItem) {
         const currentQuantity = Math.max(
           1,
@@ -94,7 +99,7 @@ export function CartProvider({ children }) {
                 ...product,
                 quantity: Math.min(
                   currentQuantity + requestedQuantity,
-                  stockLimit
+                  effectiveStockLimit
                 ),
               }
             : item
@@ -282,4 +287,14 @@ export function useCart() {
   }
 
   return context;
-}
+}  // Update normal product quantities within the known stock limit.
+  const updateQuantity = (id, quantity) => {
+    const requestedQuantity = Math.floor(Number(quantity) || 1);
+    setCartItems((currentItems) => currentItems.map((item) => {
+      if (String(item.id) !== String(id) || item.isCustomBuildPart) return item;
+      const stockLimit = getStockLimit(item);
+      if (stockLimit < 1) return item;
+      return { ...item, quantity: Math.min(Math.max(1, requestedQuantity), stockLimit, MAX_CART_QUANTITY) };
+    }));
+  };
+

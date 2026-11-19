@@ -28,8 +28,13 @@ function App() {
   // Reset scroll on route changes so navigation (including post-registration)
   // starts at the top instead of retaining the previous page's scroll position.
   useLayoutEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-  }, [location.pathname]);
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [location.key]);
 
   return (
     <>

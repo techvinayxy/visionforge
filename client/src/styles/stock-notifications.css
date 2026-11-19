@@ -1,0 +1,77 @@
+.stock-notify-form {
+  margin: 20px 0 24px;
+  padding: 20px;
+  border: 1px solid rgba(143, 130, 255, 0.3);
+  border-radius: 14px;
+  background: rgba(20, 22, 32, 0.8);
+}
+
+.stock-notify-form h3 {
+  margin: 0 0 8px;
+  color: #f5f5f7;
+  font-size: 17px;
+}
+
+.stock-notify-form > p {
+  margin: 0 0 14px;
+  color: #aeb2c0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.stock-notify-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.stock-notify-controls input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid #343746;
+  border-radius: 8px;
+  outline: none;
+  background: #10121a;
+  color: #fff;
+}
+
+.stock-notify-controls input:focus {
+  border-color: #8f82ff;
+}
+
+.stock-notify-controls button {
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 8px;
+  background: #6c5ce7;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.stock-notify-controls button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.stock-notify-message {
+  margin: 12px 0 0 !important;
+  color: #bdb4ff !important;
+  font-size: 13px !important;
+}
+
+.add-cart-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+  background: #30313b;
+}
+
+@media (max-width: 520px) {
+  .stock-notify-controls {
+    flex-direction: column;
+  }
+
+  .stock-notify-controls button {
+    width: 100%;
+  }
+}

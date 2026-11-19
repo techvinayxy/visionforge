@@ -111,7 +111,7 @@ async function sendBackInStockEmail(email, productName) {
   });
 }
 
-router.post("/subscribe", async (req, res) => {
+async function subscribeToStockNotifications(req, res) {
   try {
     const productId = Number(req.body?.productId);
     const productName = typeof req.body?.productName === "string"
@@ -139,7 +139,11 @@ router.post("/subscribe", async (req, res) => {
     console.error("Stock notification signup failed:", error.message);
     return res.status(500).json({ message: "Unable to save your request right now. Please try again." });
   }
-});
+}
+
+router.post("/subscribe", subscribeToStockNotifications);
+// Expose the same handler for explicit top-level registration in the Vercel app.
+router.subscribeToStockNotifications = subscribeToStockNotifications;
 
 // Called by a trusted inventory workflow after stock has been updated above zero.
 // Keep STOCK_NOTIFICATION_SECRET only in the server environment; never expose it to the browser.

@@ -1,3 +1,4 @@
+import { useLayoutEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 
 import Navbar from "./components/common/Navbar";
@@ -23,6 +24,12 @@ import Assistant from "./pages/Assistant.jsx";
 function App() {
   const location = useLocation();
   const isAssistantPage = location.pathname === "/ai-assistant" || location.pathname === "/ai-assistant/";
+
+  // Reset scroll on route changes so navigation (including post-registration)
+  // starts at the top instead of retaining the previous page's scroll position.
+  useLayoutEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, [location.pathname]);
 
   return (
     <>

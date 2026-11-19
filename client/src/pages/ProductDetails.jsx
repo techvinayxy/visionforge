@@ -215,7 +215,7 @@ function ProductDetails() {
                   In Stock
                 </>
               ) : (
-                <span>Out of Stock</span>
+                <span>Sold Out</span>
               )}
             </div>
 

@@ -20,7 +20,7 @@ function ProductDetails() {
   const apiBaseUrl = (
     import.meta.env.VITE_API_URL ||
     (import.meta.env.PROD ? "https://visionforge-api.vercel.app" : "")
-  ).replace(/\\/+$/, "");
+  ).replace(/\/+$/, "");
 
   const handleStockNotification = async (event) => {
     event.preventDefault();

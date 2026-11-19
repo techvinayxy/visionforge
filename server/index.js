@@ -14,27 +14,51 @@ app.set("trust proxy", 1);
 const PORT = process.env.PORT || 5000;
 let databaseConnectionPromise;
 
-const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:5173")
-  .split(",")
-  .map((origin) => origin.trim())
-  .filter(Boolean);
+const allowedOrigins = new Set([
+  ...(process.env.CLIENT_URL || "http://localhost:5173")
+    .split(",")
+    .map((origin) => origin.trim().replace(/\/$/, "")),
+  "https://visionforge-lemon.vercel.app",
+]);
 
-app.use(cors({
-  origin(origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
+function isAllowedOrigin(origin) {
+  if (!origin) return true;
 
-    const isVercelPreview =
-      /^https:\/\/visionforge(?:-[a-z0-9-]+)*\.vercel\.app$/i.test(origin);
+  let normalizedOrigin;
+  try {
+    normalizedOrigin = new URL(origin).origin;
+  } catch {
+    return false;
+  }
 
-    if (isVercelPreview) {
-      return callback(null, true);
-    }
+  if (allowedOrigins.has(normalizedOrigin)) return true;
 
-    return callback(new Error("Origin not allowed by CORS"));
-  },
-}));
+  // Permit this project's Vercel preview deployments, but no unrelated Vercel sites.
+  return /^https:\/\/visionforge-[a-z0-9-]+\.vercel\.app$/i.test(normalizedOrigin);
+}
+
+// Handle CORS before database initialization so OPTIONS preflights never wait
+// for MongoDB and always receive the required headers.
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+
+  if (!isAllowedOrigin(origin)) {
+    return res.status(403).json({ message: "Origin not allowed by CORS." });
+  }
+
+  if (origin) {
+    res.setHeader("Access-Control-Allow-Origin", new URL(origin).origin);
+    res.setHeader("Vary", "Origin");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  }
+
+  if (req.method === "OPTIONS") {
+    return res.status(204).end();
+  }
+
+  return next();
+});
 
 app.use(express.json({ limit: "1mb" }));
 

@@ -19,30 +19,39 @@ function getSavedCart() {
 
     // Reconcile persisted cart entries with the current catalogue so older
     // saved carts inherit authoritative stock values and quantities are clamped.
-    return saved.map((item) => {
-      if (item.isCustomBuildPart) return item;
+    return saved
+      .map((item) => {
+        if (item.isCustomBuildPart) return item;
 
-      const catalogueProduct = products.find(
-        (product) => String(product.id) === String(item.id ?? item._id)
+        const catalogueProduct = products.find(
+          (product) => String(product.id) === String(item.id ?? item._id)
+        );
+        if (!catalogueProduct) return item;
+
+        const stock = Number(catalogueProduct.stock);
+        const stockLimit = Number.isFinite(stock)
+          ? Math.min(MAX_CART_QUANTITY, Math.max(0, Math.floor(stock)))
+          : MAX_CART_QUANTITY;
+
+        return {
+          ...item,
+          ...catalogueProduct,
+          ...item,
+          stock: catalogueProduct.stock,
+          quantity: Math.min(
+            Math.max(1, Math.floor(Number(item.quantity) || 1)),
+            stockLimit
+          ),
+        };
+      })
+      .filter(
+        (item) =>
+          item.isCustomBuildPart ||
+          item.stock === undefined ||
+          item.stock === null ||
+          item.stock === "" ||
+          Number(item.stock) > 0
       );
-      if (!catalogueProduct) return item;
-
-      const stock = Number(catalogueProduct.stock);
-      const stockLimit = Number.isFinite(stock)
-        ? Math.min(MAX_CART_QUANTITY, Math.max(0, Math.floor(stock)))
-        : MAX_CART_QUANTITY;
-
-      return {
-        ...item,
-        ...catalogueProduct,
-        ...item,
-        stock: catalogueProduct.stock,
-        quantity: Math.min(
-          Math.max(1, Math.floor(Number(item.quantity) || 1)),
-          stockLimit
-        ),
-      };
-    }).filter((item) => item.isCustomBuildPart || Number(item.stock) > 0);
   } catch {
     return [];
   }

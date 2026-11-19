@@ -8,7 +8,7 @@ const router = express.Router();
 function isValidEmail(email) {
   return typeof email === "string" &&
     email.length <= 254 &&
-    /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email);
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 function safeEqual(leftValue, rightValue) {
@@ -145,7 +145,7 @@ router.post("/subscribe", async (req, res) => {
 // Keep STOCK_NOTIFICATION_SECRET only in the server environment; never expose it to the browser.
 router.post("/restock", async (req, res) => {
   const configuredSecret = process.env.STOCK_NOTIFICATION_SECRET;
-  const suppliedSecret = (req.headers.authorization || "").replace(/^Bearer\\s+/i, "");
+  const suppliedSecret = (req.headers.authorization || "").replace(/^Bearer\s+/i, "");
   if (!configuredSecret || configuredSecret.length < 32 || !safeEqual(suppliedSecret, configuredSecret)) {
     return res.status(401).json({ message: "Unauthorized." });
   }

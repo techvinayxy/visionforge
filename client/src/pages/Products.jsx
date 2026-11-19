@@ -3,29 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useCart } from "../context/CartContext.jsx";
 import { useWishlist } from "../context/WishlistContext.jsx";
-
-const products = [
-  { id: 1, name: "VISIONFORGE Titan Gaming PC", category: "Gaming PCs", price: 89999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1790958993/Titan_Gaming_PC.png" },
-  { id: 2, name: "VISIONFORGE Phantom Gaming PC", category: "Gaming PCs", price: 74999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791010393/Phantom_Gaming_PC.jpg" },
-  { id: 3, name: "VISIONFORGE Pro Gaming PC", category: "Gaming PCs", price: 109999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791010644/Pro_Gaming_PC.jpg" },
-  { id: 4, name: "VISIONFORGE Entry Gaming PC", category: "Gaming PCs", price: 54999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791010952/Entry_Gaming_PC.jpg" },
-  { id: 5, name: "RTX Gaming Graphics Card", category: "Graphics Cards", price: 54999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011087/RTX_Gaming_Graphics_Card.jpg" },
-  { id: 6, name: "RTX Performance Graphics Card", category: "Graphics Cards", price: 69999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011211/RTX_Performance_Graphics_Card.jpg" },
-  { id: 7, name: "RTX High Performance GPU", category: "Graphics Cards", price: 84999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011393/RTX_High_Performance_GPU.jpg" },
-  { id: 8, name: "Gaming Graphics Card 8GB", category: "Graphics Cards", price: 32999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011561/Gaming_Graphics_Card_8GB.jpg" },
-  { id: 9, name: "Performance Gaming Processor", category: "Processors", price: 32999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791011857/Performance_Gaming_Processor.jpg" },
-  { id: 10, name: "VISIONFORGE Power Processor", category: "Processors", price: 42999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791012001/Power_Processor.jpg" },
-  { id: 11, name: "High Performance CPU", category: "Processors", price: 51999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791267083/High_Performance_CPU.webp" },
-  { id: 12, name: "Gaming Performance Motherboard", category: "Motherboards", price: 18999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791267271/Gaming_Performance_Motherboard.jpg" },
-  { id: 13, name: "VISIONFORGE Pro Motherboard", category: "Motherboards", price: 24999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791267441/VISIONFORGE_Pro_Motherboard.webp" },
-  { id: 14, name: "16GB DDR5 Gaming RAM", category: "RAM", price: 5999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791267702/16GB_DDR5_Gaming_RAM.webp" },
-  { id: 15, name: "32GB DDR5 Performance RAM", category: "RAM", price: 10999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791268097/32GB_DDR5_Performance_RAM.jpg" },
-  { id: 16, name: "1TB NVMe SSD", category: "Storage", price: 7999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791268365/1TB_NVMe_SSD.webp" },
-  { id: 17, name: "2TB NVMe Performance SSD", category: "Storage", price: 13999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791527396/2TB_NVMe_Performance_SSD.jpg" },
-  { id: 18, name: "VISIONFORGE Gaming Laptop", category: "Laptops", price: 74999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791527535/Gaming_Laptop.jpg" },
-  { id: 19, name: "VISIONFORGE Pro Gaming Laptop", category: "Laptops", price: 99999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791527640/Pro_Gaming_Laptop.jpg" },
-  { id: 20, name: "VISIONFORGE Performance Smartphone", category: "Mobiles", price: 39999, image: "https://res.cloudinary.com/cm0zg2bc/image/upload/v1791528474/Performance_Smartphone.png" },
-];
+import products from "../data/products";
 
 const categories = [
   "All",
@@ -246,7 +224,7 @@ function Products() {
                     className="product-card-link"
                   >
                     <div className="product-image">
-                      <img src={product.image} alt={product.name} />
+                      <img src={product.images?.[0] || product.image || ""} alt={product.name} />
                     </div>
 
                     <div className="product-info">
@@ -266,10 +244,7 @@ function Products() {
                     type="button"
                     className="add-cart-btn"
                     onClick={() =>
-                      addToCart(
-                        { ...product, images: [product.image] },
-                        1
-                      )
+                      addToCart(product, 1)
                     }
                   >
                     🛒 Add to Cart

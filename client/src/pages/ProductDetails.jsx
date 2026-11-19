@@ -13,6 +13,35 @@ function ProductDetails() {
 
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [notifyEmail, setNotifyEmail] = useState("");
+  const [notifyMessage, setNotifyMessage] = useState("");
+  const [notifyLoading, setNotifyLoading] = useState(false);
+
+  const apiBaseUrl = (
+    import.meta.env.VITE_API_URL ||
+    (import.meta.env.PROD ? "https://visionforge-api.vercel.app" : "")
+  ).replace(/\\/+$/, "");
+
+  const handleStockNotification = async (event) => {
+    event.preventDefault();
+    setNotifyLoading(true);
+    setNotifyMessage("");
+    try {
+      const response = await fetch(`${apiBaseUrl}/api/stock-notifications/subscribe`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId: product.id, productName: product.name, email: notifyEmail }),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.message || "Unable to save your notification request.");
+      setNotifyMessage(result.message || "You are on the notification list.");
+      setNotifyEmail("");
+    } catch (error) {
+      setNotifyMessage(error.message || "Something went wrong. Please try again.");
+    } finally {
+      setNotifyLoading(false);
+    }
+  };
 
   if (!product) {
     return (
@@ -189,6 +218,18 @@ function ProductDetails() {
                 <span>Out of Stock</span>
               )}
             </div>
+
+            {!(Number(product.stock) > 0) && (
+              <form className="stock-notify-form" onSubmit={handleStockNotification}>
+                <h3>Get notified when back in stock</h3>
+                <p>This product is currently sold out. Leave your email and we will let you know when it becomes available.</p>
+                <div className="stock-notify-controls">
+                  <input type="email" value={notifyEmail} onChange={(event) => setNotifyEmail(event.target.value)} placeholder="Enter your email address" aria-label="Email address for back-in-stock notification" maxLength={254} required />
+                  <button type="submit" disabled={notifyLoading}>{notifyLoading ? "Saving..." : "Notify Me"}</button>
+                </div>
+                {notifyMessage && <p className="stock-notify-message" role="status">{notifyMessage}</p>}
+              </form>
+            )}
 
             {product.stock > 0 && (
               <div className="quantity-section">

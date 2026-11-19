@@ -2,12 +2,12 @@
 
 This repository intentionally has no public admin panel. Seller applications are stored with `status: "pending"`; seller login and the seller session endpoint allow access only when the stored status is `"approved"`.
 
-## One-time Render setup
+## One-time Vercel setup
 
-1. Open the Render service environment settings for `visionforge-api`.
+1. Open the Vercel project settings for `visionforge-api` and select the Production environment.
 2. Add `SELLER_REVIEW_SECRET` with a long, randomly generated secret (at least 32 characters).
 3. Save the environment change and wait for the service to restart.
-4. Keep the secret only in Render and the trusted operator's password manager or secure terminal environment. Never put it in React/Vite variables, browser code, a public issue, or this repository.
+4. Keep the secret only in Vercel's Production environment and the trusted operator's password manager or secure terminal environment. Never put it in React/Vite variables, browser code, a public issue, or this repository.
 
 If the secret is missing or shorter than 32 characters, the review endpoints fail closed with HTTP 503.
 
@@ -16,7 +16,7 @@ If the secret is missing or shorter than 32 characters, the review endpoints fai
 Set the following in a trusted shell, replacing the placeholder with the actual secret. Do not run these commands from a public browser or frontend.
 
 ```bash
-export API_BASE_URL="https://visionforge-api-wu2u.onrender.com"
+export API_BASE_URL="https://visionforge-api.vercel.app"
 read -s -p "Seller review secret: " SELLER_REVIEW_SECRET
 echo
 export SELLER_REVIEW_SECRET

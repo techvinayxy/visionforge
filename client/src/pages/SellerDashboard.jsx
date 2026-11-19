@@ -4,7 +4,7 @@ import "../styles/Auth.css";
 
 const API_BASE_URL = (
   (import.meta.env.VITE_API_URL || "").trim() ||
-  (import.meta.env.PROD ? "https://visionforge-api-wu2u.onrender.com" : "")
+  (import.meta.env.PROD ? "https://visionforge-api.vercel.app" : "")
 ).replace(/\/+$/, "");
 
 function SellerDashboard() {

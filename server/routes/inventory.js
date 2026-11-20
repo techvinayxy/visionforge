@@ -15,7 +15,7 @@ function safeEqual(leftValue, rightValue) {
 
 function requireInventorySecret(req, res, next) {
   const configuredSecret = process.env.STOCK_NOTIFICATION_SECRET;
-  const suppliedSecret = (req.headers.authorization || "").replace(/^Bearer\\s+/i, "");
+  const suppliedSecret = (req.headers.authorization || "").replace(/^Bearer\s+/i, "");
   if (!configuredSecret || configuredSecret.length < 32 ||
       !safeEqual(suppliedSecret, configuredSecret)) {
     return res.status(401).json({ message: "Unauthorized." });

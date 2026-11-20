@@ -40,7 +40,7 @@ const products = [
     ],
     rating: 4.5,
     reviews: 24,
-    stock: 0,
+    stock: 100,
     sku: "VF-TITAN-001",
     warranty: "1 Year",
     returnPolicy: "7 Days Replacement",

@@ -183,4 +183,6 @@ router.post("/restock", async (req, res) => {
   }
 });
 
+router.sendBackInStockEmail = sendBackInStockEmail;
+
 module.exports = router;

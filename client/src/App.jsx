@@ -9,7 +9,6 @@ import Home from "./pages/Home";
 import Products from "./pages/Products";
 import ProductDetails from "./pages/ProductDetails";
 import NotFound from "./pages/NotFound";
-import CloudinaryUpload from "./components/CloudinaryUpload";
 import Cart from "./pages/Cart.jsx";
 import PCBuilder from "./pages/PCBuilder";
 import Compare from "./pages/Compare";
@@ -46,7 +45,6 @@ function App() {
         <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<Wishlist />} />
-        <Route path="/cloudinary-test" element={<CloudinaryUpload />} />
         <Route path="/builder" element={<PCBuilder />} />
         <Route path="/compare" element={<Compare />} />
         <Route path="/ai-assistant" element={<Assistant />} />

@@ -63,6 +63,18 @@ app.use((req, res, next) => {
 
 app.use(express.json({ limit: "1mb" }));
 
+// Keep basic service health observable even when MongoDB is unavailable.
+app.get("/", (_req, res) => {
+  res.json({ message: "VISIONFORGE API is running" });
+});
+
+app.get("/api/health", (_req, res) => {
+  res.json({
+    status: "ok",
+    database: mongoose.connection.readyState === 1 ? "connected" : "disconnected",
+  });
+});
+
 async function connectToDatabase() {
   if (mongoose.connection.readyState === 1) {
     return mongoose.connection;
@@ -112,17 +124,6 @@ app.options("/api/stock-notifications/subscribe", (_req, res) => res.status(204)
 app.post("/api/stock-notifications/subscribe", stockNotificationRoutes.subscribeToStockNotifications);
 app.use("/api/stock-notifications", stockNotificationRoutes);
 app.use("/api/inventory", inventoryRoutes);
-
-app.get("/", (_req, res) => {
-  res.json({ message: "VISIONFORGE API is running" });
-});
-
-app.get("/api/health", (_req, res) => {
-  res.json({
-    status: "ok",
-    database: mongoose.connection.readyState === 1 ? "connected" : "disconnected",
-  });
-});
 
 app.use((error, _req, res, next) => {
   if (res.headersSent) {
